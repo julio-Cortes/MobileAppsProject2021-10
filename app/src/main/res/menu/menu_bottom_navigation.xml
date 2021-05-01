@@ -2,19 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/decks"
+        android:id="@+id/cardsFragment"
         android:enabled="true"
         android:icon="@drawable/ic_cards"
         app:showAsAction="ifRoom"
         android:title="Decks" />
     <item
-        android:id="@+id/rooms"
+        android:id="@+id/createRoomFragment"
         android:enabled="true"
         android:icon="@drawable/ic_world"
         app:showAsAction="ifRoom"
         android:title="Rooms" />
     <item
-        android:id="@+id/settings"
+        android:id="@+id/settingsFragment"
         android:enabled="true"
         android:icon="@drawable/ic_baseline_settings_24"
         app:showAsAction="ifRoom"

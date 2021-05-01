@@ -5,7 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.setupWithNavController
+
+
 import com.example.project_01.R
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class MainFragment : Fragment() {
@@ -13,8 +20,16 @@ class MainFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_main, container, false)
+        val view = inflater.inflate(R.layout.fragment_main, container, false)
+        val navHost = childFragmentManager.findFragmentById(R.id.swapping_fragment) as? NavHostFragment
+        val navController = navHost?.navController
+
+        val bottonNav = view.findViewById<BottomNavigationView>(R.id.swap_fragment_button)
+
+        if (navController != null) {
+            bottonNav.setupWithNavController(navController)
+        }
+        return view
     }
 
 
