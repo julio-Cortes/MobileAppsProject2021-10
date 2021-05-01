@@ -14,25 +14,14 @@
         android:weightSum="100"
         >
 
-        <TextView
-            android:id="@+id/top_text"
+        <fragment
+            android:id="@+id/fragment"
+            android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="@color/purple_500"
-            android:text="@string/planning_poker"
-            android:textColor="@color/white"
-            android:textSize="20dp"
-            android:paddingTop="20dp"
-            android:paddingLeft="20dp"
-            android:layout_weight="10"/>
-
-        <androidx.fragment.app.FragmentContainerView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="75"
-            >
-
-        </androidx.fragment.app.FragmentContainerView>
+            android:layout_weight="85"
+            app:defaultNavHost="true"
+            app:navGraph="@navigation/main_menu_nav" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:layout_width="match_parent"

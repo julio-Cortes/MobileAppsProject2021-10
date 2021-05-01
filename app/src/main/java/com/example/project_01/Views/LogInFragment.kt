@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.commit
+import androidx.navigation.Navigation
 import com.example.project_01.R
 import com.google.android.material.textfield.TextInputEditText
 
@@ -19,12 +20,7 @@ class LogInFragment : Fragment() {
         val passwordInput = view.findViewById<TextInputEditText>(R.id.password_input)
         val button = view.findViewById<Button>(R.id.log_in_button)
         button.setOnClickListener{
-            val frag = MainFragment()
-            activity?.supportFragmentManager?.commit {
-                this.replace(R.id.main_fragment, frag)
-                this.addToBackStack(null)
-            }
-
+            Navigation.findNavController(view).navigate(R.id.action_logInFragment_to_mainFragment)
         }
 
         return view
