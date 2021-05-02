@@ -19,6 +19,7 @@ class LogInFragment : Fragment() {
         val emailInput = view.findViewById<TextInputEditText>(R.id.email_input)
         val passwordInput = view.findViewById<TextInputEditText>(R.id.password_input)
         val button = view.findViewById<Button>(R.id.log_in_button)
+
         button.setOnClickListener{
             Navigation.findNavController(view).navigate(R.id.action_logInFragment_to_mainFragment)
         }

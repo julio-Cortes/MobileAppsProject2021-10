@@ -23,7 +23,7 @@ class SelectedCard : Fragment() {
         val text = view.findViewById<TextView>(R.id.show_text)
         text.text=args.number
         text.setOnClickListener{
-            this.view?.let { Navigation.findNavController(it).navigate(R.id.action_selectedCard_to_cardsFragment) };
+            activity?.onBackPressed()
         }
         return view
     }

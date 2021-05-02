@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_menu_nav"
-    app:startDestination="@id/cardsFragment">
+    app:startDestination="@id/roomsFragment">
 
     <fragment
         android:id="@+id/roomsFragment"
@@ -38,9 +38,6 @@
         android:name="com.example.project_01.Views.SelectedCard"
         android:label="fragment_selected_card"
         tools:layout="@layout/fragment_selected_card" >
-        <action
-            android:id="@+id/action_selectedCard_to_cardsFragment"
-            app:destination="@id/cardsFragment" />
         <argument
             android:name="number"
             app:argType="string"

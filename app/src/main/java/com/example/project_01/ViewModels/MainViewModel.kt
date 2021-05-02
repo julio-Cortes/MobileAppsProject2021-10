@@ -1,25 +1,35 @@
 package com.example.project_01.ViewModels
 
 import android.app.Application
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import com.example.project_01.Models.Deck
 
 class MainViewModel(application: Application):  AndroidViewModel(application){
-    var currentDeck =  mutableListOf<String>()
-    val myDeck = MutableLiveData<MutableList<String>>()
+
+    fun changeDeck(position: Int) {
+        this.currentDeck = Decks[position]
+
+    }
+
+
+    lateinit var deckSelector: Spinner
+
+    lateinit var currentDeck:Deck
+
+    val Decks = listOf<Deck>(
+            Deck("Standard", mutableListOf("0","1/2","1","2","3","5","8","13","20","40","100","∞")),
+            Deck("T-Shirt", mutableListOf("XS","S","M","L","XL","XXL")),
+            Deck("Fibonacci",mutableListOf("0","1","2","3","5","8","13","21","34","55","89","144","∞")),
+            Deck("Hours", mutableListOf("0","1","2","3","4","6","8","12","16","24","32"))
+    )
+
     init {
-        currentDeck.add("1")
-        currentDeck.add("2")
-        currentDeck.add("3")
-        currentDeck.add("4")
-        currentDeck.add("5")
-        currentDeck.add("6")
-        currentDeck.add("7")
-        currentDeck.add("8")
-        currentDeck.add("9")
+        Decks.forEach{it.cards.addAll(listOf("?","☕"))}
 
-
-        myDeck.postValue(currentDeck)
+        currentDeck=Decks[0]
 
     }
 

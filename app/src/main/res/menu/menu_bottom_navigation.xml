@@ -8,7 +8,7 @@
         app:showAsAction="ifRoom"
         android:title="Decks" />
     <item
-        android:id="@+id/createRoomFragment"
+        android:id="@+id/roomsFragment"
         android:enabled="true"
         android:icon="@drawable/ic_world"
         app:showAsAction="ifRoom"

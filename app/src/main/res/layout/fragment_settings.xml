@@ -26,10 +26,16 @@
                 android:layout_height="match_parent"
                 android:layout_weight="2"
                 android:text="@string/deck"
-                android:paddingLeft="20dp"/>
+                android:textSize="20dp"
+                android:textColor="@color/Black"
+                android:layout_gravity="left"
+                android:paddingLeft="2dp"/>
 
             <Spinner
                 android:id="@+id/spinner"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:foregroundGravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="8" />
