@@ -1,58 +1,70 @@
 package com.example.project_01.Views
 
+import android.graphics.Rect
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.project_01.Models.CardAdapter
 import com.example.project_01.R
+import com.example.project_01.ViewModels.MainViewModel
+import com.google.android.flexbox.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [CardsFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class CardsFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    lateinit var recyclerView:RecyclerView
+    lateinit var adapter:CardAdapter
+    private val viewModel:MainViewModel by activityViewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_cards, container, false)
+        val view = inflater.inflate(R.layout.fragment_cards, container, false)
+
+        val deck = ArrayList<String>()
+        deck.add("1")
+        deck.add("2")
+        deck.add("3")
+        deck.add("4")
+        recyclerView = view.findViewById<RecyclerView>(R.id.card_recycler_view)
+        adapter = CardAdapter()
+        recyclerView.adapter = adapter
+        val layoutManager = FlexboxLayoutManager(activity)
+        layoutManager.justifyContent = JustifyContent.CENTER
+        layoutManager.alignItems = AlignItems.CENTER
+        layoutManager.flexDirection = FlexDirection.ROW
+        layoutManager.alignItems = AlignItems.CENTER
+        layoutManager.flexWrap = FlexWrap.WRAP
+        recyclerView.layoutManager = layoutManager
+
+        recyclerView.addItemDecoration(SpaceItemDecoration(10))
+        viewModel.myDeck.observe(viewLifecycleOwner, Observer{
+            adapter.update(it)
+        })
+        return view
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment CardsFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-                CardsFragment().apply {
-                    arguments = Bundle().apply {
-                        putString(ARG_PARAM1, param1)
-                        putString(ARG_PARAM2, param2)
-                    }
-                }
+
+}
+class SpaceItemDecoration(space:Int) : RecyclerView.ItemDecoration(){
+    var halfSpace:Int = space
+
+
+
+    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+        if (parent.paddingLeft != halfSpace){
+            parent.setPadding(halfSpace, halfSpace, halfSpace, halfSpace);
+            parent.setClipToPadding(false);
+        }
+        outRect.top = halfSpace;
+        outRect.bottom = halfSpace;
+        outRect.left = halfSpace;
+        outRect.right = halfSpace;
+        //super.getItemOffsets(outRect, view, parent, state)
     }
+
+
 }
