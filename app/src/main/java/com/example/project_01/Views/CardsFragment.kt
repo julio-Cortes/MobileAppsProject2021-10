@@ -8,17 +8,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.project_01.Interfaces.OnClickListener
 import com.example.project_01.Models.CardAdapter
 import com.example.project_01.R
 import com.example.project_01.ViewModels.MainViewModel
 import com.google.android.flexbox.*
 
-class CardsFragment : Fragment() {
+class CardsFragment : Fragment(), OnClickListener {
     lateinit var recyclerView:RecyclerView
     lateinit var adapter:CardAdapter
     private val viewModel:MainViewModel by activityViewModels()
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -30,13 +33,12 @@ class CardsFragment : Fragment() {
         deck.add("3")
         deck.add("4")
         recyclerView = view.findViewById<RecyclerView>(R.id.card_recycler_view)
-        adapter = CardAdapter()
+        adapter = CardAdapter(this)
         recyclerView.adapter = adapter
         val layoutManager = FlexboxLayoutManager(activity)
         layoutManager.justifyContent = JustifyContent.CENTER
         layoutManager.alignItems = AlignItems.CENTER
         layoutManager.flexDirection = FlexDirection.ROW
-        layoutManager.alignItems = AlignItems.CENTER
         layoutManager.flexWrap = FlexWrap.WRAP
         recyclerView.layoutManager = layoutManager
 
@@ -45,6 +47,11 @@ class CardsFragment : Fragment() {
             adapter.update(it)
         })
         return view
+    }
+
+    override fun onClickItem(num: Any) {
+        val action = CardsFragmentDirections.actionCardsFragmentToSelectedCard(num as String)
+        this.view?.let { Navigation.findNavController(it).navigate(action) };
     }
 
 
@@ -57,13 +64,12 @@ class SpaceItemDecoration(space:Int) : RecyclerView.ItemDecoration(){
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
         if (parent.paddingLeft != halfSpace){
             parent.setPadding(halfSpace, halfSpace, halfSpace, halfSpace);
-            parent.setClipToPadding(false);
+            parent.clipToPadding = false;
         }
         outRect.top = halfSpace;
         outRect.bottom = halfSpace;
         outRect.left = halfSpace;
         outRect.right = halfSpace;
-        //super.getItemOffsets(outRect, view, parent, state)
     }
 
 

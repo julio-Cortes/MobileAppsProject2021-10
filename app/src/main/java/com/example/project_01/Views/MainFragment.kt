@@ -29,6 +29,7 @@ class MainFragment : Fragment() {
         if (navController != null) {
             bottonNav.setupWithNavController(navController)
         }
+        bottonNav.performClick()
         return view
     }
 

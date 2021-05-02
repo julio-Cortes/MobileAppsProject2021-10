@@ -39,6 +39,15 @@
                             <option name="y" value="-193" />
                           </Point>
                         </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_cardsFragment_to_selectedCard">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
                       </LayoutPositions>
                     </value>
                   </entry>
@@ -75,13 +84,25 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+                  <entry key="selectedCard">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="-168" />
+                            <option name="y" value="130" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="settingsFragment">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="185" />
-                            <option name="y" value="-197" />
+                            <option name="x" value="197" />
+                            <option name="y" value="-209" />
                           </Point>
                         </option>
                       </LayoutPositions>

@@ -14,6 +14,8 @@ class MainViewModel(application: Application):  AndroidViewModel(application){
         currentDeck.add("4")
         currentDeck.add("5")
         currentDeck.add("6")
+        currentDeck.add("7")
+        currentDeck.add("8")
         myDeck.postValue(currentDeck)
 
     }

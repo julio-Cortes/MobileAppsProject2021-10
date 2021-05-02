@@ -5,9 +5,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.project_01.Interfaces.IAdapterView
+import com.example.project_01.Interfaces.OnClickListener
 import com.example.project_01.R
 
-class CardAdapter: RecyclerView.Adapter<CardAdapter.ViewHolder>() {
+class CardAdapter(override val onClickListener:OnClickListener): RecyclerView.Adapter<CardAdapter.ViewHolder>(), IAdapterView {
 
     var data = listOf<String>()
 
@@ -23,6 +25,9 @@ class CardAdapter: RecyclerView.Adapter<CardAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.textView.text = data[position]
+        holder.textView.setOnClickListener{
+            onClickListener.onClickItem(data[position])
+        }
 
     }
 
