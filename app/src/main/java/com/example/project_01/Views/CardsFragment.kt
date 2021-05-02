@@ -2,14 +2,15 @@ package com.example.project_01.Views
 
 import android.graphics.Rect
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.project_01.Interfaces.OnClickListener
 import com.example.project_01.Models.CardAdapter
@@ -23,8 +24,10 @@ class CardsFragment : Fragment(), OnClickListener {
     private val viewModel:MainViewModel by activityViewModels()
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
+    ): View? {
         val view = inflater.inflate(R.layout.fragment_cards, container, false)
 
         val deck = ArrayList<String>()
@@ -35,15 +38,34 @@ class CardsFragment : Fragment(), OnClickListener {
         recyclerView = view.findViewById<RecyclerView>(R.id.card_recycler_view)
         adapter = CardAdapter(this)
         recyclerView.adapter = adapter
-        val layoutManager = FlexboxLayoutManager(activity)
-        layoutManager.justifyContent = JustifyContent.CENTER
-        layoutManager.alignItems = AlignItems.CENTER
-        layoutManager.flexDirection = FlexDirection.ROW
-        layoutManager.flexWrap = FlexWrap.WRAP
+        val layoutManager = GridLayoutManager(context, 6)
+
+
+        //val totalSize: Int = customList.size()
+
+        layoutManager.spanSizeLookup = object : SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+                val item = adapter.itemCount
+                val extra: Int
+                extra = item % 3
+                if (extra == 0) {
+                    return 2
+                }
+                if (item - (position + 1) < extra) {
+                    return (6  / extra) as Int
+
+                } else {
+                    return 2
+                }
+
+            }
+        }
+
+
         recyclerView.layoutManager = layoutManager
 
-        recyclerView.addItemDecoration(SpaceItemDecoration(10))
-        viewModel.myDeck.observe(viewLifecycleOwner, Observer{
+
+        viewModel.myDeck.observe(viewLifecycleOwner, Observer {
             adapter.update(it)
         })
         return view
@@ -56,21 +78,4 @@ class CardsFragment : Fragment(), OnClickListener {
 
 
 }
-class SpaceItemDecoration(space:Int) : RecyclerView.ItemDecoration(){
-    var halfSpace:Int = space
 
-
-
-    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
-        if (parent.paddingLeft != halfSpace){
-            parent.setPadding(halfSpace, halfSpace, halfSpace, halfSpace);
-            parent.clipToPadding = false;
-        }
-        outRect.top = halfSpace;
-        outRect.bottom = halfSpace;
-        outRect.left = halfSpace;
-        outRect.right = halfSpace;
-    }
-
-
-}
