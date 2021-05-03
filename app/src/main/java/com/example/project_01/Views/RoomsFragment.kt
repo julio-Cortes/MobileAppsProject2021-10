@@ -8,9 +8,11 @@ import android.widget.Button
 import androidx.fragment.app.*
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.project_01.Interfaces.OnClickListener
+import com.example.project_01.Models.Room
 import com.example.project_01.R
 import com.example.project_01.ViewModels.RoomsViewModel
 import com.example.project_01.Views.Adapters.RoomAdapter
@@ -35,27 +37,40 @@ class RoomsFragment : Fragment(), OnClickListener {
         recyclerView = view.findViewById<RecyclerView>(R.id.room_recycler_view)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(activity)
+        ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView)
         viewModel.myCases.observe(viewLifecycleOwner, Observer {
             adapter.set(it)
         })
 
+
+
         val button = view.findViewById<Button>(R.id.buttonCreateR)
         button.setOnClickListener {
-            /*
+
+
             val fragmentTwo = CreateRoomFragment()
-            activity?.supportFragmentManager?.commit {
-                this.replace(R.id.main_nav_host,fragmentTwo)
-                this.addToBackStack(null)
+            setFragmentResultListener("REQUEST_ROOM"){ requestKey: String, bundle: Bundle ->
+                if (requestKey == "REQUEST_ROOM") {
+                    val result = bundle.get("ROOM")
+                    viewModel.addCase(result as Room)
+                }
             }
 
-             */
             val action = RoomsFragmentDirections.actionRoomsFragmentToCreateRoomFragment()
-            this.view?.let { Navigation.findNavController(it).navigate(action) };
+            this.view?.let { Navigation.findNavController(it).navigate(action) }
         }
-        name = "nombre - parametro"
-        password= "parametros"
-        viewModel.addCase(name,password)
         return view
+    }
+
+    private val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+        override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+            return false
+        }
+
+        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+            viewModel.caseList.removeAt(viewHolder.adapterPosition)
+            adapter.notifyDataSetChanged()
+        }
     }
 
     override fun onClickItem(item: Any) {

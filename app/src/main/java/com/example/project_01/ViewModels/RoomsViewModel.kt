@@ -16,9 +16,9 @@ class RoomsViewModel(application: Application) : AndroidViewModel(application) {
     val caseList = mutableListOf<Room>()
     val myCases =  MutableLiveData<MutableList<Room>>()
 
-    fun addCase(name: String?, password: String?) {
+    fun addCase(room:Room) {
 
-        caseList.add(Room(name,password))
+        caseList.add(room)
         myCases.postValue(caseList)
 
     }

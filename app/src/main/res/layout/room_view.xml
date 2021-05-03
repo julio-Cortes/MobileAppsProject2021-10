@@ -5,14 +5,16 @@
     android:layout_width="match_parent"
     android:id="@+id/room_view"
 
-    android:layout_height="50dp">
+    android:layout_height="wrap_content">
 
-    <EditText
+    <TextView
         android:id="@+id/RoomtextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="name_team"
+        android:background="@drawable/border"
         android:textSize="30dp"
+        android:padding="10dp"
         android:textColor="#846B8A"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"

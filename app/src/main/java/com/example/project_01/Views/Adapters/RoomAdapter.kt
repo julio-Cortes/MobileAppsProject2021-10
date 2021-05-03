@@ -1,14 +1,15 @@
 package com.example.project_01.Views.Adapters
 
-import com.example.project_01.Interfaces.IAdapterView
-import com.example.project_01.Interfaces.OnClickListener
-import com.example.project_01.Models.Room
-import com.example.project_01.R
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.project_01.Interfaces.IAdapterView
+import com.example.project_01.Interfaces.OnClickListener
+import com.example.project_01.Models.Room
+import com.example.project_01.R
 
 class RoomAdapter(override val onClickListener: OnClickListener):
         RecyclerView.Adapter<RoomAdapter.ViewHolder>(), IAdapterView {
@@ -18,7 +19,7 @@ class RoomAdapter(override val onClickListener: OnClickListener):
 
     //Metodo donde crear el layout de la celda a ver
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.room_view,parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.room_view, parent, false)
         return ViewHolder(view)
     }
 
@@ -51,6 +52,7 @@ class RoomAdapter(override val onClickListener: OnClickListener):
         fun bindView(item: Room){
             val  nameTextView = view.findViewById<TextView>(R.id.RoomtextView)
             nameTextView.text = item.name
+            nameTextView.setPaintFlags(nameTextView.getPaintFlags() or Paint.UNDERLINE_TEXT_FLAG)
         }
     }
 
