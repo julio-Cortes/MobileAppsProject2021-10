@@ -32,7 +32,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/border"
-                android:backgroundTint="#ADCFA5B4"
+                android:backgroundTint="@color/BabyLavander"
                 android:padding="15dp">
 
 
@@ -43,7 +43,7 @@
                     android:gravity="center"
                     android:padding="50dp"
                     android:text="@string/log_in"
-                    android:textColor="#846B8A"
+                    android:textColor="@color/ChineseViolet"
                     android:textSize="50dp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -57,7 +57,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_margin="15dp"
-                    android:background="#FAE3E3"
+                    android:background="@color/MistyRoses"
                     android:padding="10dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -68,8 +68,8 @@
                         android:id="@+id/email_input"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="#FAE3E3"
-                        android:hint="email" />
+                        android:background="@color/MistyRoses"
+                        android:hint="@string/email" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -79,7 +79,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="15dp"
-                    android:background="#FAE3E3"
+                    android:background="@color/MistyRoses"
                     android:padding="10dp"
 
                     app:layout_constraintEnd_toEndOf="@+id/email_holder"
@@ -90,9 +90,9 @@
                         android:id="@+id/password_input"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="#FAE3E3"
-                        android:backgroundTint="#8BFAE3E3"
-                        android:hint="password"
+                        android:background="@color/MistyRoses"
+                        android:backgroundTint="@color/MistyRoses"
+                        android:hint="@string/password_login"
                         android:password="true" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -101,9 +101,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="60dp"
-                    android:backgroundTint="#F7D4BC"
+                    android:backgroundTint="@color/UnbleachedSilk"
                     android:text="@string/log_in"
-                    android:textColor="#846B8A"
+                    android:textColor="@color/ChineseViolet"
                     android:textSize="18dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -119,7 +119,7 @@
                     android:layout_weight="1"
                     android:backgroundTint="#00C98BB9"
                     android:text="@string/forgot_password"
-                    android:textColor="#846B8A"
+                    android:textColor="@color/ChineseViolet"
                     android:textSize="12dp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="@+id/log_in_button"

@@ -150,4 +150,20 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="UnbleachedSilk">#F7D4BC</color>
+    <color name="MistyRoses">#FAE3E3</color>
+    <color name="MiddlePurple">#C98BB9</color>
+    <color name="ChineseViolet">#846B8A</color>
+    <color name="PinkLavender">#CFA5B4</color>
+    <color name="Lavender2">#C98BB9</color>
+    <color name="BabyLavander">#ADCFA5B4</color>
+    <color name="Colorless">#00C98BB9</color>
+    <color name="LavenderLight">#CFA5B4</color>
+    <color name="BabyPink">#9EC98BB9</color>
+    <color name="Baby">#63FAE3E3</color>
+
+
+
+
+
 </resources>

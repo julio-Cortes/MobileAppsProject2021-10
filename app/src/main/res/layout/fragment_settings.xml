@@ -9,7 +9,7 @@
     <!-- TODO: Update blank fragment layout -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:background="#63FAE3E3"
+        android:background="@color/Baby"
         android:layout_height="match_parent">
 
         <LinearLayout
@@ -28,7 +28,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="2"
                 android:text="@string/deck"
-                android:textColor="#846B8A"
+                android:textColor="@color/ChineseViolet"
                 android:textSize="20dp"
                 android:textStyle="bold"
 

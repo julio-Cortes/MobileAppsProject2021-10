@@ -16,7 +16,7 @@
             android:background="@drawable/border"
             android:gravity="center"
             android:textStyle="bold"
-            android:backgroundTint="#9EC98BB9"
+            android:backgroundTint="@color/BabyPink"
             android:text="1"
             android:textSize="30dp"
 
