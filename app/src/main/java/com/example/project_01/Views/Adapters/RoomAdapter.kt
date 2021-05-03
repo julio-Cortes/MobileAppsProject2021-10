@@ -50,7 +50,7 @@ class RoomAdapter(override val onClickListener: OnClickListener):
     inner class ViewHolder(private val view: View): RecyclerView.ViewHolder(view){
 
         fun bindView(item: Room){
-            val  nameTextView = view.findViewById<TextView>(R.id.RoomtextView)
+            val  nameTextView = view.findViewById<TextView>(R.id.room_textView)
             nameTextView.text = item.name
             nameTextView.setPaintFlags(nameTextView.getPaintFlags() or Paint.UNDERLINE_TEXT_FLAG)
         }

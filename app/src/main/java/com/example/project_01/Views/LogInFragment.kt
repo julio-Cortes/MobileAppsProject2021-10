@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Toast
 import androidx.fragment.app.commit
 import androidx.navigation.Navigation
 import com.example.project_01.R
@@ -23,6 +24,7 @@ class LogInFragment : Fragment() {
         button.setOnClickListener{
             Navigation.findNavController(view).navigate(R.id.action_logInFragment_to_mainFragment)
         }
+        Toast.makeText(context,"Las barajas se encuentran en MainViewModel",Toast.LENGTH_LONG).show()
 
         return view
     }

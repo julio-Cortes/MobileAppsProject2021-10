@@ -44,7 +44,7 @@ class RoomsFragment : Fragment(), OnClickListener {
 
 
 
-        val button = view.findViewById<Button>(R.id.buttonCreateR)
+        val button = view.findViewById<Button>(R.id.button_create)
         button.setOnClickListener {
 
 

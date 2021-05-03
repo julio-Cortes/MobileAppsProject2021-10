@@ -24,7 +24,7 @@
                 android:layout_marginTop="100dp"
                 android:ems="10"
                 android:textColor="@color/ChineseViolet"
-                android:textColorHint="#C98BB9"
+                android:textColorHint="@color/Lavender2"
                 android:hint="@string/name"
                 android:textSize="25dp"
                 android:inputType="textPersonName"

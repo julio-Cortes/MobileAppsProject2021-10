@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import java.io.File
 import androidx.fragment.app.Fragment
@@ -21,9 +22,7 @@ import java.io.FileWriter
 
 class CreateRoomFragment : Fragment() {
 
-    lateinit var nombre: String
     lateinit var nombreInput: EditText
-    lateinit var password: String
     lateinit var passwordInput: EditText
     //lateinit var communicator: Communicator
 
@@ -32,9 +31,9 @@ class CreateRoomFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_create_room, container, false)
-        val createButton = view.findViewById<Button>(R.id.buttonCreateRoom)
-        nombreInput = view.findViewById(R.id.editTextTextPersonName)
-        passwordInput = view.findViewById(R.id.editTextTextPassword)
+        val createButton = view.findViewById<Button>(R.id.button_create_room)
+        nombreInput = view.findViewById(R.id.edit_name)
+        passwordInput = view.findViewById(R.id.edit_password)
 
 
         createButton.setOnClickListener {
@@ -44,6 +43,7 @@ class CreateRoomFragment : Fragment() {
 
 
         }
+        Toast.makeText(context,"Para eliminar swipe right", Toast.LENGTH_SHORT).show()
 
         return view
     }
