@@ -28,7 +28,8 @@
                 android:text="@string/deck"
                 android:textSize="20dp"
                 android:textColor="@color/Black"
-                android:layout_gravity="left"
+                android:layout_gravity="center"
+                android:gravity="center_vertical"
                 android:paddingLeft="2dp"/>
 
             <Spinner
@@ -38,6 +39,8 @@
                 android:foregroundGravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="20dp"
+
                 android:layout_weight="8" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

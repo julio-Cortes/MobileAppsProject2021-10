@@ -14,11 +14,11 @@
         <TextView
             android:id="@+id/show_text"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="300dp"
             android:background="@drawable/border"
             android:gravity="center"
             android:text="1"
-            android:textSize="250dp"
+            android:textSize="100dp"
             android:layout_marginBottom="175dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1:1"
