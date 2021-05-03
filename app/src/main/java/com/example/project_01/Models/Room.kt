@@ -1,13 +1,10 @@
 package com.example.project_01.Models
 
-class Room() {
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
-    init {
-        val name:String
-        val password:String
-        val users:MutableList<User>
-    }
-
-
-
-}
+@Parcelize
+data class Room(
+        val name: String?,
+        val password: String?
+): Parcelable

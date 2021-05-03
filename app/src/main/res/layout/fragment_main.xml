@@ -28,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="15"
-            android:background="@color/purple_500"
+            android:background="#F7D4BC"
             android:theme="@style/BottomNavigationTheme"
             android:layout_alignParentBottom="true"
             app:menu="@menu/menu_bottom_navigation"

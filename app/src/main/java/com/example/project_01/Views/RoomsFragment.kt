@@ -1,58 +1,64 @@
 package com.example.project_01.Views
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import androidx.fragment.app.*
+import androidx.lifecycle.Observer
+import androidx.navigation.Navigation
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.project_01.Interfaces.OnClickListener
 import com.example.project_01.R
+import com.example.project_01.ViewModels.RoomsViewModel
+import com.example.project_01.Views.Adapters.RoomAdapter
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class RoomsFragment : Fragment(), OnClickListener {
 
-/**
- * A simple [Fragment] subclass.
- * Use the [RoomsFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class RoomsFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    lateinit var recyclerView: RecyclerView
+    lateinit var adapter: RoomAdapter
+    private val viewModel: RoomsViewModel by activityViewModels()
+    var name: String? = ""
+    var password: String? = ""
+
+
+    override fun onCreateView(
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_rooms, container, false)
+
+        adapter = RoomAdapter(this)
+        recyclerView = view.findViewById<RecyclerView>(R.id.room_recycler_view)
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(activity)
+        viewModel.myCases.observe(viewLifecycleOwner, Observer {
+            adapter.set(it)
+        })
+
+        val button = view.findViewById<Button>(R.id.buttonCreateR)
+        button.setOnClickListener {
+            /*
+            val fragmentTwo = CreateRoomFragment()
+            activity?.supportFragmentManager?.commit {
+                this.replace(R.id.main_nav_host,fragmentTwo)
+                this.addToBackStack(null)
+            }
+
+             */
+            val action = RoomsFragmentDirections.actionRoomsFragmentToCreateRoomFragment()
+            this.view?.let { Navigation.findNavController(it).navigate(action) };
         }
+        name = "nombre - parametro"
+        password= "parametros"
+        viewModel.addCase(name,password)
+        return view
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_rooms, container, false)
-    }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment RoomsFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-                RoomsFragment().apply {
-                    arguments = Bundle().apply {
-                        putString(ARG_PARAM1, param1)
-                        putString(ARG_PARAM2, param2)
-                    }
-                }
+    override fun onClickItem(item: Any) {
+        //viewModel.deleteCase()
     }
 }
