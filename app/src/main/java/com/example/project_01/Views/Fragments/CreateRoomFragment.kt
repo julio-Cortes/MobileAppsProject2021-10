@@ -18,7 +18,6 @@ class CreateRoomFragment : Fragment() {
 
     lateinit var nombreInput: EditText
     lateinit var passwordInput: EditText
-    //lateinit var communicator: Communicator
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,

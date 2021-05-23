@@ -1,9 +1,7 @@
 package com.example.project_01.Views.Fragments
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
@@ -27,6 +25,7 @@ class CardsFragment : Fragment(), OnClickListener {
             savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_cards, container, false)
+
 
         recyclerView = view.findViewById<RecyclerView>(R.id.card_recycler_view)
         adapter = CardAdapter(this)

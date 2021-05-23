@@ -99,7 +99,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/log_in_button"
+            android:id="@+id/sign_up_buttom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="60dp"

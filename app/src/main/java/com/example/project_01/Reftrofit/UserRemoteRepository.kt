@@ -8,8 +8,8 @@ import retrofit2.http.POST
 
 interface UserRemoteRepository {
     @POST("signup")
-    fun signUp(@Body requestBody: RequestBody): Response<String>
+    suspend fun signUp(@Body requestBody: RequestBody): Response<ResponseBody>
 
     @POST("login")
-    fun logIn(@Body requestBody: RequestBody): Response<String>
+    suspend fun logIn(@Body requestBody: RequestBody): Response<ResponseBody>
 }

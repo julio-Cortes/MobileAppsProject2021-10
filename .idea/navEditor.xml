@@ -63,6 +63,18 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+                  <entry key="logInFragment2">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="-259" />
+                            <option name="y" value="-599" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="roomsFragment">
                     <value>
                       <LayoutPositions>
@@ -123,8 +135,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-236" />
-                            <option name="y" value="-7" />
+                            <option name="x" value="-680" />
+                            <option name="y" value="-57" />
                           </Point>
                         </option>
                         <option name="myPositions">
@@ -149,8 +161,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="75" />
-                            <option name="y" value="-1" />
+                            <option name="x" value="8" />
+                            <option name="y" value="-8" />
                           </Point>
                         </option>
                       </LayoutPositions>
