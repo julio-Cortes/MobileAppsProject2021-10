@@ -17,7 +17,7 @@ class CardsViewModel(application: Application):  AndroidViewModel(application){
 
     lateinit var deckSelector: Spinner
 
-    lateinit var currentDeck:Deck
+    var currentDeck:Deck
 
     val Decks = listOf<Deck>(
             Deck("Standard", mutableListOf("0","1/2","1","2","3","5","8","13","20","40","100","∞")),

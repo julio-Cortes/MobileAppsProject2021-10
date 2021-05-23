@@ -17,17 +17,14 @@ class LobbyAdapter(override val onClickListener: OnClickListener ):
     var data = mutableListOf<Lobby>()
 
 
-    //Metodo donde crear el layout de la celda a ver
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.room_view, parent, false)
         return ViewHolder(view)
     }
 
-    // Metodo que entrega información al viewHolder
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = data[position]
         holder.bindView(item)
-        //Se aplica la interfaz entregada en este caso por la MainActivity
         holder.itemView.setOnClickListener {
             onClickListener.onClickItem(item)
         }
@@ -43,7 +40,6 @@ class LobbyAdapter(override val onClickListener: OnClickListener ):
     }
 
 
-    // Clase interna con la definición del ViewHolder
     inner class ViewHolder(private val view: View): RecyclerView.ViewHolder(view){
 
         fun bindView(item: Lobby){

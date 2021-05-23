@@ -5,14 +5,15 @@
     <string name="log_in">Login</string>
     <string name="forgot_password">forgot password?</string>
     <string name="planning_poker"><b>Planning poker</b></string>
-    <string name = "deck">Deck</string>
+    <string name="deck">Deck</string>
     <string name="sign_in"><u>Sign In</u></string>
     <string name="create_room">Create Room</string>
     <string name="password">Password</string>
     <string name="name">Name</string>
-    <string name="email">email</string>
-    <string name="password_login">password</string>
-    <string name="create_room_2">Create Room</string>
+    <string name="email">Email</string>
+    <string name="password_login">Password</string>
     <string name="join_room">Join Room</string>
+    <string name="sign_up">Sign Up</string>
+
 
 </resources>

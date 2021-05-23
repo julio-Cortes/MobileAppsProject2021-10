@@ -42,9 +42,8 @@ class RoomsFragment : Fragment(), OnClickListener {
             adapter.set(it)
         })
 
-
-
         val button = view.findViewById<Button>(R.id.button_create)
+
         button.setOnClickListener {
             setFragmentResultListener("REQUEST_ROOM"){ requestKey: String, bundle: Bundle ->
                 if (requestKey == "REQUEST_ROOM") {

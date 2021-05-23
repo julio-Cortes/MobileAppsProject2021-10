@@ -54,10 +54,6 @@ class CardsFragment : Fragment(), OnClickListener {
 
         recyclerView.layoutManager = layoutManager
 
-
-        //viewModel.myDeck.observe(viewLifecycleOwner, Observer {
-          //  adapter.update(it.cards)
-        //})
         adapter.update(viewModel.currentDeck.cards)
         return view
     }
