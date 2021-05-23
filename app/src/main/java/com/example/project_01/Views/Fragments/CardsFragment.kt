@@ -1,4 +1,4 @@
-package com.example.project_01.Views
+package com.example.project_01.Views.Fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,20 +6,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.project_01.Interfaces.OnClickListener
-import com.example.project_01.Views.Adapters.CardAdapter
 import com.example.project_01.R
-import com.example.project_01.ViewModels.MainViewModel
+import com.example.project_01.ViewModels.CardsViewModel
+import com.example.project_01.Views.Adapters.CardAdapter
+
 
 class CardsFragment : Fragment(), OnClickListener {
     lateinit var recyclerView:RecyclerView
     lateinit var adapter: CardAdapter
-    private val viewModel:MainViewModel by activityViewModels()
+    private val viewModel:CardsViewModel by activityViewModels()
 
 
     override fun onCreateView(

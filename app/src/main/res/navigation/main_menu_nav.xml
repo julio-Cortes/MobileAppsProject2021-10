@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/roomsFragment"
-        android:name="com.example.project_01.Views.RoomsFragment"
+        android:name="com.example.project_01.Views.Fragments.RoomsFragment"
         android:label="fragment_rooms"
         tools:layout="@layout/fragment_rooms" >
         <action
@@ -16,12 +16,12 @@
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.example.project_01.Views.SettingsFragment"
+        android:name="com.example.project_01.Views.Fragments.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
     <fragment
         android:id="@+id/cardsFragment"
-        android:name="com.example.project_01.Views.CardsFragment"
+        android:name="com.example.project_01.Views.Fragments.CardsFragment"
         android:label="fragment_cards"
         tools:layout="@layout/fragment_cards" >
         <action
@@ -30,12 +30,12 @@
     </fragment>
     <fragment
         android:id="@+id/createRoomFragment"
-        android:name="com.example.project_01.Views.CreateRoomFragment"
+        android:name="com.example.project_01.Views.Fragments.CreateRoomFragment"
         android:label="fragment_create_room"
         tools:layout="@layout/fragment_create_room" />
     <fragment
         android:id="@+id/selectedCard"
-        android:name="com.example.project_01.Views.SelectedCard"
+        android:name="com.example.project_01.Views.Fragments.SelectedCardFragment"
         android:label="fragment_selected_card"
         tools:layout="@layout/fragment_selected_card" >
         <argument

@@ -7,7 +7,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.example.project_01.Models.Deck
 
-class MainViewModel(application: Application):  AndroidViewModel(application){
+class CardsViewModel(application: Application):  AndroidViewModel(application){
 
     fun changeDeck(position: Int) {
         this.currentDeck = Decks[position]

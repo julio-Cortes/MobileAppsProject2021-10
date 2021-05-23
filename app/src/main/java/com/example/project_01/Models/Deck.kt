@@ -1,6 +1,6 @@
 package com.example.project_01.Models
 
-class Deck(
+data class Deck(
         val name:String,
         val cards : MutableList<String>
 ){

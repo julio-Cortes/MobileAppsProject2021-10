@@ -8,13 +8,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.project_01.Interfaces.IAdapterView
 import com.example.project_01.Interfaces.OnClickListener
-import com.example.project_01.Models.Room
+import com.example.project_01.Models.Lobby
 import com.example.project_01.R
 
-class RoomAdapter(override val onClickListener: OnClickListener):
-        RecyclerView.Adapter<RoomAdapter.ViewHolder>(), IAdapterView {
+class LobbyAdapter(override val onClickListener: OnClickListener ):
+        RecyclerView.Adapter<LobbyAdapter.ViewHolder>(), IAdapterView {
 
-    var data = listOf<Room>()
+    var data = mutableListOf<Lobby>()
 
 
     //Metodo donde crear el layout de la celda a ver
@@ -32,16 +32,13 @@ class RoomAdapter(override val onClickListener: OnClickListener):
             onClickListener.onClickItem(item)
         }
     }
-    // Metodo que define el largo de la lista
     override fun getItemCount(): Int {
         return data.size
     }
-    // Metodo donde agrega un item al recyclerView
 
 
-    //Este metodo utiliza la lista que le entrega el viewmodel
-    fun set(cases: List<Room>){
-        this.data = cases
+    fun set(lobbys: MutableList<Lobby>){
+        this.data = lobbys
         this.notifyDataSetChanged()
     }
 
@@ -49,7 +46,7 @@ class RoomAdapter(override val onClickListener: OnClickListener):
     // Clase interna con la definición del ViewHolder
     inner class ViewHolder(private val view: View): RecyclerView.ViewHolder(view){
 
-        fun bindView(item: Room){
+        fun bindView(item: Lobby){
             val  nameTextView = view.findViewById<TextView>(R.id.room_textView)
             nameTextView.text = item.name
             nameTextView.setPaintFlags(nameTextView.getPaintFlags() or Paint.UNDERLINE_TEXT_FLAG)

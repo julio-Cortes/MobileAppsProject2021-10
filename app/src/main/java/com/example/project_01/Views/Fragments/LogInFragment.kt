@@ -1,4 +1,4 @@
-package com.example.project_01.Views
+package com.example.project_01.Views.Fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

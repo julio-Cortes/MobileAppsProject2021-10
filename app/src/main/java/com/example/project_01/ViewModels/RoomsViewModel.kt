@@ -1,30 +1,33 @@
 package com.example.project_01.ViewModels
 
 import android.app.Application
-import android.os.Environment
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.project_01.Models.Room
-import java.io.BufferedWriter
-import java.io.File
-import java.io.FileWriter
+import com.example.project_01.Models.Lobby
+import com.example.project_01.Repositories.RoomRepository
 
 
 class RoomsViewModel(application: Application) : AndroidViewModel(application) {
 
+    private val repository : RoomRepository
 
-    val caseList = mutableListOf<Room>()
-    val myCases =  MutableLiveData<MutableList<Room>>()
+    var MyRooms: LiveData<MutableList<Lobby>>
 
-    fun addCase(room:Room) {
+    init {
+        repository = RoomRepository(application)
+        MyRooms = repository.getRooms()
+    }
+    fun createLobby(name:String, password:String) {
 
-        caseList.add(room)
-        myCases.postValue(caseList)
+        repository.createRoom(name,password)
 
     }
 
-    fun deleteCase(num: Int){
-        caseList.removeAt(num)
+    fun deleteLobby(id:Long){
+
+        repository.deleteRoom(id)
+
     }
 
 

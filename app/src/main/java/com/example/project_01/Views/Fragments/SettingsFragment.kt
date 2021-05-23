@@ -1,4 +1,4 @@
-package com.example.project_01.Views
+package com.example.project_01.Views.Fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,11 +10,11 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.fragment.app.activityViewModels
 import com.example.project_01.R
-import com.example.project_01.ViewModels.MainViewModel
+import com.example.project_01.ViewModels.CardsViewModel
 
 
 class SettingsFragment : Fragment() {
-    private val viewModel: MainViewModel by activityViewModels()
+    private val viewModel: CardsViewModel by activityViewModels()
 
 
     override fun onCreateView(

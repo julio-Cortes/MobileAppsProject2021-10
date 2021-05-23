@@ -1,4 +1,4 @@
-package com.example.project_01.Views
+package com.example.project_01.Views.Fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,13 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
 import com.example.project_01.R
 
-class SelectedCard : Fragment() {
+class SelectedCardFragment : Fragment() {
 
-    val args : SelectedCardArgs by navArgs()
+    val args : SelectedCardFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

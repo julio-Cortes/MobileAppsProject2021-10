@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:scrollbarAlwaysDrawHorizontalTrack="true"
     android:scrollbarStyle="insideOverlay"
-    tools:context=".Views.LogInFragment">
+    tools:context=".Views.Fragments.LogInFragment">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
