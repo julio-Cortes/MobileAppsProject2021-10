@@ -1,6 +1,7 @@
 package com.example.project_01.Navigator
 
 import android.view.View
+import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import com.example.project_01.MainActivity
 import com.example.project_01.R
@@ -27,4 +28,5 @@ class Navigator(val activity: MainActivity) {
         view?.let { Navigation.findNavController(it).navigate(action) }
 
     }
+
 }

@@ -1,6 +1,7 @@
 package com.example.project_01.ViewModels
 
 import android.app.Application
+import android.content.Context
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Spinner
@@ -13,10 +14,16 @@ import com.example.project_01.Navigator.Navigator
 import com.example.project_01.Views.Fragments.CardsFragmentDirections
 
 class CardsViewModel(application: Application):  AndroidViewModel(application){
-
+    val app = application
     lateinit var navigator: Navigator
 
     fun changeDeck(position: Int) {
+
+        val sharedPreferences = app?.getSharedPreferences("current_deck", Context.MODE_PRIVATE)
+        sharedPreferences?.edit()?.apply{
+            putInt("deck",position)
+        }?.apply()
+
         this.currentDeck = Decks[position]
 
     }
@@ -35,8 +42,9 @@ class CardsViewModel(application: Application):  AndroidViewModel(application){
 
     init {
         Decks.forEach{it.cards.addAll(listOf("?","☕"))}
+        val sharedPreferences = app?.getSharedPreferences("current_deck", Context.MODE_PRIVATE)
 
-        currentDeck=Decks[0]
+        currentDeck=Decks[sharedPreferences.getInt("deck",0)]
 
     }
     fun setNavigator(activity: MainActivity){

@@ -4,15 +4,13 @@ package com.example.project_01.Views.Fragments
 import android.content.Context
 import android.os.Bundle
 import android.view.*
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import com.example.project_01.MainActivity
 import com.example.project_01.R
-import com.example.project_01.ViewModels.CardsViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
@@ -32,8 +30,20 @@ class MainFragment : Fragment() {
             bottonNav.setupWithNavController(navController)
         }
 
+        requireActivity()
+            .onBackPressedDispatcher
+            .addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+
+                }
+            }
+            )
 
         return view
+
+
+
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -41,12 +51,17 @@ class MainFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val sharedPreferences = activity?.getSharedPreferences("logged_user", Context.MODE_PRIVATE)
+        sharedPreferences?.edit()?.apply{
+            putString("Username",null)
+            putString("Password",null)
+
+        }?.apply()
+
         val quitter = NavOptions.Builder().setPopUpTo(R.id.logInFragment,true).build()
         view?.let { Navigation.findNavController(it).navigate(R.id.action_mainFragment_to_logInFragment,null,quitter) }
 
         return true
     }
-
-
 
 }

@@ -33,7 +33,7 @@ class UsersViewModel(application: Application):  AndroidViewModel(application) {
         service = ServiceBuilder.getRetrofit().create(UserRemoteRepository::class.java)
     }
 
-    fun goToSignUpFragment(view:View){
+    fun LogInFramentToSignUpFragment(view:View){
         navigator.goToSignUpFragment(view)
     }
 
@@ -64,6 +64,14 @@ class UsersViewModel(application: Application):  AndroidViewModel(application) {
             response = service.logIn(body)
             if (response.code() == 200){
                 navigator.goToMainFragment(view)
+
+                val sharedPreferences = app?.getSharedPreferences("logged_user", Context.MODE_PRIVATE)
+                sharedPreferences?.edit()?.apply{
+                    putString("Username",username)
+                    putString("Password",password)
+
+                }?.apply()
+
             }
             else{
                 Toast.makeText(context,"Username or password incorrect ", Toast.LENGTH_SHORT).show()
@@ -76,6 +84,7 @@ class UsersViewModel(application: Application):  AndroidViewModel(application) {
     fun setNavigator(activity: MainActivity){
         navigator = Navigator(activity)
     }
+
 
 
 }

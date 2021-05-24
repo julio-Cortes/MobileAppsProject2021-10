@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.*
 import androidx.lifecycle.Observer
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,7 +16,7 @@ import com.example.project_01.R
 import com.example.project_01.ViewModels.LobbyViewModel
 import com.example.project_01.Views.Adapters.LobbyAdapter
 
-class LobbysFragment : Fragment(), OnClickListener {
+class LobbysFragment : Fragment(), OnClickListener{
 
 
     lateinit var recyclerView: RecyclerView
@@ -78,4 +77,6 @@ class LobbysFragment : Fragment(), OnClickListener {
     override fun onClickItem(item: Any) {
         //viewModel.deleteCase()
     }
+
+
 }
