@@ -7,6 +7,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
 import com.example.project_01.MainActivity
 import com.example.project_01.R
@@ -23,6 +24,15 @@ class LogInFragment : Fragment() {
         val logInButton = view.findViewById<Button>(R.id.log_in_button)
         val signUpButton = view.findViewById<Button>(R.id.sign_up_buttom)
 
+
+        requireActivity()
+            .onBackPressedDispatcher
+            .addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    activity?.finish()
+                }
+            }
+            )
 
         viewModel.setNavigator(activity as MainActivity)
 
