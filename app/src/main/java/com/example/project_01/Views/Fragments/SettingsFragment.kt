@@ -9,6 +9,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.fragment.app.activityViewModels
+import com.example.project_01.MainActivity
 import com.example.project_01.R
 import com.example.project_01.ViewModels.CardsViewModel
 
@@ -24,6 +25,9 @@ class SettingsFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_settings, container, false)
         val deckSelector = view.findViewById<Spinner>(R.id.spinner)
+
+        viewModel.setNavigator(activity as MainActivity)
+
         viewModel.deckSelector = deckSelector
         val adapter = ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_dropdown_item, viewModel.Decks)
         deckSelector.adapter = adapter

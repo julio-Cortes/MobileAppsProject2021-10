@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/roomsFragment"
-        android:name="com.example.project_01.Views.Fragments.RoomsFragment"
+        android:name="com.example.project_01.Views.Fragments.LobbysFragment"
         android:label="fragment_rooms"
         tools:layout="@layout/fragment_rooms" >
         <action
@@ -30,7 +30,7 @@
     </fragment>
     <fragment
         android:id="@+id/createRoomFragment"
-        android:name="com.example.project_01.Views.Fragments.CreateRoomFragment"
+        android:name="com.example.project_01.Views.Fragments.CreateLobbyFragment"
         android:label="fragment_create_room"
         tools:layout="@layout/fragment_create_room" />
     <fragment

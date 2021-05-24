@@ -1,13 +1,20 @@
 package com.example.project_01.ViewModels
 
 import android.app.Application
+import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.navigation.Navigation
+import com.example.project_01.MainActivity
 import com.example.project_01.Models.Deck
+import com.example.project_01.Navigator.Navigator
+import com.example.project_01.Views.Fragments.CardsFragmentDirections
 
 class CardsViewModel(application: Application):  AndroidViewModel(application){
+
+    lateinit var navigator: Navigator
 
     fun changeDeck(position: Int) {
         this.currentDeck = Decks[position]
@@ -32,5 +39,12 @@ class CardsViewModel(application: Application):  AndroidViewModel(application){
         currentDeck=Decks[0]
 
     }
+    fun setNavigator(activity: MainActivity){
+        navigator = Navigator(activity)
+    }
 
+    fun CardFragmentToSelectedCard(view: View, num:String){
+        navigator.goToCardFragmentToSelectedCard(view, num)
+
+    }
 }

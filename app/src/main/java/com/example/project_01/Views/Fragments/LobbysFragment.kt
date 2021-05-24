@@ -12,16 +12,17 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.project_01.Interfaces.OnClickListener
+import com.example.project_01.MainActivity
 import com.example.project_01.R
-import com.example.project_01.ViewModels.RoomsViewModel
+import com.example.project_01.ViewModels.LobbyViewModel
 import com.example.project_01.Views.Adapters.LobbyAdapter
 
-class RoomsFragment : Fragment(), OnClickListener {
+class LobbysFragment : Fragment(), OnClickListener {
 
 
     lateinit var recyclerView: RecyclerView
     lateinit var adapter: LobbyAdapter
-    private val viewModel: RoomsViewModel by activityViewModels()
+    private val viewModel: LobbyViewModel by activityViewModels()
 
 
     override fun onCreateView(
@@ -30,13 +31,17 @@ class RoomsFragment : Fragment(), OnClickListener {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_rooms, container, false)
 
+        //RecylclerView Setup
         adapter = LobbyAdapter(this)
         recyclerView = view.findViewById<RecyclerView>(R.id.room_recycler_view)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(activity)
 
-
+        //Use to delete swiping right
         ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView)
+
+        //Settingup Navigator
+        viewModel.setNavigator(activity as MainActivity)
 
         viewModel.MyRooms.observe(viewLifecycleOwner, Observer {
             adapter.set(it)
@@ -53,9 +58,8 @@ class RoomsFragment : Fragment(), OnClickListener {
                     adapter.notifyDataSetChanged()
                 }
             }
+            viewModel.LobbyFragmentToCreateLobbyFragment(view)
 
-            val action = RoomsFragmentDirections.actionRoomsFragmentToCreateRoomFragment()
-            this.view?.let { Navigation.findNavController(it).navigate(action) }
         }
         return view
     }

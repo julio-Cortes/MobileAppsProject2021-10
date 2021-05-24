@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.project_01.Interfaces.OnClickListener
+import com.example.project_01.MainActivity
 import com.example.project_01.R
 import com.example.project_01.ViewModels.CardsViewModel
 import com.example.project_01.Views.Adapters.CardAdapter
@@ -26,6 +27,7 @@ class CardsFragment : Fragment(), OnClickListener {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_cards, container, false)
 
+        viewModel.setNavigator(activity as MainActivity)
 
         recyclerView = view.findViewById<RecyclerView>(R.id.card_recycler_view)
         adapter = CardAdapter(this)
@@ -58,8 +60,8 @@ class CardsFragment : Fragment(), OnClickListener {
     }
 
     override fun onClickItem(num: Any) {
-        val action = CardsFragmentDirections.actionCardsFragmentToSelectedCard(num as String)
-        this.view?.let { Navigation.findNavController(it).navigate(action) };
+        view?.let { viewModel.CardFragmentToSelectedCard(it, num as String) }
+
     }
 
 

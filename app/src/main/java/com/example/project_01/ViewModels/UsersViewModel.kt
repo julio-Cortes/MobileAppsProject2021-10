@@ -23,7 +23,7 @@ import org.json.JSONObject
 import retrofit2.Response
 
 class UsersViewModel(application: Application):  AndroidViewModel(application) {
-
+    val app = application
     lateinit var currentUser: MutableLiveData<User>
     lateinit var response: Response<ResponseBody>
     private val service: UserRemoteRepository
@@ -76,5 +76,6 @@ class UsersViewModel(application: Application):  AndroidViewModel(application) {
     fun setNavigator(activity: MainActivity){
         navigator = Navigator(activity)
     }
+
 
 }

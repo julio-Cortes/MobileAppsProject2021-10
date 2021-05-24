@@ -14,7 +14,7 @@ import androidx.fragment.app.setFragmentResult
 import com.example.project_01.Models.Lobby
 import com.example.project_01.R
 
-class CreateRoomFragment : Fragment() {
+class CreateLobbyFragment : Fragment() {
 
     lateinit var nombreInput: EditText
     lateinit var passwordInput: EditText

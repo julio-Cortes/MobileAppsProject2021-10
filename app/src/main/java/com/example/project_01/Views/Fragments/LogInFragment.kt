@@ -1,5 +1,6 @@
 package com.example.project_01.Views.Fragments
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import com.example.project_01.MainActivity
 import com.example.project_01.R
@@ -24,6 +26,7 @@ class LogInFragment : Fragment() {
         val passwordInput = view.findViewById<TextInputEditText>(R.id.password_input)
         val logInButton = view.findViewById<Button>(R.id.log_in_button)
         val signUpButton = view.findViewById<Button>(R.id.sign_up_buttom)
+
         viewModel.setNavigator(activity as MainActivity)
 
         logInButton.setOnClickListener{
@@ -35,8 +38,6 @@ class LogInFragment : Fragment() {
         signUpButton.setOnClickListener{
             viewModel.goToSignUpFragment(view)
         }
-
-
 
         return view
     }
