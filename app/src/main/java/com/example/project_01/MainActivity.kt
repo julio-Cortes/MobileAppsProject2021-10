@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
         val sharedPreferences = this.getSharedPreferences("logged_user", Context.MODE_PRIVATE)
         val username = sharedPreferences?.getString("Username",null)
         val password= sharedPreferences?.getString("Password",null)
+
         if (username!=null && password != null){
             graph.startDestination = R.id.mainFragment
             navHostFragment.navController.graph = graph

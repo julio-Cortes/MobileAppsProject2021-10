@@ -26,7 +26,6 @@ class Navigator(val activity: MainActivity) {
     fun goToCardFragmentToSelectedCard(view: View, num:Any) {
         val action = CardsFragmentDirections.actionCardsFragmentToSelectedCard(num as String)
         view?.let { Navigation.findNavController(it).navigate(action) }
-
     }
 
 }

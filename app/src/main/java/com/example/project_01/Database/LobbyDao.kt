@@ -17,7 +17,4 @@ interface LobbyDao {
     fun delete(id: Long)
 
 
-
-
-
 }
