@@ -2,6 +2,7 @@ package com.example.project_01.Database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import com.example.project_01.Models.Deck
 import com.example.project_01.Models.Lobby
 import com.example.project_01.Models.User
 

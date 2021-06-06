@@ -7,14 +7,14 @@
     tools:context=".Views.Fragments.SignUpFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
         android:id="@+id/log_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/border"
         android:backgroundTint="@color/BabyLavander"
-        android:padding="15dp">
+        android:layout_marginLeft="50px"
+        android:layout_marginRight="50px"
+        android:layout_marginTop="80px">
 
 
         <TextView
@@ -22,7 +22,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:padding="50dp"
+            android:padding="30dp"
             android:text="@string/sign_up"
             android:textColor="@color/ChineseViolet"
             android:textSize="50dp"
@@ -100,19 +100,18 @@
 
         <Button
             android:id="@+id/sign_up_buttom"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="60dp"
             android:backgroundTint="@color/UnbleachedSilk"
+            android:layout_marginBottom="30px"
+            android:layout_marginTop="30px"
             android:text="@string/sign_up"
             android:textColor="@color/ChineseViolet"
             android:textSize="18dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/password_holder"
-
-
-            />
+            app:layout_constraintTop_toBottomOf="@+id/password_holder" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

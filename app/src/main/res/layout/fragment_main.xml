@@ -5,38 +5,35 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Views.Fragments.MainFragment">
-
-
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:weightSum="100"
-        >
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/swapping_fragment"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="85"
+            android:layout_height="wrap_content"
             app:defaultNavHost="true"
             app:navGraph="@navigation/main_menu_nav" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/swap_fragment_button"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="15"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:background="@color/UnbleachedSilk"
             android:theme="@style/BottomNavigationTheme"
-            android:layout_alignParentBottom="true"
-            app:menu="@menu/menu_bottom_navigation"
-
-            >
+            app:menu="@menu/menu_bottom_navigation">
 
         </com.google.android.material.bottomnavigation.BottomNavigationView>
 
-
-    </LinearLayout>
+    </RelativeLayout>
 </FrameLayout>

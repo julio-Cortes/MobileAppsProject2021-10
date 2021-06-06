@@ -34,7 +34,7 @@ class LogInFragment : Fragment() {
             }
             )
 
-        viewModel.setNavigator(activity as MainActivity)
+        viewModel.userRepository.setNavigator(activity as MainActivity)
 
         logInButton.setOnClickListener{
             viewModel.LogIn(emailInput.text.toString(),passwordInput.text.toString(),view,context)
@@ -43,7 +43,7 @@ class LogInFragment : Fragment() {
         }
 
         signUpButton.setOnClickListener{
-            viewModel.LogInFramentToSignUpFragment(view)
+            viewModel.userRepository.LogInFramentToSignUpFragment(view)
         }
 
         return view

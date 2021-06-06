@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
 
     tools:context=".Views.Fragments.CreateLobbyFragment">
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -23,41 +24,80 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="100dp"
                 android:ems="10"
+                android:hint="@string/name"
+                android:inputType="textPersonName"
                 android:textColor="@color/ChineseViolet"
                 android:textColorHint="@color/Lavender2"
-                android:hint="@string/name"
                 android:textSize="25dp"
-                android:inputType="textPersonName"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
                 android:id="@+id/edit_password"
-                android:textSize="25dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dp"
                 android:ems="10"
-                android:textColorHint="@color/Lavender2"
                 android:hint="@string/password"
-                android:textColor="@color/ChineseViolet"
                 android:inputType="textPassword"
+                android:textColor="@color/ChineseViolet"
+                android:textColorHint="@color/Lavender2"
+                android:textSize="25dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/edit_name" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginRight="40dp"
+                android:orientation="horizontal"
+                android:weightSum="10"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edit_password">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="2"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="2dp"
+                    android:text="@string/deck"
+
+                    android:textColor="@color/ChineseViolet"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:id="@+id/spinner_create"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="8"
+                    android:foregroundGravity="center"
+                    android:gravity="center"
+                    android:padding="20dp" />
+            </LinearLayout>
 
             <Button
                 android:id="@+id/button_create_room"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="70dp"
-                android:text="@string/create_room"
+                android:layout_marginBottom="40dp"
+                android:layout_marginTop="20dp"
                 android:backgroundTint="@color/UnbleachedSilk"
+                android:text="@string/create_room"
                 android:textColor="@color/ChineseViolet"
-                app:layout_constraintEnd_toEndOf="@+id/edit_password"
-                app:layout_constraintStart_toStartOf="@+id/edit_password"
-                app:layout_constraintTop_toBottomOf="@+id/edit_password" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

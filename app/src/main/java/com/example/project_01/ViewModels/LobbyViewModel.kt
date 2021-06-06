@@ -4,8 +4,8 @@ import android.app.Application
 import android.view.View
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.example.project_01.MainActivity
+import com.example.project_01.Models.Deck
 import com.example.project_01.Models.Lobby
 import com.example.project_01.Navigator.Navigator
 import com.example.project_01.Repositories.RoomRepository
@@ -22,9 +22,9 @@ class LobbyViewModel(application: Application) : AndroidViewModel(application) {
         repository = RoomRepository(application)
         MyRooms = repository.getRooms()
     }
-    fun createLobby(name:String, password:String) {
+    fun createLobby(name: String, password: String, deck: Deck) {
 
-        repository.createRoom(name,password)
+        repository.createRoom(name,password, deck)
 
     }
 

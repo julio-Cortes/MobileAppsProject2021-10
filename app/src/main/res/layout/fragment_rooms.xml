@@ -11,44 +11,54 @@
         android:background="#32F7D4BC"
         android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/button_create"
-            android:layout_width="0dp"
-            android:layout_weight = "0.5"
-            android:textSize="20dp"
-            android:layout_marginLeft="15dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="50dp"
-            android:text="@string/create_room"
-            android:textColor="@color/MistyRoses"
-            android:backgroundTint="@color/LavenderLight"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <Button
-            android:id="@+id/button_join"
-            android:layout_width="0dp"
-            android:layout_weight = "0.5"
-            android:textSize="20dp"
-            android:layout_marginRight="15dp"
-            android:textColor="@color/MistyRoses"
-            android:layout_height="wrap_content"
-            android:text="@string/join_room"
-            android:backgroundTint="@color/LavenderLight"
-            app:layout_constraintBottom_toBottomOf="@+id/button_create"
-            app:layout_constraintEnd_toEndOf="parent" />
-
         <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
             android:id="@+id/room_recycler_view"
-            android:layout_marginTop="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:layout_marginBottom="30dp"
-            android:layout_height="0dp"
-            tools:listitem="@layout/room_view"
-            app:layout_constraintBottom_toTopOf="@+id/button_create"
+            android:layout_marginTop="30dp"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:listitem="@layout/room_view" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <Button
+                android:id="@+id/button_create"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="0.5"
+                android:backgroundTint="@color/LavenderLight"
+                android:text="@string/create_room"
+                android:textColor="@color/MistyRoses"
+                android:textSize="12dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <Button
+                android:id="@+id/button_join"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
+                android:layout_weight="0.5"
+                android:backgroundTint="@color/LavenderLight"
+                android:text="@string/join_room"
+                android:textColor="@color/MistyRoses"
+                android:textSize="12dp"
+                app:layout_constraintBottom_toBottomOf="@+id/button_create"
+                app:layout_constraintEnd_toEndOf="parent" />
+        </LinearLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

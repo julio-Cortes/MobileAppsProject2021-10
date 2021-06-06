@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.project_01.Interfaces.OnClickListener
 import com.example.project_01.MainActivity
+import com.example.project_01.Models.Deck
 import com.example.project_01.R
 import com.example.project_01.ViewModels.LobbyViewModel
 import com.example.project_01.Views.Adapters.LobbyAdapter
@@ -53,7 +54,8 @@ class LobbysFragment : Fragment(), OnClickListener{
                 if (requestKey == "REQUEST_ROOM") {
                     val name = bundle.get("name")
                     val pass = bundle.get("pass")
-                    viewModel.createLobby(name as String,pass as String)
+                    val deck = bundle.get("deck")
+                    viewModel.createLobby(name as String,pass as String, deck as Deck)
                     adapter.notifyDataSetChanged()
                 }
             }
