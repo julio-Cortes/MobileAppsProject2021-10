@@ -10,7 +10,7 @@ import kotlinx.parcelize.Parcelize
 data class Deck(
         @PrimaryKey(autoGenerate = false)
         val name:String,
-        val cards : MutableList<String>
+        val cards : List<String>
 ): Parcelable{
     override fun toString(): String {
         return this.name
