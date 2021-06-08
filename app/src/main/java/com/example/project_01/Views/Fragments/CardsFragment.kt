@@ -28,6 +28,8 @@ class CardsFragment : Fragment(), OnClickListener {
         val view = inflater.inflate(R.layout.fragment_cards, container, false)
 
         viewModel.setNavigator(activity as MainActivity)
+        viewModel.Load()
+
 
         recyclerView = view.findViewById<RecyclerView>(R.id.card_recycler_view)
         adapter = CardAdapter(this)
@@ -54,8 +56,7 @@ class CardsFragment : Fragment(), OnClickListener {
 
 
         recyclerView.layoutManager = layoutManager
-
-        adapter.update(viewModel.currentDeck.cards)
+        //adapter.update(viewModel.currentDeck.cards)
         return view
     }
 

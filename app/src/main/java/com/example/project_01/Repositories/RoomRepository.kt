@@ -32,7 +32,7 @@ class RoomRepository(application: Application) {
     lateinit var response: Response<ResponseBody>
     private val executor: ExecutorService = Executors.newSingleThreadExecutor()
     init {
-        database = Room.databaseBuilder(application, Database::class.java, "planning_poker-db").build()
+        database = Room.databaseBuilder(application, Database::class.java, "planning_poker-db").fallbackToDestructiveMigration().build()
         lobbyDao = database.RoomDao()
         rooms = lobbyDao.getAll()
         service = ServiceBuilder.getRetrofit().create(LobbyRemoteRepository::class.java)

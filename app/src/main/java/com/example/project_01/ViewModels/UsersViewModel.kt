@@ -4,22 +4,20 @@ import android.app.Application
 import android.content.Context
 import android.view.View
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.miniproject03.Retrofit.ServiceBuilder
-import com.example.project_01.Models.User
-import com.example.project_01.Reftrofit.UserRemoteRepository
-import com.example.project_01.Navigator.Navigator
+import com.example.project_01.Deserializers.UserCredentials
 import com.example.project_01.Repositories.UserRepository
+import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
-import okhttp3.ResponseBody
 import org.json.JSONObject
-import retrofit2.Response
 
 class UsersViewModel(application: Application):  AndroidViewModel(application) {
     val userRepository: UserRepository
+    lateinit var userToken:String
+    lateinit var userId:String
+    val app = application
 
     init {
         userRepository = UserRepository(application)
@@ -32,7 +30,13 @@ class UsersViewModel(application: Application):  AndroidViewModel(application) {
             jsonObject.put("name", name)
             jsonObject.put("password", password)
             val body = jsonObject.toString().toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
-            userRepository.SignUp(body)
+            val reponse = userRepository.SignUp(body)
+            val gson = Gson()
+
+            val result = gson.fromJson(reponse, UserCredentials::class.java)
+
+            userToken = result.token
+            userId = result.user_id
         }
 
     }
@@ -42,7 +46,15 @@ class UsersViewModel(application: Application):  AndroidViewModel(application) {
             jsonObject.put("username", username)
             jsonObject.put("password", password)
             val body = jsonObject.toString().toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
-            userRepository.LogIn(body, view, username, password)
+
+            val reponse = userRepository.LogIn(body, view, username, password)
+            val gson = Gson()
+
+            val result = gson.fromJson(reponse, UserCredentials::class.java)
+
+            userToken = result.token
+            userId = result.user_id
+            //Toast.makeText(app.applicationContext,userToken, Toast.LENGTH_LONG).show()
         }
 
 

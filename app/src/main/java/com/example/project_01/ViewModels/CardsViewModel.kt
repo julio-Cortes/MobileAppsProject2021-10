@@ -3,17 +3,15 @@ package com.example.project_01.ViewModels
 import android.app.Application
 import android.content.Context
 import android.view.View
-import android.widget.ArrayAdapter
 import android.widget.Spinner
+import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
-import androidx.navigation.Navigation
+import androidx.lifecycle.viewModelScope
 import com.example.project_01.MainActivity
 import com.example.project_01.Models.Deck
 import com.example.project_01.Navigator.Navigator
 import com.example.project_01.Repositories.DeckRepository
-import com.example.project_01.Repositories.RoomRepository
-import com.example.project_01.Views.Fragments.CardsFragmentDirections
+import kotlinx.coroutines.launch
 
 class CardsViewModel(application: Application):  AndroidViewModel(application){
     val app = application
@@ -27,16 +25,18 @@ class CardsViewModel(application: Application):  AndroidViewModel(application){
             putInt("deck",position)
         }?.apply()
 
-        this.currentDeck = Decks[position]
+        //this.currentDeck = Decks[position]
 
     }
 
 
     lateinit var deckSelector: Spinner
 
-    var currentDeck:Deck
+   lateinit var currentDeck:Deck
+   lateinit var Decks:List<Deck>
 
-    val Decks = deckRepository.getDecks()
+
+
         //listOf<Deck>(
         //    Deck("Standard", mutableListOf("0","1/2","1","2","3","5","8","13","20","40","100","∞")),
         //    Deck("T-Shirt", mutableListOf("XS","S","M","L","XL","XXL")),
@@ -44,19 +44,22 @@ class CardsViewModel(application: Application):  AndroidViewModel(application){
         //    Deck("Hours", mutableListOf("0","1","2","3","4","6","8","12","16","24","32"))
     //)
 
-    init {
-        //Decks.forEach{it.cards.addAll(listOf("?","☕"))}
-        val sharedPreferences = app?.getSharedPreferences("current_deck", Context.MODE_PRIVATE)
-
-        currentDeck=Decks[sharedPreferences.getInt("deck",0)]
-
-    }
     fun setNavigator(activity: MainActivity){
         navigator = Navigator(activity)
     }
 
     fun CardFragmentToSelectedCard(view: View, num:String){
         navigator.goToCardFragmentToSelectedCard(view, num)
+
+    }
+
+    fun Load() {
+        viewModelScope.launch {
+            val response = deckRepository.getDecks()!!
+            Toast.makeText(app.applicationContext,response, Toast.LENGTH_LONG).show()
+            val sharedPreferences = app?.getSharedPreferences("current_deck", Context.MODE_PRIVATE)
+            currentDeck=Decks[sharedPreferences.getInt("deck",0)]
+        }
 
     }
 }

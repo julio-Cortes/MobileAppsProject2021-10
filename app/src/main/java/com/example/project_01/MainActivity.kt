@@ -41,6 +41,6 @@ class MainActivity : AppCompatActivity() {
         }, TIEMPO)
     }
     fun cada_5_seg() {
-        Toast.makeText(applicationContext, "5 SEGUNDOS", Toast.LENGTH_SHORT).show()
+        //Toast.makeText(applicationContext, "5 SEGUNDOS", Toast.LENGTH_SHORT).show()
     }
 }
