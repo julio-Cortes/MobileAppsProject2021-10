@@ -1,7 +1,9 @@
 package com.example.project_01.Views.Fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
@@ -55,8 +57,7 @@ class CardsFragment : Fragment(), OnClickListener {
 
 
         recyclerView.layoutManager = layoutManager
-        viewModel.Load(adapter)
-        //adapter.update(viewModel.currentDeck.cards)
+        adapter.update(viewModel.currentDeck.cards)
 
         return view
     }

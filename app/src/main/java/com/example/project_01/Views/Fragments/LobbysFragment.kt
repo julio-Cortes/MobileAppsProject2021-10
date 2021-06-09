@@ -10,10 +10,13 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.project_01.Deserializers.DecksCredentials
 import com.example.project_01.Interfaces.OnClickListener
 import com.example.project_01.MainActivity
 import com.example.project_01.Models.Deck
 import com.example.project_01.R
+import com.example.project_01.Repositories.GeneralRepository
+import com.example.project_01.Repositories.UserRepository
 import com.example.project_01.ViewModels.LobbyViewModel
 import com.example.project_01.ViewModels.UsersViewModel
 import com.example.project_01.Views.Adapters.LobbyAdapter
@@ -24,8 +27,8 @@ class LobbysFragment : Fragment(), OnClickListener{
     lateinit var recyclerView: RecyclerView
     lateinit var adapter: LobbyAdapter
     private val viewModel: LobbyViewModel by activityViewModels()
-    private val userviewModel: UsersViewModel by activityViewModels()
-
+    //val generalRepository = GeneralRepository(viewModel.app)
+    private val userViewModel: UsersViewModel by activityViewModels()
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -56,8 +59,9 @@ class LobbysFragment : Fragment(), OnClickListener{
                 if (requestKey == "REQUEST_ROOM") {
                     val name = bundle.get("name")
                     val pass = bundle.get("pass")
-                    val deck = bundle.get("deck")
-                    viewModel.createLobby(userviewModel.userToken, name as String,pass as String, deck as Deck)
+                    val deck_name = bundle.get("name_deck").toString()
+                    val cards_deck = bundle.get("cards_deck") as List<String>
+                    viewModel.createLobby(userViewModel.userToken, name as String,pass as String, DecksCredentials(deck_name,cards_deck))
                     adapter.notifyDataSetChanged()
                 }
             }

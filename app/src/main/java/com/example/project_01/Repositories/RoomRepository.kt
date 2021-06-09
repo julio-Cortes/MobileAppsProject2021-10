@@ -10,6 +10,7 @@ import androidx.room.Room
 import com.example.miniproject03.Retrofit.ServiceBuilder
 import com.example.project_01.Database.Database
 import com.example.project_01.Database.LobbyDao
+import com.example.project_01.Deserializers.DecksCredentials
 import com.example.project_01.Models.Deck
 import com.example.project_01.Models.Lobby
 import com.example.project_01.Reftrofit.LobbyRemoteRepository
@@ -40,7 +41,7 @@ class RoomRepository(application: Application) {
     }
 
 
-    fun createRoom(token: String, name:String, password:String, deck: Deck) : String? {
+    fun createRoom(token: String, name:String, password:String, deck: DecksCredentials) : String? {
         val cm = app.applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val networkInfo = cm!!.activeNetworkInfo
 
@@ -61,15 +62,15 @@ class RoomRepository(application: Application) {
                 return ""
             }
             executor.execute{
-                //AQUI FALTA AGREGARLE EL DECK
-                lobbyDao.insert(Lobby(0,name, password))
+                val deck_deck = Deck(deck.name, deck.cards.toString())
+                lobbyDao.insert(Lobby(0,name, password, deck_deck))
             }
 
         } else {
             // No hay conexión a Internet en este momento
             executor.execute{
-                //AQUI FALTA AGREGARLE EL DECK
-                lobbyDao.insert(Lobby(0,name, password))
+                val deck_deck = Deck(deck.name, deck.cards.toString())
+                lobbyDao.insert(Lobby(0,name, password, deck_deck))
             }
             return ""
         }

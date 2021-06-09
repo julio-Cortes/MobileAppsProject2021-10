@@ -3,6 +3,7 @@ package com.example.project_01.ViewModels
 import android.app.Application
 import android.content.Context
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.project_01.Deserializers.UserCredentials
@@ -31,12 +32,18 @@ class UsersViewModel(application: Application):  AndroidViewModel(application) {
             jsonObject.put("password", password)
             val body = jsonObject.toString().toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
             val reponse = userRepository.SignUp(body)
-            val gson = Gson()
+            if(reponse!=""){
+                val gson = Gson()
 
-            val result = gson.fromJson(reponse, UserCredentials::class.java)
+                val result = gson.fromJson(reponse, UserCredentials::class.java)
 
-            userToken = result.token
-            userId = result.user_id
+                userToken = result.token
+                userId = result.user_id
+            }
+            else{
+                Toast.makeText(app.applicationContext,"Creacion de usuario fallida", Toast.LENGTH_LONG).show()
+            }
+
         }
 
     }
@@ -48,12 +55,16 @@ class UsersViewModel(application: Application):  AndroidViewModel(application) {
             val body = jsonObject.toString().toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
 
             val reponse = userRepository.LogIn(body, view, username, password)
-            val gson = Gson()
+            if (reponse!= "") {
+                val gson = Gson()
+                val result = gson.fromJson(reponse, UserCredentials::class.java)
+                userToken = result.token
+                userId = result.user_id
+            }
+            else{
+                Toast.makeText(app.applicationContext,"Inicio de sesion fallida", Toast.LENGTH_LONG).show()
+            }
 
-            val result = gson.fromJson(reponse, UserCredentials::class.java)
-
-            userToken = result.token
-            userId = result.user_id
             //Toast.makeText(app.applicationContext,userToken, Toast.LENGTH_LONG).show()
         }
 

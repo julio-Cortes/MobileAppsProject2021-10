@@ -7,19 +7,19 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.project_01.Deserializers.DecksCredentials
 import com.example.project_01.Deserializers.UserCredentials
 import com.example.project_01.MainActivity
 import com.example.project_01.Models.Deck
 import com.example.project_01.Navigator.Navigator
 import com.example.project_01.Repositories.DeckRepository
-import com.example.project_01.Views.Adapters.CardAdapter
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 
 class CardsViewModel(application: Application):  AndroidViewModel(application){
     val app = application
     lateinit var navigator: Navigator
-    val deckRepository = DeckRepository()
+    val deckRepository = DeckRepository(application)
 
     fun changeDeck(position: Int) {
 
@@ -31,29 +31,23 @@ class CardsViewModel(application: Application):  AndroidViewModel(application){
         this.currentDeck = Decks[position]
 
     }
-
-
     lateinit var deckSelector: Spinner
+    lateinit var currentDeck:DecksCredentials
+    lateinit var Decks:List<DecksCredentials>
 
-    lateinit var currentDeck : Deck
-    lateinit var Decks:Array<Deck>
-    lateinit var name:String
-    lateinit var cards:List<String>
 
     init {
+        val sharedPreferences = app?.getSharedPreferences("current_deck", Context.MODE_PRIVATE)
 
-    }
-
-    fun Load(adapter : CardAdapter){
         viewModelScope.launch {
-            val response = deckRepository.getDecks()!!
-            Toast.makeText(app.applicationContext, response, Toast.LENGTH_LONG).show()
-            val gson = Gson()
-            Decks = gson.fromJson(response, Array<Deck>::class.java)
-            val sharedPreferences = app?.getSharedPreferences("current_deck", Context.MODE_PRIVATE)
+            Decks = deckRepository.getDecks()!!.toList()
             currentDeck = Decks[sharedPreferences.getInt("deck", 0)]
         }
+        Decks = deckRepository.getDecksBase()//NECESITAMOS QUE LA BASE ESTE LLENA ANTES DE PODER DESCOMENTAR LO SIGUIENTE
+        //currentDeck = Decks[sharedPreferences.getInt("deck", 0)] //NO PODEMOS USARLO YA QUE NO SE ALCANZA A LLENAR LA BASE ANTES DE QUE SE PONGA A LEERLA
+        currentDeck = DecksCredentials("Standard", listOf("0","1/2","1","2","3","5","8","13","20","40","100","∞"))
     }
+
         //listOf<Deck>(
         //    Deck("Standard", mutableListOf("0","1/2","1","2","3","5","8","13","20","40","100","∞")),
         //    Deck("T-Shirt", mutableListOf("XS","S","M","L","XL","XXL")),

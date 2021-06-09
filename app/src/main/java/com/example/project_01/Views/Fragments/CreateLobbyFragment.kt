@@ -46,19 +46,15 @@ class CreateLobbyFragment : Fragment() {
 
             }
         }
-
-
         createButton.setOnClickListener {
             val bundle = bundleOf(
                 "name" to nombreInput.text.toString(),
                 "pass" to passwordInput.text.toString(),
-                "deck" to deck
+                "name_deck" to deck.name,
+                "cards_deck" to deck.cards
             )
             setFragmentResult("REQUEST_ROOM", bundle)
             activity?.onBackPressed()
-
-
-
         }
         Toast.makeText(context,"To delete swipe right", Toast.LENGTH_SHORT).show()
 
