@@ -21,17 +21,19 @@
             android:id="@+id/swapping_fragment"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="90"
             app:defaultNavHost="true"
-            app:navGraph="@navigation/main_menu_nav" />
+            app:navGraph="@navigation/main_menu_nav"  />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/swap_fragment_button"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
+            android:layout_height="0dp"
+            android:layout_weight="10"
             android:background="@color/UnbleachedSilk"
             android:theme="@style/BottomNavigationTheme"
+            android:layout_alignParentBottom="true"
             app:menu="@menu/menu_bottom_navigation">
 
         </com.google.android.material.bottomnavigation.BottomNavigationView>

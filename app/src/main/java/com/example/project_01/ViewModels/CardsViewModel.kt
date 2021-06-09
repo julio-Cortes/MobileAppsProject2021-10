@@ -12,6 +12,7 @@ import com.example.project_01.MainActivity
 import com.example.project_01.Models.Deck
 import com.example.project_01.Navigator.Navigator
 import com.example.project_01.Repositories.DeckRepository
+import com.example.project_01.Views.Adapters.CardAdapter
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 
@@ -27,23 +28,32 @@ class CardsViewModel(application: Application):  AndroidViewModel(application){
             putInt("deck",position)
         }?.apply()
 
-        //this.currentDeck = Decks[position]
+        this.currentDeck = Decks[position]
 
     }
 
 
     lateinit var deckSelector: Spinner
 
-   lateinit var currentDeck:Deck
-   lateinit var Decks:List<Deck>
+    lateinit var currentDeck : Deck
+    lateinit var Decks:Array<Deck>
     lateinit var name:String
     lateinit var cards:List<String>
 
-    init{
+    init {
 
-        //currentDeck = Decks[0]
     }
 
+    fun Load(adapter : CardAdapter){
+        viewModelScope.launch {
+            val response = deckRepository.getDecks()!!
+            Toast.makeText(app.applicationContext, response, Toast.LENGTH_LONG).show()
+            val gson = Gson()
+            Decks = gson.fromJson(response, Array<Deck>::class.java)
+            val sharedPreferences = app?.getSharedPreferences("current_deck", Context.MODE_PRIVATE)
+            currentDeck = Decks[sharedPreferences.getInt("deck", 0)]
+        }
+    }
         //listOf<Deck>(
         //    Deck("Standard", mutableListOf("0","1/2","1","2","3","5","8","13","20","40","100","∞")),
         //    Deck("T-Shirt", mutableListOf("XS","S","M","L","XL","XXL")),
@@ -60,18 +70,4 @@ class CardsViewModel(application: Application):  AndroidViewModel(application){
 
     }
 
-    fun Load() {
-        viewModelScope.launch {
-            val response = deckRepository.getDecks()!!
-            Toast.makeText(app.applicationContext,response, Toast.LENGTH_LONG).show()
-            val gson = Gson()
-
-            val result = gson.fromJson(response, Decks::class.java)
-            Decks = result as List<Deck>
-
-            val sharedPreferences = app?.getSharedPreferences("current_deck", Context.MODE_PRIVATE)
-            currentDeck=Decks[sharedPreferences.getInt("deck",0)]
-        }
-
-    }
 }
