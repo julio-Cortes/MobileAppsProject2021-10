@@ -4,17 +4,21 @@ import android.app.Application
 import android.view.View
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import com.example.project_01.Deserializers.CreateRoomCredentials
+import com.example.project_01.Deserializers.UserCredentials
 import com.example.project_01.MainActivity
 import com.example.project_01.Models.Deck
 import com.example.project_01.Models.Lobby
 import com.example.project_01.Navigator.Navigator
 import com.example.project_01.Repositories.RoomRepository
+import com.google.gson.Gson
 
 
 class LobbyViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository : RoomRepository
     lateinit var navigator: Navigator
+    lateinit var room_id : String
 
     var MyRooms: LiveData<MutableList<Lobby>>
 
@@ -22,9 +26,12 @@ class LobbyViewModel(application: Application) : AndroidViewModel(application) {
         repository = RoomRepository(application)
         MyRooms = repository.getRooms()
     }
-    fun createLobby(name: String, password: String, deck: Deck) {
+    fun createLobby(token : String, name: String, password: String, deck: Deck) {
 
-        repository.createRoom(name,password, deck)
+        val response = repository.createRoom(token, name,password, deck)
+        val gson = Gson()
+        val result = gson.fromJson(response, CreateRoomCredentials::class.java)
+        room_id = result.room_id
 
     }
 

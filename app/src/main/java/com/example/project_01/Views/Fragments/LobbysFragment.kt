@@ -15,6 +15,7 @@ import com.example.project_01.MainActivity
 import com.example.project_01.Models.Deck
 import com.example.project_01.R
 import com.example.project_01.ViewModels.LobbyViewModel
+import com.example.project_01.ViewModels.UsersViewModel
 import com.example.project_01.Views.Adapters.LobbyAdapter
 
 class LobbysFragment : Fragment(), OnClickListener{
@@ -23,6 +24,7 @@ class LobbysFragment : Fragment(), OnClickListener{
     lateinit var recyclerView: RecyclerView
     lateinit var adapter: LobbyAdapter
     private val viewModel: LobbyViewModel by activityViewModels()
+    private val userviewModel: UsersViewModel by activityViewModels()
 
 
     override fun onCreateView(
@@ -55,7 +57,7 @@ class LobbysFragment : Fragment(), OnClickListener{
                     val name = bundle.get("name")
                     val pass = bundle.get("pass")
                     val deck = bundle.get("deck")
-                    viewModel.createLobby(name as String,pass as String, deck as Deck)
+                    viewModel.createLobby(userviewModel.userToken, name as String,pass as String, deck as Deck)
                     adapter.notifyDataSetChanged()
                 }
             }
