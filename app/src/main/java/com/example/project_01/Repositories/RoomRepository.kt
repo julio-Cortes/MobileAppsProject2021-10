@@ -9,11 +9,14 @@ import androidx.lifecycle.LiveData
 import androidx.room.Room
 import com.example.miniproject03.Retrofit.ServiceBuilder
 import com.example.project_01.Database.Database
+import com.example.project_01.Database.GetLobbyDao
 import com.example.project_01.Database.LobbyDao
 import com.example.project_01.Deserializers.DecksCredentials
+import com.example.project_01.Deserializers.LobbyCredentials
 import com.example.project_01.Models.Deck
 import com.example.project_01.Models.Lobby
 import com.example.project_01.Reftrofit.LobbyRemoteRepository
+import com.google.gson.Gson
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.ResponseBody
@@ -26,16 +29,21 @@ import java.util.concurrent.Executors
 
 class RoomRepository(application: Application) {
     val app = application
-    private var rooms :LiveData<MutableList<Lobby>>
+    private var rooms_aux :LiveData<MutableList<Lobby>>
+    //private var rooms : LiveData<MutableList<LobbyCredentials>>
     private val database: Database
     private val lobbyDao: LobbyDao
+    private val getLobbyDao : GetLobbyDao
     private val service: LobbyRemoteRepository
     lateinit var response: Response<ResponseBody>
     private val executor: ExecutorService = Executors.newSingleThreadExecutor()
     init {
         database = Room.databaseBuilder(application, Database::class.java, "planning_poker-db").fallbackToDestructiveMigration().build()
         lobbyDao = database.RoomDao()
-        rooms = lobbyDao.getAll()
+        getLobbyDao = database.GetLobbyDao()
+        rooms_aux = lobbyDao.getAll()
+        //getLobbyCredentials()
+        //rooms = getLobbyDao.getAll()
         service = ServiceBuilder.getRetrofit().create(LobbyRemoteRepository::class.java)
 
     }
@@ -90,22 +98,34 @@ class RoomRepository(application: Application) {
             else{
                 return ""
             }
-            executor.execute{
-               // lobbyDao.insert(Lobby(0,name, password, deck_deck))
-            }
 
         } else {
-            executor.execute{
-              //  lobbyDao.insert(Lobby(0,name, password, deck_deck))
-            }
+            Toast.makeText(app.applicationContext,"You don´t have internet to joina room", Toast.LENGTH_SHORT).show()
             return ""
         }
 
     }
+    fun getLobbyCredentials() {
+        val jsonObject = JSONObject()
+        val body = jsonObject.toString().toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
 
-    fun getRooms():LiveData<MutableList<Lobby>> {
-        return rooms
+        val call = service.getRooms()
+        val response = call.body()?.string()
+        val gson = Gson()
+        val Rooms = gson.fromJson(response, Array<LobbyCredentials>::class.java)
+        executor.execute{
+            Rooms.forEach {
+                getLobbyDao.insert(it)
+            }
+        }
     }
+
+    fun getRooms_aux():LiveData<MutableList<Lobby>> { //CAMBIAR
+        return rooms_aux
+    }
+    //fun getRooms():LiveData<MutableList<LobbyCredentials>> {
+        //return rooms
+    //}
 
     fun deleteRoom(id:Long){
         executor.execute{

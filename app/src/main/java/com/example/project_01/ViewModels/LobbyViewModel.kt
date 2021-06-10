@@ -4,10 +4,7 @@ import android.app.Application
 import android.view.View
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import com.example.project_01.Deserializers.CreateRoomCredentials
-import com.example.project_01.Deserializers.DecksCredentials
-import com.example.project_01.Deserializers.LobbyCredentials
-import com.example.project_01.Deserializers.UserCredentials
+import com.example.project_01.Deserializers.*
 import com.example.project_01.MainActivity
 import com.example.project_01.Models.Deck
 import com.example.project_01.Models.Lobby
@@ -25,11 +22,11 @@ class LobbyViewModel(application: Application) : AndroidViewModel(application) {
     lateinit var room_id : String
     lateinit var user_Token : String
 
-    var MyRooms: LiveData<MutableList<Lobby>>
+    var MyRooms_aux: LiveData<MutableList<Lobby>>
 
     init {
         repository = RoomRepository(application)
-        MyRooms = repository.getRooms()
+        MyRooms_aux = repository.getRooms_aux()
         generalRepository = GeneralRepository(application)
         user_Token = generalRepository.userToken
     }
@@ -46,10 +43,9 @@ class LobbyViewModel(application: Application) : AndroidViewModel(application) {
         val response = repository.joinRoom(token, name,password)
         if(response!=""){
             val gson = Gson()
-            val result = gson.fromJson(response, LobbyCredentials::class.java)
-            room_id = result.id
+            val result = gson.fromJson(response, JoinLobbyCredentials::class.java)
+            val members = result.members
         }
-
     }
 
 

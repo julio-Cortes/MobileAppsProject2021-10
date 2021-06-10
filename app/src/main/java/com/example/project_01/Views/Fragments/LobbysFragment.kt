@@ -46,7 +46,7 @@ class LobbysFragment : Fragment(), OnClickListener{
         //Settingup Navigator
         viewModel.setNavigator(activity as MainActivity)
 
-        viewModel.MyRooms.observe(viewLifecycleOwner, Observer {
+        viewModel.MyRooms_aux.observe(viewLifecycleOwner, Observer {
             adapter.set(it)
         })
 
