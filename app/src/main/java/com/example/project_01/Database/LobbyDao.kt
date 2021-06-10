@@ -15,6 +15,4 @@ interface LobbyDao {
 
     @Query("DELETE FROM Lobby where id = :id")
     fun delete(id: Long)
-
-
 }

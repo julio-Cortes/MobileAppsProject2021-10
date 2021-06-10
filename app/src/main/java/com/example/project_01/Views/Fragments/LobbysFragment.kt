@@ -66,6 +66,23 @@ class LobbysFragment : Fragment(), OnClickListener{
             viewModel.LobbyFragmentToCreateLobbyFragment(view)
 
         }
+
+        val button_join = view.findViewById<Button>(R.id.button_join)
+
+        button_join.setOnClickListener {
+            setFragmentResultListener("REQUEST_ROOM_JOIN"){ requestKey: String, bundle: Bundle ->
+                if (requestKey == "REQUEST_ROOM_JOIN") {
+                    val name = bundle.get("name")
+                    val pass = bundle.get("pass")
+                    viewModel.joinLobby(viewModel.user_Token, name as String,pass as String)
+                    adapter.notifyDataSetChanged()
+                }
+            }
+            viewModel.LobbyFragmentToJoinLobbyFragment(view)
+
+        }
+
+
         return view
     }
 

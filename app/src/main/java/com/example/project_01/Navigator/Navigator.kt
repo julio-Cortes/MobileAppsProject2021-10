@@ -27,5 +27,10 @@ class Navigator(val activity: MainActivity) {
         val action = CardsFragmentDirections.actionCardsFragmentToSelectedCard(num as String)
         view?.let { Navigation.findNavController(it).navigate(action) }
     }
+    fun goToJoinLobbyFragment(view:View){
+        val action = LobbysFragmentDirections.actionRoomsFragmentToJoinLobbyFragment()
+        view?.let { Navigation.findNavController(it).navigate(action) }
+    }
+
 
 }

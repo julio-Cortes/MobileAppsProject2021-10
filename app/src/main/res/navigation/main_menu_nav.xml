@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_roomsFragment_to_createRoomFragment"
             app:destination="@id/createRoomFragment" />
+        <action
+            android:id="@+id/action_roomsFragment_to_joinLobbyFragment"
+            app:destination="@id/joinLobbyFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -43,4 +46,9 @@
             app:argType="string"
             android:defaultValue="0" />
     </fragment>
+    <fragment
+        android:id="@+id/joinLobbyFragment"
+        android:name="com.example.project_01.Views.Fragments.JoinLobbyFragment"
+        android:label="fragment_join_lobby"
+        tools:layout="@layout/fragment_join_lobby" />
 </navigation>

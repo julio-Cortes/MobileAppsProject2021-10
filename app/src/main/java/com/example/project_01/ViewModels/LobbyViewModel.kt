@@ -6,6 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import com.example.project_01.Deserializers.CreateRoomCredentials
 import com.example.project_01.Deserializers.DecksCredentials
+import com.example.project_01.Deserializers.LobbyCredentials
 import com.example.project_01.Deserializers.UserCredentials
 import com.example.project_01.MainActivity
 import com.example.project_01.Models.Deck
@@ -41,6 +42,16 @@ class LobbyViewModel(application: Application) : AndroidViewModel(application) {
         }
 
     }
+    fun joinLobby(token : String, name: String, password: String) {
+        val response = repository.joinRoom(token, name,password)
+        if(response!=""){
+            val gson = Gson()
+            val result = gson.fromJson(response, LobbyCredentials::class.java)
+            room_id = result.id
+        }
+
+    }
+
 
     fun deleteLobby(id:Long){
 
@@ -54,6 +65,9 @@ class LobbyViewModel(application: Application) : AndroidViewModel(application) {
 
     fun LobbyFragmentToCreateLobbyFragment(view: View) {
         navigator.goToCreateLobbyFragment(view)
+    }
+    fun LobbyFragmentToJoinLobbyFragment(view: View) {
+        navigator.goToJoinLobbyFragment(view)
     }
 
 

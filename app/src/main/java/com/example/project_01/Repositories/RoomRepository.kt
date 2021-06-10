@@ -54,11 +54,9 @@ class RoomRepository(application: Application) {
             val body = jsonObject.toString().toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
             response = service.createRoom(token, body)
             if (response.code() == 200){
-                Toast.makeText(app.applicationContext,"SALA CREADA", Toast.LENGTH_SHORT).show()
                 return response.body()?.string()
             }
             else{
-                Toast.makeText(app.applicationContext,"SALA NO CREADA", Toast.LENGTH_SHORT).show()
                 return ""
             }
             executor.execute{
@@ -74,8 +72,37 @@ class RoomRepository(application: Application) {
             }
             return ""
         }
+    }
+
+    fun joinRoom(token: String, name:String, password:String) : String? {
+        val cm = app.applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkInfo = cm!!.activeNetworkInfo
+
+        if (networkInfo != null && networkInfo.isConnected) {
+            val jsonObject = JSONObject()
+            jsonObject.put("name", name)
+            jsonObject.put("password", password)
+            val body = jsonObject.toString().toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+            response = service.joinRoom(token, body)
+            if (response.code() == 200){
+                return response.body()?.string()
+            }
+            else{
+                return ""
+            }
+            executor.execute{
+               // lobbyDao.insert(Lobby(0,name, password, deck_deck))
+            }
+
+        } else {
+            executor.execute{
+              //  lobbyDao.insert(Lobby(0,name, password, deck_deck))
+            }
+            return ""
+        }
 
     }
+
     fun getRooms():LiveData<MutableList<Lobby>> {
         return rooms
     }
