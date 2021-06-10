@@ -11,6 +11,7 @@ import com.example.project_01.MainActivity
 import com.example.project_01.Models.Deck
 import com.example.project_01.Models.Lobby
 import com.example.project_01.Navigator.Navigator
+import com.example.project_01.Repositories.GeneralRepository
 import com.example.project_01.Repositories.RoomRepository
 import com.google.gson.Gson
 
@@ -18,14 +19,18 @@ import com.google.gson.Gson
 class LobbyViewModel(application: Application) : AndroidViewModel(application) {
     val app = application
     private val repository : RoomRepository
+    private val generalRepository : GeneralRepository
     lateinit var navigator: Navigator
     lateinit var room_id : String
+    lateinit var user_Token : String
 
     var MyRooms: LiveData<MutableList<Lobby>>
 
     init {
         repository = RoomRepository(application)
         MyRooms = repository.getRooms()
+        generalRepository = GeneralRepository(application)
+        user_Token = generalRepository.userToken
     }
     fun createLobby(token : String, name: String, password: String, deck: DecksCredentials) {
         val response = repository.createRoom(token, name,password, deck)

@@ -19,6 +19,7 @@ class UsersViewModel(application: Application):  AndroidViewModel(application) {
     lateinit var userToken:String
     lateinit var userId:String
     val app = application
+    val sharedPreferences = app?.getSharedPreferences("user_Token", Context.MODE_PRIVATE)
 
     init {
         userRepository = UserRepository(application)
@@ -39,6 +40,9 @@ class UsersViewModel(application: Application):  AndroidViewModel(application) {
 
                 userToken = result.token
                 userId = result.user_id
+                sharedPreferences?.edit()?.apply{
+                    putString("user_Token",userToken)
+                }?.apply()
             }
             else{
                 Toast.makeText(app.applicationContext,"Creacion de usuario fallida", Toast.LENGTH_LONG).show()
@@ -60,6 +64,9 @@ class UsersViewModel(application: Application):  AndroidViewModel(application) {
                 val result = gson.fromJson(reponse, UserCredentials::class.java)
                 userToken = result.token
                 userId = result.user_id
+                sharedPreferences?.edit()?.apply{
+                    putString("user_Token",userToken)
+                }?.apply()
             }
             else{
                 Toast.makeText(app.applicationContext,"Inicio de sesion fallida", Toast.LENGTH_LONG).show()

@@ -27,8 +27,6 @@ class LobbysFragment : Fragment(), OnClickListener{
     lateinit var recyclerView: RecyclerView
     lateinit var adapter: LobbyAdapter
     private val viewModel: LobbyViewModel by activityViewModels()
-    //val generalRepository = GeneralRepository(viewModel.app)
-    private val userViewModel: UsersViewModel by activityViewModels()
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -61,7 +59,7 @@ class LobbysFragment : Fragment(), OnClickListener{
                     val pass = bundle.get("pass")
                     val deck_name = bundle.get("name_deck").toString()
                     val cards_deck = bundle.get("cards_deck") as List<String>
-                    viewModel.createLobby(userViewModel.userToken, name as String,pass as String, DecksCredentials(deck_name,cards_deck))
+                    viewModel.createLobby(viewModel.user_Token, name as String,pass as String, DecksCredentials(deck_name,cards_deck))
                     adapter.notifyDataSetChanged()
                 }
             }
