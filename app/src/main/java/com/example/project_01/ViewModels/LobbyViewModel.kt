@@ -14,18 +14,17 @@ import com.example.project_01.Repositories.RoomRepository
 import com.google.gson.Gson
 
 
-class LobbyViewModel(application: Application) : AndroidViewModel(application) {
+class LobbyViewModel(application: Application, roomRepository: RoomRepository, navigator: Navigator) : AndroidViewModel(application) {
     val app = application
-    private val repository : RoomRepository
+    private val repository = roomRepository
     private val generalRepository : GeneralRepository
-    lateinit var navigator: Navigator
+    val navigator =navigator
     lateinit var room_id : String
     lateinit var user_Token : String
 
     var MyRooms_aux: LiveData<MutableList<Lobby>>
 
     init {
-        repository = RoomRepository(application)
         MyRooms_aux = repository.getRooms_aux()
         generalRepository = GeneralRepository(application)
         user_Token = generalRepository.userToken
@@ -53,10 +52,6 @@ class LobbyViewModel(application: Application) : AndroidViewModel(application) {
 
         repository.deleteRoom(id)
 
-    }
-
-    fun setNavigator(activity: MainActivity){
-        navigator = Navigator(activity)
     }
 
     fun LobbyFragmentToCreateLobbyFragment(view: View) {

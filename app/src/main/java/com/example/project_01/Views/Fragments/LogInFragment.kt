@@ -13,9 +13,10 @@ import com.example.project_01.MainActivity
 import com.example.project_01.R
 import com.example.project_01.ViewModels.UsersViewModel
 import com.google.android.material.textfield.TextInputEditText
+import org.koin.android.ext.android.inject
 
 class LogInFragment : Fragment() {
-    private val viewModel: UsersViewModel by activityViewModels()
+    private val viewModel: UsersViewModel by inject()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_log_in,container, false)
@@ -33,8 +34,6 @@ class LogInFragment : Fragment() {
                 }
             }
             )
-
-        viewModel.userRepository.setNavigator(activity as MainActivity)
 
         logInButton.setOnClickListener{
             viewModel.LogIn(emailInput.text.toString(),passwordInput.text.toString(),view,context)

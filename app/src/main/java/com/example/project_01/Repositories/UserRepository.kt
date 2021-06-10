@@ -12,11 +12,11 @@ import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Response
 
-class UserRepository(application: Application) {
+class UserRepository(application: Application, navigator: Navigator) {
     val app = application
     lateinit var response: Response<ResponseBody>
     private val service: UserRemoteRepository
-    lateinit var navigator: Navigator
+    val navigator= navigator
 
     init{
         service = ServiceBuilder.getRetrofit().create(UserRemoteRepository::class.java)
@@ -55,7 +55,5 @@ class UserRepository(application: Application) {
     fun LogInFramentToSignUpFragment(view: View){
         navigator.goToSignUpFragment(view)
     }
-    fun setNavigator(activity: MainActivity){
-        navigator = Navigator(activity)
-    }
+
 }

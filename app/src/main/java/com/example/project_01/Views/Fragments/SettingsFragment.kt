@@ -12,10 +12,11 @@ import androidx.fragment.app.activityViewModels
 import com.example.project_01.MainActivity
 import com.example.project_01.R
 import com.example.project_01.ViewModels.CardsViewModel
+import org.koin.android.ext.android.inject
 
 
 class SettingsFragment : Fragment() {
-    private val viewModel: CardsViewModel by activityViewModels()
+    private val viewModel: CardsViewModel by inject()
 
 
     override fun onCreateView(
@@ -26,7 +27,6 @@ class SettingsFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_settings, container, false)
         val deckSelector = view.findViewById<Spinner>(R.id.spinner)
 
-        viewModel.setNavigator(activity as MainActivity)
 
         viewModel.deckSelector = deckSelector
         val adapter = ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_dropdown_item, viewModel.Decks)

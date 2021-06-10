@@ -16,10 +16,10 @@ import com.example.project_01.Repositories.DeckRepository
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 
-class CardsViewModel(application: Application):  AndroidViewModel(application){
+class CardsViewModel(application: Application, deckRepository: DeckRepository, navigator: Navigator):  AndroidViewModel(application){
     val app = application
-    lateinit var navigator: Navigator
-    val deckRepository = DeckRepository(application)
+    val navigator = navigator
+    val deckRepository = deckRepository
 
     fun changeDeck(position: Int) {
 
@@ -55,9 +55,6 @@ class CardsViewModel(application: Application):  AndroidViewModel(application){
         //    Deck("Hours", mutableListOf("0","1","2","3","4","6","8","12","16","24","32"))
     //)
 
-    fun setNavigator(activity: MainActivity){
-        navigator = Navigator(activity)
-    }
 
     fun CardFragmentToSelectedCard(view: View, num:String){
         navigator.goToCardFragmentToSelectedCard(view, num)

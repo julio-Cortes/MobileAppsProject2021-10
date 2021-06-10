@@ -11,10 +11,11 @@ import com.example.project_01.R
 import com.example.project_01.ViewModels.CardsViewModel
 import com.example.project_01.ViewModels.UsersViewModel
 import com.google.android.material.textfield.TextInputEditText
+import org.koin.android.ext.android.inject
 
 class SignUpFragment : Fragment() {
 
-    private val viewModel: UsersViewModel by activityViewModels()
+    private val viewModel: UsersViewModel by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

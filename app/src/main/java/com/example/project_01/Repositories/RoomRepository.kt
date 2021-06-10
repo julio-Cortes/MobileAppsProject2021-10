@@ -27,20 +27,20 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 
-class RoomRepository(application: Application) {
+class RoomRepository(application: Application, room:Database, lobbyDao:LobbyDao, getlobbyDao:GetLobbyDao) {
     val app = application
     private var rooms_aux :LiveData<MutableList<Lobby>>
     //private var rooms : LiveData<MutableList<LobbyCredentials>>
     private val database: Database
-    private val lobbyDao: LobbyDao
-    private val getLobbyDao : GetLobbyDao
+    private val lobbyDao = lobbyDao
+    private val getLobbyDao =getlobbyDao
     private val service: LobbyRemoteRepository
     lateinit var response: Response<ResponseBody>
+
     private val executor: ExecutorService = Executors.newSingleThreadExecutor()
+
     init {
-        database = Room.databaseBuilder(application, Database::class.java, "planning_poker-db").fallbackToDestructiveMigration().build()
-        lobbyDao = database.RoomDao()
-        getLobbyDao = database.GetLobbyDao()
+        database = room
         rooms_aux = lobbyDao.getAll()
         //getLobbyCredentials()
         //rooms = getLobbyDao.getAll()

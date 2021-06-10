@@ -20,13 +20,14 @@ import com.example.project_01.Repositories.UserRepository
 import com.example.project_01.ViewModels.LobbyViewModel
 import com.example.project_01.ViewModels.UsersViewModel
 import com.example.project_01.Views.Adapters.LobbyAdapter
+import org.koin.android.ext.android.inject
 
 class LobbysFragment : Fragment(), OnClickListener{
 
 
     lateinit var recyclerView: RecyclerView
     lateinit var adapter: LobbyAdapter
-    private val viewModel: LobbyViewModel by activityViewModels()
+    private val viewModel: LobbyViewModel by inject()
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -43,8 +44,6 @@ class LobbysFragment : Fragment(), OnClickListener{
         //Use to delete swiping right
         ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView)
 
-        //Settingup Navigator
-        viewModel.setNavigator(activity as MainActivity)
 
         viewModel.MyRooms_aux.observe(viewLifecycleOwner, Observer {
             adapter.set(it)

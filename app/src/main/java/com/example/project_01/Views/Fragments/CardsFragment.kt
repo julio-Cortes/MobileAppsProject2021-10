@@ -15,12 +15,13 @@ import com.example.project_01.MainActivity
 import com.example.project_01.R
 import com.example.project_01.ViewModels.CardsViewModel
 import com.example.project_01.Views.Adapters.CardAdapter
+import org.koin.android.ext.android.inject
 
 
 class CardsFragment : Fragment(), OnClickListener {
     lateinit var recyclerView:RecyclerView
     lateinit var adapter: CardAdapter
-    private val viewModel:CardsViewModel by activityViewModels()
+    private val viewModel:CardsViewModel by inject()
 
 
     override fun onCreateView(
@@ -28,8 +29,6 @@ class CardsFragment : Fragment(), OnClickListener {
             savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_cards, container, false)
-
-        viewModel.setNavigator(activity as MainActivity)
 
 
         recyclerView = view.findViewById<RecyclerView>(R.id.card_recycler_view)

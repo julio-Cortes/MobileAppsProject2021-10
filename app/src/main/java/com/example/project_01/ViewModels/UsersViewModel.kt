@@ -14,16 +14,15 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 
-class UsersViewModel(application: Application):  AndroidViewModel(application) {
-    val userRepository: UserRepository
+class UsersViewModel(application: Application, userRepository: UserRepository):  AndroidViewModel(application) {
+
+    val userRepository = userRepository
+    val app = application
     lateinit var userToken:String
     lateinit var userId:String
-    val app = application
+
     val sharedPreferences = app?.getSharedPreferences("user_Token", Context.MODE_PRIVATE)
 
-    init {
-        userRepository = UserRepository(application)
-    }
 
     fun SignUp(username:String, name:String, password:String, view:View, context: Context?){
         viewModelScope.launch {

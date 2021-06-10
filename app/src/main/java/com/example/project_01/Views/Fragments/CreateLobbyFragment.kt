@@ -13,13 +13,14 @@ import androidx.fragment.app.setFragmentResult
 import com.example.project_01.Models.Lobby
 import com.example.project_01.R
 import com.example.project_01.ViewModels.CardsViewModel
+import org.koin.android.ext.android.inject
 
 class CreateLobbyFragment : Fragment() {
 
     lateinit var nombreInput: EditText
     lateinit var passwordInput: EditText
     lateinit var deckInput : Spinner
-    private val viewModel: CardsViewModel by activityViewModels()
+    private val viewModel: CardsViewModel by inject()
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
