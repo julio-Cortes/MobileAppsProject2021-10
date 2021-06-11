@@ -9,7 +9,7 @@ import com.example.project_01.Deserializers.DecksCredentials
 import com.example.project_01.Models.Deck
 
 /*
-Guardar mazos -> string
+Guardar datos
  */
 @Dao
 interface DeckDao {
@@ -18,4 +18,7 @@ interface DeckDao {
 
     @Query("SELECT * from Deck")
     fun getAll(): List<Deck>
+
+    @Query("SELECT * from Deck")
+    fun getLiveAll(): LiveData<MutableList<Deck>>
 }

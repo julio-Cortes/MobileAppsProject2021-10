@@ -9,6 +9,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import com.example.project_01.MainActivity
 import com.example.project_01.R
 import com.example.project_01.ViewModels.CardsViewModel
@@ -28,19 +29,15 @@ class SettingsFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_settings, container, false)
         val deckSelector = view.findViewById<Spinner>(R.id.spinner)
 
-
+        viewModel.Decks.observe(viewLifecycleOwner, Observer {
+            viewModel.list_of_decks = it
+        })
         viewModel.deckSelector = deckSelector
-        val adapter = ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_dropdown_item, viewModel.Decks)
+        val adapter = ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_dropdown_item, viewModel.list_of_decks)
         deckSelector.adapter = adapter
 
-        try {
-            val pos = viewModel.Decks.indexOf(viewModel.currentDeck)
-            deckSelector.setSelection(pos)
-        }
-        catch (exception:Exception){
-
-        }
-
+        val pos = viewModel.list_of_decks.indexOf(viewModel.currentDeck.value)
+        deckSelector.setSelection(pos)
 
 
 

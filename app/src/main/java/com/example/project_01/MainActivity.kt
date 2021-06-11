@@ -14,8 +14,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-        val viewModel:CardsViewModel by inject()
-        viewModel.load()
 
         setContentView(R.layout.activity_main)
         val navHostFragment =

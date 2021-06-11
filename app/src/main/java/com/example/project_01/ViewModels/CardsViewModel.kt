@@ -6,6 +6,9 @@ import android.net.ConnectivityManager
 import android.view.View
 import android.widget.Spinner
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
 import com.example.project_01.Deserializers.DecksCredentials
 import com.example.project_01.Models.Deck
@@ -25,12 +28,14 @@ class CardsViewModel(application: Application, deckRepository: DeckRepository, n
             putInt("deck",position)
         }?.apply()
 
-        this.currentDeck = Decks[position]
+        //this.currentDeck.postValue(Decks[position])
 
     }
     lateinit var deckSelector: Spinner
-    lateinit var currentDeck:DecksCredentials
-    var Decks = listOf<DecksCredentials>()
+    lateinit var currentDeck: MutableLiveData<DecksCredentials>
+    lateinit var Decks: MutableLiveData<MutableList<DecksCredentials>>
+    lateinit var list_of_decks: MutableList<DecksCredentials>
+
 
 
     init{
@@ -39,19 +44,15 @@ class CardsViewModel(application: Application, deckRepository: DeckRepository, n
         val networkInfo = cm!!.activeNetworkInfo
         if (networkInfo != null && networkInfo.isConnected) {
             viewModelScope.launch {
-                Decks = deckRepository.GetDecksFromApi()!!.toList()
+                Decks.postValue(deckRepository.GetDecksFromApi()!!.toMutableList())
+                currentDeck.postValue(list_of_decks[sharedPreferences.getInt("deck", 0)])
             }
         }
         else{
             viewModelScope.launch {
-                Decks = deckRepository.GetDecksFromDatabase()//NECESITAMOS QUE LA BASE ESTE LLENA ANTES DE PODER DESCOMENTAR LO SIGUIENTE
-
-
+                //Decks = deckRepository.GetDecksFromDatabase()//NECESITAMOS QUE LA BASE ESTE LLENA ANTES DE PODER DESCOMENTAR LO SIGUIENTE
+                //currentDeck.postValue(Decks[sharedPreferences.getInt("deck", 0)])
             }
-        }
-
-        if (Decks.size>0){
-            currentDeck = Decks[sharedPreferences.getInt("deck", 0)] //NO PODEMOS USARLO YA QUE NO SE ALCANZA A LLENAR LA BASE ANTES DE QUE SE PONGA A LEERLA
         }
     }
     fun load(){

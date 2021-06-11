@@ -33,6 +33,7 @@ class CreateLobbyFragment : Fragment() {
         deckInput = view.findViewById(R.id.spinner_create)
 
         viewModel.deckSelector = deckInput
+        /*
         val adapter = ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_dropdown_item, viewModel.Decks)
         deckInput.adapter = adapter
         val pos = viewModel.Decks.indexOf(viewModel.currentDeck)
@@ -56,7 +57,7 @@ class CreateLobbyFragment : Fragment() {
             )
             setFragmentResult("REQUEST_ROOM", bundle)
             activity?.onBackPressed()
-        }
+        }*/
         Toast.makeText(context,"To delete swipe right", Toast.LENGTH_SHORT).show()
 
         return view

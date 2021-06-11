@@ -6,6 +6,7 @@ import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
@@ -17,6 +18,7 @@ import com.example.project_01.ViewModels.CardsViewModel
 import com.example.project_01.Views.Adapters.CardAdapter
 import org.koin.android.ext.android.inject
 import java.lang.Exception
+import java.util.*
 
 
 class CardsFragment : Fragment(), OnClickListener {
@@ -54,15 +56,12 @@ class CardsFragment : Fragment(), OnClickListener {
 
             }
         }
-
+        viewModel.currentDeck.observe(viewLifecycleOwner, androidx.lifecycle.Observer{
+                adapter.update(it.cards)
+        })
 
         recyclerView.layoutManager = layoutManager
-        try {
-            adapter.update(viewModel.currentDeck.cards)
-        }
-        catch (exception: Exception) {
 
-        }
         return view
     }
 
