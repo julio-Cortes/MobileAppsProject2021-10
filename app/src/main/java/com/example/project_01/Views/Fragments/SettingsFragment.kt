@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import com.example.project_01.Deserializers.DecksCredentials
 import com.example.project_01.MainActivity
 import com.example.project_01.R
 import com.example.project_01.ViewModels.CardsViewModel
@@ -26,18 +27,22 @@ class SettingsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        var deck:DecksCredentials
         val view = inflater.inflate(R.layout.fragment_settings, container, false)
         val deckSelector = view.findViewById<Spinner>(R.id.spinner)
 
         viewModel.Decks.observe(viewLifecycleOwner, Observer {
-            viewModel.list_of_decks = it
+            viewModel.deckRepository.deck_credentials = it
         })
         viewModel.deckSelector = deckSelector
-        val adapter = ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_dropdown_item, viewModel.list_of_decks)
+        val adapter = ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_dropdown_item, viewModel.deckRepository.deck_credentials)
         deckSelector.adapter = adapter
+        viewModel.currentDeck.observe(viewLifecycleOwner, Observer {
+            deck = it
+            val pos = viewModel.deckRepository.deck_credentials.indexOf(deck)
+            deckSelector.setSelection(pos)
+        })
 
-        val pos = viewModel.list_of_decks.indexOf(viewModel.currentDeck.value)
-        deckSelector.setSelection(pos)
 
 
 

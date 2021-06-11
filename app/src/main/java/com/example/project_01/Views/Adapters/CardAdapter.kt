@@ -36,6 +36,7 @@ class CardAdapter(override val onClickListener:OnClickListener): RecyclerView.Ad
     }
     fun update(deck: List<String>){
         data = deck
+        notifyDataSetChanged()
     }
 
 }

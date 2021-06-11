@@ -37,7 +37,15 @@ class CardsFragment : Fragment(), OnClickListener {
         recyclerView = view.findViewById<RecyclerView>(R.id.card_recycler_view)
         adapter = CardAdapter(this)
         recyclerView.adapter = adapter
+        viewModel.currentDeck.observe(viewLifecycleOwner, androidx.lifecycle.Observer{
+            adapter.update(it.cards)
+        })
+
         val layoutManager = GridLayoutManager(context, 6)
+
+        viewModel.Decks.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            viewModel.deckRepository.deck_credentials = it
+        })
 
         layoutManager.spanSizeLookup = object : SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
@@ -56,9 +64,7 @@ class CardsFragment : Fragment(), OnClickListener {
 
             }
         }
-        viewModel.currentDeck.observe(viewLifecycleOwner, androidx.lifecycle.Observer{
-                adapter.update(it.cards)
-        })
+
 
         recyclerView.layoutManager = layoutManager
 

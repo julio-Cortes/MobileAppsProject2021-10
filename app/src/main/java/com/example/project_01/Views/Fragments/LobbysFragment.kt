@@ -57,7 +57,7 @@ class LobbysFragment : Fragment(), OnClickListener{
                     val name = bundle.get("name")
                     val pass = bundle.get("pass")
                     val deck_name = bundle.get("name_deck").toString()
-                    val cards_deck = bundle.get("cards_deck") as List<String>
+                    val cards_deck = bundle.get("cards_deck") as MutableList<String>
                     viewModel.createLobby(viewModel.user_Token, name as String,pass as String, DecksCredentials(deck_name,cards_deck))
                     adapter.notifyDataSetChanged()
                 }

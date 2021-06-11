@@ -28,14 +28,13 @@ class CardsViewModel(application: Application, deckRepository: DeckRepository, n
             putInt("deck",position)
         }?.apply()
 
-        //this.currentDeck.postValue(Decks[position])
+        this.currentDeck.postValue(deckRepository.deck_credentials[position])
 
     }
     lateinit var deckSelector: Spinner
-    lateinit var currentDeck: MutableLiveData<DecksCredentials>
-    lateinit var Decks: MutableLiveData<MutableList<DecksCredentials>>
-    lateinit var list_of_decks: MutableList<DecksCredentials>
-
+    var currentDeck: MutableLiveData<DecksCredentials> = MutableLiveData()
+    var Decks: MutableLiveData<MutableList<DecksCredentials>> = MutableLiveData()
+    var flag = false
 
 
     init{
@@ -45,7 +44,8 @@ class CardsViewModel(application: Application, deckRepository: DeckRepository, n
         if (networkInfo != null && networkInfo.isConnected) {
             viewModelScope.launch {
                 Decks.postValue(deckRepository.GetDecksFromApi()!!.toMutableList())
-                currentDeck.postValue(list_of_decks[sharedPreferences.getInt("deck", 0)])
+
+
             }
         }
         else{
@@ -53,6 +53,11 @@ class CardsViewModel(application: Application, deckRepository: DeckRepository, n
                 //Decks = deckRepository.GetDecksFromDatabase()//NECESITAMOS QUE LA BASE ESTE LLENA ANTES DE PODER DESCOMENTAR LO SIGUIENTE
                 //currentDeck.postValue(Decks[sharedPreferences.getInt("deck", 0)])
             }
+        }
+
+        if (deckRepository.deck_credentials.size>0){
+            val pos = sharedPreferences.getInt("deck", 0)
+            currentDeck.postValue(deckRepository.deck_credentials[pos])
         }
     }
     fun load(){

@@ -13,7 +13,7 @@ Guardar datos
  */
 @Dao
 interface DeckDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(deck: Deck)
 
     @Query("SELECT * from Deck")
