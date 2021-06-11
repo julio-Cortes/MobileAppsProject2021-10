@@ -12,5 +12,5 @@ import com.example.project_01.Models.User
 abstract class Database: RoomDatabase() {
     abstract fun RoomDao(): LobbyDao
     abstract fun DeckDao() : DeckDao
-    abstract fun GetLobbyDao() : GetLobbyDao
+    abstract fun GetLobbyDao() : JoinedRoomDao
 }

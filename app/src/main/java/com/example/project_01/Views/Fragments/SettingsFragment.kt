@@ -13,6 +13,7 @@ import com.example.project_01.MainActivity
 import com.example.project_01.R
 import com.example.project_01.ViewModels.CardsViewModel
 import org.koin.android.ext.android.inject
+import java.lang.Exception
 
 
 class SettingsFragment : Fragment() {
@@ -31,8 +32,19 @@ class SettingsFragment : Fragment() {
         viewModel.deckSelector = deckSelector
         val adapter = ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_dropdown_item, viewModel.Decks)
         deckSelector.adapter = adapter
-        val pos = viewModel.Decks.indexOf(viewModel.currentDeck)
-        deckSelector.setSelection(pos)
+
+        try {
+            val pos = viewModel.Decks.indexOf(viewModel.currentDeck)
+            deckSelector.setSelection(pos)
+        }
+        catch (exception:Exception){
+
+        }
+
+
+
+
+
         deckSelector.onItemSelectedListener = object :
 
             AdapterView.OnItemSelectedListener{

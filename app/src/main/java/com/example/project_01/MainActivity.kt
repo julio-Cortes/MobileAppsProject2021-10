@@ -6,17 +6,18 @@ import android.os.Handler
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
+import com.example.project_01.ViewModels.CardsViewModel
+import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-
+        val viewModel:CardsViewModel by inject()
+        viewModel.load()
 
         setContentView(R.layout.activity_main)
-
-
         val navHostFragment =
             (supportFragmentManager.findFragmentById(R.id.main_nav_host) as NavHostFragment)
         val inflater = navHostFragment.navController.navInflater

@@ -16,6 +16,7 @@ import com.example.project_01.R
 import com.example.project_01.ViewModels.CardsViewModel
 import com.example.project_01.Views.Adapters.CardAdapter
 import org.koin.android.ext.android.inject
+import java.lang.Exception
 
 
 class CardsFragment : Fragment(), OnClickListener {
@@ -56,8 +57,12 @@ class CardsFragment : Fragment(), OnClickListener {
 
 
         recyclerView.layoutManager = layoutManager
-        adapter.update(viewModel.currentDeck.cards)
+        try {
+            adapter.update(viewModel.currentDeck.cards)
+        }
+        catch (exception: Exception) {
 
+        }
         return view
     }
 

@@ -22,27 +22,25 @@ import retrofit2.Response
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-class DeckRepository(application: Application) {
+class DeckRepository(application: Application, database: Database ) {
     val app = application
     private val service: DecksRemoteRepository
-    private val database: Database
+    private val database = database
     lateinit var decks : List<Deck>
     private val executor: ExecutorService = Executors.newSingleThreadExecutor()
     private val deckDao: DeckDao
 
     init{
         service = ServiceBuilder.getRetrofit().create(DecksRemoteRepository::class.java)
-        database = Room.databaseBuilder(application, Database::class.java, "planning_poker-db").fallbackToDestructiveMigration().build()
         deckDao = database.DeckDao()
-        executor.execute {
+        executor.execute{
             decks = deckDao.getAll()
         }
 
-    }
-    suspend fun getDecks(): Array<DecksCredentials> {
-        val jsonObject = JSONObject()
-        val body = jsonObject.toString().toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
 
+
+    }
+    suspend fun GetDecksFromApi(): Array<DecksCredentials> {
         val call = service.getDecks()
         val response = call.body()?.string()
         val gson = Gson()
@@ -55,7 +53,7 @@ class DeckRepository(application: Application) {
         }
         return Decks
     }
-    fun getDecksBase():ArrayList<DecksCredentials> {
+    fun GetDecksFromDatabase():ArrayList<DecksCredentials> {
         val valores = mutableListOf<String>()
         val deckk = mutableListOf<DecksCredentials>()
         decks.forEach {

@@ -5,6 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.room.*
 import com.example.project_01.Models.Lobby
 
+/*
+Salas creadas por nosotros
+ */
 @Dao
 interface LobbyDao {
     @Query("SELECT * from Lobby")

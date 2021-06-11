@@ -8,10 +8,12 @@ import androidx.room.Query
 import com.example.project_01.Deserializers.DecksCredentials
 import com.example.project_01.Models.Deck
 
-
+/*
+Guardar mazos -> string
+ */
 @Dao
 interface DeckDao {
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(deck: Deck)
 
     @Query("SELECT * from Deck")

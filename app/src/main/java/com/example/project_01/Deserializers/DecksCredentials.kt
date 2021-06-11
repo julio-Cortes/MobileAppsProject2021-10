@@ -4,4 +4,7 @@ data class DecksCredentials(
     val name : String,
     val cards : List<String>
 ) {
+    override fun toString(): String {
+        return this.name
+    }
 }

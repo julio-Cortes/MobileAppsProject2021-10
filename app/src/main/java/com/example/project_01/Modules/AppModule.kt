@@ -24,7 +24,7 @@ val appModule = module {
     single{ get<Database>().GetLobbyDao() }
     single{ get<Database>().DeckDao() }
     single { Navigator(get()) }
-    single { DeckRepository(get()) }
+    single { DeckRepository(get(),get()) }
     single { GeneralRepository(get()) }
     single { RoomRepository(get(),get(),get(),get()) }
     single { UserRepository(get(),get()) }

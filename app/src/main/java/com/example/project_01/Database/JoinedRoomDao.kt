@@ -8,8 +8,12 @@ import androidx.room.Query
 import com.example.project_01.Deserializers.LobbyCredentials
 import com.example.project_01.Models.Lobby
 
+
+/*
+Salas a las cuales el usuario esta conectado
+ */
 @Dao
-interface GetLobbyDao {
+interface JoinedRoomDao {
     @Query("SELECT * from LobbyCredentials")
     fun getAll(): LiveData<MutableList<LobbyCredentials>>
 

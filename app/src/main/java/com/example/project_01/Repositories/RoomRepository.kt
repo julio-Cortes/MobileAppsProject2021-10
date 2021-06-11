@@ -4,12 +4,10 @@ import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
 import android.widget.Toast
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.LiveData
-import androidx.room.Room
 import com.example.miniproject03.Retrofit.ServiceBuilder
 import com.example.project_01.Database.Database
-import com.example.project_01.Database.GetLobbyDao
+import com.example.project_01.Database.JoinedRoomDao
 import com.example.project_01.Database.LobbyDao
 import com.example.project_01.Deserializers.DecksCredentials
 import com.example.project_01.Deserializers.LobbyCredentials
@@ -27,7 +25,7 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 
-class RoomRepository(application: Application, room:Database, lobbyDao:LobbyDao, getlobbyDao:GetLobbyDao) {
+class RoomRepository(application: Application, room:Database, lobbyDao:LobbyDao, getlobbyDao:JoinedRoomDao) {
     val app = application
     private var rooms_aux :LiveData<MutableList<Lobby>>
     //private var rooms : LiveData<MutableList<LobbyCredentials>>
