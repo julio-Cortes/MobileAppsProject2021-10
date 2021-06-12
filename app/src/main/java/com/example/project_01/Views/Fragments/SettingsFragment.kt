@@ -14,6 +14,7 @@ import com.example.project_01.Deserializers.DecksCredentials
 import com.example.project_01.MainActivity
 import com.example.project_01.R
 import com.example.project_01.ViewModels.CardsViewModel
+import okhttp3.internal.notify
 import org.koin.android.ext.android.inject
 import java.lang.Exception
 
@@ -31,11 +32,13 @@ class SettingsFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_settings, container, false)
         val deckSelector = view.findViewById<Spinner>(R.id.spinner)
 
-        viewModel.Decks.observe(viewLifecycleOwner, Observer {
-            viewModel.deckRepository.deck_credentials = it
-        })
         viewModel.deckSelector = deckSelector
         val adapter = ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_dropdown_item, viewModel.deckRepository.deck_credentials)
+        
+        viewModel.Decks.observe(viewLifecycleOwner, Observer {
+            viewModel.deckRepository.deck_credentials = it
+            adapter.notifyDataSetChanged()
+        })
         deckSelector.adapter = adapter
         viewModel.currentDeck.observe(viewLifecycleOwner, Observer {
             deck = it
@@ -44,11 +47,10 @@ class SettingsFragment : Fragment() {
         })
 
         deckSelector.onItemSelectedListener = object :
-
             AdapterView.OnItemSelectedListener{
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-
                 viewModel.changeDeck(position)
+
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {

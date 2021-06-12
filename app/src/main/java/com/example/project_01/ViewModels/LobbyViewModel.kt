@@ -44,24 +44,33 @@ class LobbyViewModel(application: Application, roomRepository: RoomRepository, n
             }
         }
     }
-    fun createLobby(token : String, name: String, password: String, deck: DecksCredentials) {
-        val response = repository.createRoom(token, name,password, deck)
-        if(response!=""){
-            val gson = Gson()
-            val result = gson.fromJson(response, CreateRoomCredentials::class.java)
-            room_id = result.room_id
+    fun createLobby(name: String, password: String, deck: DecksCredentials) {
+        viewModelScope.launch {
+            val response = repository.createRoom(user_Token, name,password, deck)
+            if(response!=""){
+                val gson = Gson()
+                val result = gson.fromJson(response, CreateRoomCredentials::class.java)
+                room_id = result.room_id
+            }
         }
+
     }
-    fun joinLobby(token : String, name: String, password: String) {
-        val response = repository.joinRoom(token, name,password)
-        if(response!=""){
-            val gson = Gson()
-            val result = gson.fromJson(response, JoinLobbyCredentials::class.java)
-            val members = result.members
+    fun joinLobby(name: String, password: String) {
+        viewModelScope.launch {
+            val response = repository.joinRoom(user_Token, name,password)
+            if(response!=""){
+                val gson = Gson()
+                val result = gson.fromJson(response, JoinLobbyCredentials::class.java)
+                val members = result.members
+            }
         }
+
     }
-    fun deleteLobby(id:String){
-        repository.deleteRoom(id)
+    fun deleteLobby(id:String, name: String){
+        viewModelScope.launch {
+            repository.deleteRoom(user_Token, id, name)
+        }
+
     }
     fun LobbyFragmentToCreateLobbyFragment(view: View) {
         navigator.goToCreateLobbyFragment(view)

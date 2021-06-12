@@ -17,4 +17,7 @@ interface LobbyRemoteRepository {
 
     @GET("rooms")
     fun getRooms(@Header("token") token: String): Call<LobbyListCredentials>
+
+    @DELETE("room")
+    fun deleteRoom(@Header("token") token : String, @Body requestBody: RequestBody) : Response<ResponseBody>
 }

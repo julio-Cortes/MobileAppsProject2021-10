@@ -22,7 +22,6 @@ class CardsViewModel(application: Application, deckRepository: DeckRepository, n
     val deckRepository = deckRepository
 
     fun changeDeck(position: Int) {
-
         val sharedPreferences = app?.getSharedPreferences("current_deck", Context.MODE_PRIVATE)
         sharedPreferences?.edit()?.apply{
             putInt("deck",position)
@@ -39,11 +38,11 @@ class CardsViewModel(application: Application, deckRepository: DeckRepository, n
         val cm = app.applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val sharedPreferences = app?.getSharedPreferences("current_deck", Context.MODE_PRIVATE)
         val networkInfo = cm!!.activeNetworkInfo
+
         if (networkInfo != null && networkInfo.isConnected) {
             viewModelScope.launch {
+                //Decks.postValue(deckRepository.GetDecksFromDatabase()!!.toMutableList())
                 Decks.postValue(deckRepository.GetDecksFromApi()!!.toMutableList())
-
-
             }
         }
         else{

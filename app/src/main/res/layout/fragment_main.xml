@@ -24,7 +24,7 @@
             android:layout_height="0dp"
             android:layout_weight="90"
             app:defaultNavHost="true"
-            app:navGraph="@navigation/main_menu_nav"  />
+            app:navGraph="@navigation/main_menu_nav" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/swap_fragment_button"

@@ -121,9 +121,24 @@ class RoomRepository(application: Application, room:Database, lobbyDao:LobbyDao,
         return rooms
     }
 
-    fun deleteRoom(id:String){
-        executor.execute{
-            lobbyDao.delete(id)
+    fun deleteRoom(token: String, id:String, name: String){
+        val cm = app.applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkInfo = cm!!.activeNetworkInfo
+        if (networkInfo != null && networkInfo.isConnected) {
+            val jsonObject = JSONObject()
+            jsonObject.put("roomId", id)
+            jsonObject.put("name", name)
+            val body = jsonObject.toString()
+                .toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+            response = service.deleteRoom(token, body)
+            executor.execute {
+                lobbyDao.delete(id)
+            }
+        }
+        else{
+            executor.execute {
+                lobbyDao.delete(id)
+            }
         }
     }
 }

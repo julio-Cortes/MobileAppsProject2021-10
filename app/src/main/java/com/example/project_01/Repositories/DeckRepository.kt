@@ -37,9 +37,6 @@ class DeckRepository(application: Application, database: Database ) {
         executor.execute{
             decks = deckDao.getAll()
         }
-
-
-
     }
     suspend fun GetDecksFromApi(): Array<DecksCredentials> {
         val call = service.getDecks()

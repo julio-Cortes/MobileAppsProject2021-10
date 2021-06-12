@@ -38,6 +38,7 @@ class CreateLobbyFragment : Fragment() {
         var deck = DecksCredentials("", mutableListOf())
         val adapter = ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_dropdown_item, viewModel.deckRepository.deck_credentials)
         deckInput.adapter = adapter
+        adapter.notifyDataSetChanged()
 
         deckInput.onItemSelectedListener = object :
             AdapterView.OnItemSelectedListener{

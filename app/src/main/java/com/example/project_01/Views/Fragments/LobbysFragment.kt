@@ -58,7 +58,7 @@ class LobbysFragment : Fragment(), OnClickListener{
                     val pass = bundle.get("pass")
                     val deck_name = bundle.get("name_deck").toString()
                     val cards_deck = bundle.get("cards_deck") as MutableList<String>
-                    viewModel.createLobby(viewModel.user_Token, name as String,pass as String, DecksCredentials(deck_name,cards_deck))
+                    viewModel.createLobby(name as String,pass as String, DecksCredentials(deck_name,cards_deck))
                     adapter.notifyDataSetChanged()
                 }
             }
@@ -72,7 +72,7 @@ class LobbysFragment : Fragment(), OnClickListener{
                 if (requestKey == "REQUEST_ROOM_JOIN") {
                     val name = bundle.get("name")
                     val pass = bundle.get("pass")
-                    viewModel.joinLobby(viewModel.user_Token, name as String,pass as String)
+                    viewModel.joinLobby(name as String,pass as String)
                     adapter.notifyDataSetChanged()
                 }
             }
@@ -87,7 +87,7 @@ class LobbysFragment : Fragment(), OnClickListener{
         }
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-            viewModel.deleteLobby(adapter.data[viewHolder.adapterPosition].id)
+            viewModel.deleteLobby(adapter.data[viewHolder.adapterPosition].id, adapter.data[viewHolder.absoluteAdapterPosition].name)
             adapter.notifyDataSetChanged()
         }
     }

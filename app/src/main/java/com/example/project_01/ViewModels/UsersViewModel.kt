@@ -70,11 +70,7 @@ class UsersViewModel(application: Application, userRepository: UserRepository): 
             else{
                 Toast.makeText(app.applicationContext,"Inicio de sesion fallida", Toast.LENGTH_LONG).show()
             }
-
-            //Toast.makeText(app.applicationContext,userToken, Toast.LENGTH_LONG).show()
         }
-
-
     }
 
 }
