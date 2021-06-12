@@ -10,6 +10,8 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResult
+import androidx.lifecycle.Observer
+import com.example.project_01.Deserializers.DecksCredentials
 import com.example.project_01.Models.Lobby
 import com.example.project_01.R
 import com.example.project_01.ViewModels.CardsViewModel
@@ -33,21 +35,22 @@ class CreateLobbyFragment : Fragment() {
         deckInput = view.findViewById(R.id.spinner_create)
 
         viewModel.deckSelector = deckInput
-        /*
-        val adapter = ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_dropdown_item, viewModel.Decks)
+        var deck = DecksCredentials("", mutableListOf())
+        val adapter = ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_dropdown_item, viewModel.deckRepository.deck_credentials)
         deckInput.adapter = adapter
-        val pos = viewModel.Decks.indexOf(viewModel.currentDeck)
-        deckInput.setSelection(pos)
-        var deck = viewModel.Decks[0]
+
         deckInput.onItemSelectedListener = object :
             AdapterView.OnItemSelectedListener{
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                deck = viewModel.Decks[position]
+                deck = viewModel.deckRepository.deck_credentials[position]
             }
-            override fun onNothingSelected(parent: AdapterView<*>?) {
 
+            override fun onNothingSelected(parent: AdapterView<*>?) {
             }
+
         }
+
+
         createButton.setOnClickListener {
             val bundle = bundleOf(
                 "name" to nombreInput.text.toString(),
@@ -57,7 +60,8 @@ class CreateLobbyFragment : Fragment() {
             )
             setFragmentResult("REQUEST_ROOM", bundle)
             activity?.onBackPressed()
-        }*/
+        }
+
         Toast.makeText(context,"To delete swipe right", Toast.LENGTH_SHORT).show()
 
         return view

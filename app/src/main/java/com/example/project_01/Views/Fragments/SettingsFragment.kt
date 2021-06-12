@@ -43,10 +43,6 @@ class SettingsFragment : Fragment() {
             deckSelector.setSelection(pos)
         })
 
-
-
-
-
         deckSelector.onItemSelectedListener = object :
 
             AdapterView.OnItemSelectedListener{

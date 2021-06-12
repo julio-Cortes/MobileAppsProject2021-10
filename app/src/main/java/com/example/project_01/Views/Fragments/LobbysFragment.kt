@@ -45,7 +45,7 @@ class LobbysFragment : Fragment(), OnClickListener{
         ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView)
 
 
-        viewModel.MyRooms_aux.observe(viewLifecycleOwner, Observer {
+        viewModel.MyRooms.observe(viewLifecycleOwner, Observer {
             adapter.set(it)
         })
 
@@ -63,7 +63,6 @@ class LobbysFragment : Fragment(), OnClickListener{
                 }
             }
             viewModel.LobbyFragmentToCreateLobbyFragment(view)
-
         }
 
         val button_join = view.findViewById<Button>(R.id.button_join)
@@ -78,10 +77,7 @@ class LobbysFragment : Fragment(), OnClickListener{
                 }
             }
             viewModel.LobbyFragmentToJoinLobbyFragment(view)
-
         }
-
-
         return view
     }
 

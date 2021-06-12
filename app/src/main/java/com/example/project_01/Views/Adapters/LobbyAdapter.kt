@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.project_01.Deserializers.LobbyCredentials
 import com.example.project_01.Interfaces.IAdapterView
 import com.example.project_01.Interfaces.OnClickListener
 import com.example.project_01.Models.Lobby
@@ -14,7 +15,7 @@ import com.example.project_01.R
 class LobbyAdapter(override val onClickListener: OnClickListener ):
         RecyclerView.Adapter<LobbyAdapter.ViewHolder>(), IAdapterView {
 
-    var data = mutableListOf<Lobby>()
+    var data = mutableListOf<LobbyCredentials>()
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -34,7 +35,7 @@ class LobbyAdapter(override val onClickListener: OnClickListener ):
     }
 
 
-    fun set(lobbys: MutableList<Lobby>){
+    fun set(lobbys: MutableList<LobbyCredentials>){
         this.data = lobbys
         this.notifyDataSetChanged()
     }
@@ -42,7 +43,7 @@ class LobbyAdapter(override val onClickListener: OnClickListener ):
 
     inner class ViewHolder(private val view: View): RecyclerView.ViewHolder(view){
 
-        fun bindView(item: Lobby){
+        fun bindView(item: LobbyCredentials){
             val  nameTextView = view.findViewById<TextView>(R.id.room_textView)
             nameTextView.text = item.name
             nameTextView.setPaintFlags(nameTextView.getPaintFlags() or Paint.UNDERLINE_TEXT_FLAG)

@@ -34,8 +34,6 @@ class CardsViewModel(application: Application, deckRepository: DeckRepository, n
     lateinit var deckSelector: Spinner
     var currentDeck: MutableLiveData<DecksCredentials> = MutableLiveData()
     var Decks: MutableLiveData<MutableList<DecksCredentials>> = MutableLiveData()
-    var flag = false
-
 
     init{
         val cm = app.applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -50,7 +48,7 @@ class CardsViewModel(application: Application, deckRepository: DeckRepository, n
         }
         else{
             viewModelScope.launch {
-                //Decks = deckRepository.GetDecksFromDatabase()//NECESITAMOS QUE LA BASE ESTE LLENA ANTES DE PODER DESCOMENTAR LO SIGUIENTE
+                //Decks = deckRepository.GetDecksFromDatabase()
                 //currentDeck.postValue(Decks[sharedPreferences.getInt("deck", 0)])
             }
         }
