@@ -11,8 +11,9 @@ import kotlinx.parcelize.Parcelize
 @Entity
 data class Lobby(
         @PrimaryKey(autoGenerate = true)
-        val id:Long = 0,
-        val name: String,
-        val password: String,
+        val id : Long = 0,
+        val room_id:String?,
+        val name: String?,
+        val password: String?,
         @Embedded val deck: Deck?
 ): Parcelable

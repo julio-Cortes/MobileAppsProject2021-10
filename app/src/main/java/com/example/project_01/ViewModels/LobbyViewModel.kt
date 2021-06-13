@@ -23,9 +23,9 @@ class LobbyViewModel(application: Application, roomRepository: RoomRepository, n
     private val repository = roomRepository
     private val generalRepository : GeneralRepository
     val navigator = navigator
-    lateinit var room_id : String
+    var room_id : String? = null
     var user_Token : String
-    var MyRooms: LiveData<MutableList<LobbyCredentials>>
+    var MyRooms: LiveData<MutableList<Lobby>>
 
     init {
         MyRooms = repository.getRooms()
@@ -47,10 +47,8 @@ class LobbyViewModel(application: Application, roomRepository: RoomRepository, n
     fun createLobby(name: String, password: String, deck: DecksCredentials) {
         viewModelScope.launch {
             val response = repository.createRoom(user_Token, name,password, deck)
-            if(response!=""){
-                val gson = Gson()
-                val result = gson.fromJson(response, CreateRoomCredentials::class.java)
-                room_id = result.room_id
+            if(response!=null){
+                room_id = response.roomId
             }
         }
 
@@ -58,15 +56,13 @@ class LobbyViewModel(application: Application, roomRepository: RoomRepository, n
     fun joinLobby(name: String, password: String) {
         viewModelScope.launch {
             val response = repository.joinRoom(user_Token, name,password)
-            if(response!=""){
-                val gson = Gson()
-                val result = gson.fromJson(response, JoinLobbyCredentials::class.java)
-                val members = result.members
+            if(response!=null){
+                val members = response.members
             }
         }
 
     }
-    fun deleteLobby(id:String, name: String){
+    fun deleteLobby(id:Long, name: String?){
         viewModelScope.launch {
             repository.deleteRoom(user_Token, id, name)
         }

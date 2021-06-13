@@ -21,12 +21,11 @@ import org.koin.dsl.module
 val appModule = module {
     single{ Room.databaseBuilder(get(), Database::class.java, "planning_poker-db").fallbackToDestructiveMigration().build()}
     single { get<Database>().RoomDao() }
-    single{ get<Database>().GetLobbyDao() }
     single{ get<Database>().DeckDao() }
     single { Navigator(get()) }
     single { DeckRepository(get(),get()) }
     single { GeneralRepository(get()) }
-    single { RoomRepository(get(),get(),get(),get()) }
+    single { RoomRepository(get(),get(),get()) }
     single { UserRepository(get(),get()) }
     single {MainActivity()}
     viewModel { CardsViewModel(get(),get(),get()) }

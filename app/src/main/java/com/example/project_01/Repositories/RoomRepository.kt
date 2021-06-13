@@ -2,13 +2,11 @@ package com.example.project_01.Repositories
 
 import android.app.Application
 import android.content.Context
-import android.content.Intent
 import android.net.ConnectivityManager
 import android.widget.Toast
 import androidx.lifecycle.LiveData
 import com.example.miniproject03.Retrofit.ServiceBuilder
 import com.example.project_01.Database.Database
-import com.example.project_01.Database.JoinedRoomDao
 import com.example.project_01.Database.LobbyDao
 import com.example.project_01.Deserializers.DecksCredentials
 import com.example.project_01.Deserializers.LobbyCredentials
@@ -16,7 +14,6 @@ import com.example.project_01.Deserializers.LobbyListCredentials
 import com.example.project_01.Models.Deck
 import com.example.project_01.Models.Lobby
 import com.example.project_01.Reftrofit.LobbyRemoteRepository
-import com.google.gson.Gson
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.ResponseBody
@@ -24,17 +21,15 @@ import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 
-class RoomRepository(application: Application, room:Database, lobbyDao:LobbyDao, getlobbyDao:JoinedRoomDao) {
+class RoomRepository(application: Application, room:Database, lobbyDao:LobbyDao) {
     val app = application
-    private var rooms : LiveData<MutableList<LobbyCredentials>>
+    private var rooms : LiveData<MutableList<Lobby>>
     private val database: Database
     private val lobbyDao = lobbyDao
-    private val getLobbyDao =getlobbyDao
     private val service: LobbyRemoteRepository
     lateinit var response: Response<ResponseBody>
     private val executor: ExecutorService = Executors.newSingleThreadExecutor()
@@ -42,43 +37,51 @@ class RoomRepository(application: Application, room:Database, lobbyDao:LobbyDao,
     init {
         service = ServiceBuilder.getRetrofit().create(LobbyRemoteRepository::class.java)
         database = room
-        rooms = getLobbyDao.getAll()
+        rooms = lobbyDao.getAll()
     }
 
 
-    fun createRoom(token: String, name:String, password:String, deck: DecksCredentials) : String? {
+    fun createRoom(token: String, name:String, password:String, deck: DecksCredentials) : LobbyCredentials? {
+        var lobby = LobbyCredentials("","", "", listOf(), null)
         val cm = app.applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val networkInfo = cm!!.activeNetworkInfo
 
         if (networkInfo != null && networkInfo.isConnected) {
             val jsonObject = JSONObject()
-            jsonObject.put("name", name)
+            jsonObject.put("roomName", name)
             jsonObject.put("password", password)
             jsonObject.put("deck", deck)
             val body = jsonObject.toString().toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
-            response = service.createRoom(token, body)
-            if (response.code() == 200){
-                return response.body()?.string()
+            val call = service.createRoom(token, body)
+            call.enqueue(object : Callback<LobbyCredentials> {
+                override fun onResponse(call: Call<LobbyCredentials>, response: Response<LobbyCredentials>) {
+                    val body = response.body()
+                    if (body != null) {
+                        lobby = body
+                    }
+                }
+                override fun onFailure(call: Call<LobbyCredentials>, t: Throwable) {
+                }
             }
-            else{
-                return ""
-            }
+            )
             executor.execute{
-                val deck_deck = Deck(deck.name, deck.cards.toString())
-                lobbyDao.insert(Lobby(0,name, password, deck_deck))
+                val deck_deck = Deck(0,deck.name, deck.cards.toString())
+                lobbyDao.insert(Lobby(0,lobby.roomId,name, password, deck_deck))
             }
-
+            return lobby
         }
         else {
             executor.execute{
-                val deck_deck = Deck(deck.name, deck.cards.toString())
-                lobbyDao.insert(Lobby(0,name, password, deck_deck))
+                val deck_deck = Deck(0,deck.name, deck.cards.toString())
+                lobbyDao.insert(Lobby(0,lobby.roomId,name, password, deck_deck))
             }
-            return ""
+           return null
         }
+
     }
 
-    fun joinRoom(token: String, name:String, password:String) : String? {
+    fun joinRoom(token: String, name:String, password:String) : LobbyCredentials? {
+        var lobby = LobbyCredentials("","","",listOf(), null)
         val cm = app.applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val networkInfo = cm!!.activeNetworkInfo
         if (networkInfo != null && networkInfo.isConnected) {
@@ -86,17 +89,23 @@ class RoomRepository(application: Application, room:Database, lobbyDao:LobbyDao,
             jsonObject.put("name", name)
             jsonObject.put("password", password)
             val body = jsonObject.toString().toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
-            response = service.joinRoom(token, body)
-            if (response.code() == 200){
-                return response.body()?.string()
+            val call = service.joinRoom(token, body)
+            call.enqueue(object : Callback<LobbyCredentials> {
+                override fun onResponse(call: Call<LobbyCredentials>, response: Response<LobbyCredentials>) {
+                    val body = response.body()
+                    if (body != null) {
+                        lobby = body
+                    }
+                }
+                override fun onFailure(call: Call<LobbyCredentials>, t: Throwable) {
+                }
             }
-            else{
-                return ""
-            }
+            )
+            return lobby
         }
         else {
             Toast.makeText(app.applicationContext,"You don´t have internet to joina room", Toast.LENGTH_SHORT).show()
-            return ""
+            return null
         }
 
     }
@@ -107,7 +116,27 @@ class RoomRepository(application: Application, room:Database, lobbyDao:LobbyDao,
                     val body = response.body()
                     if (body?.rooms != null) {
                         body?.rooms.forEach {
-                            getLobbyDao.insert(it)
+                            //it me entrega un room_id y name y con esos datos debo hacer getRoom e insertarlo a la
+                            //base de datos de lobbydao con lo que me entregue
+                            val call = service.getRoom(it.roomName, token)
+                            call.enqueue(object : Callback<LobbyCredentials>{
+                                override fun onResponse(
+                                    call: Call<LobbyCredentials>,
+                                    response: Response<LobbyCredentials>
+                                ) {
+                                    val body = response.body()
+                                    if (body != null) {
+                                        lobbyDao.insert(Lobby(0,body.roomId, body.roomName, null, Deck(0,
+                                            body.deck!!.name, body.deck?.cards.toString())))
+                                    }
+
+                                }
+
+                                override fun onFailure(call: Call<LobbyCredentials>, t: Throwable) {
+                                }
+                            })
+
+
                         }
                     }
                 }
@@ -117,11 +146,11 @@ class RoomRepository(application: Application, room:Database, lobbyDao:LobbyDao,
         )
     }
 
-    fun getRooms():LiveData<MutableList<LobbyCredentials>> {
+    fun getRooms():LiveData<MutableList<Lobby>> {
         return rooms
     }
 
-    fun deleteRoom(token: String, id:String, name: String){
+    fun deleteRoom(token: String, id:Long, name: String?){
         val cm = app.applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val networkInfo = cm!!.activeNetworkInfo
         if (networkInfo != null && networkInfo.isConnected) {

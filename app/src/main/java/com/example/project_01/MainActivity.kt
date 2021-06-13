@@ -3,10 +3,15 @@ package com.example.project_01
 import android.content.Context
 import android.os.Bundle
 import android.os.Handler
+import android.view.LayoutInflater
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.fragment.NavHostFragment
 import com.example.project_01.ViewModels.CardsViewModel
+import com.example.project_01.Views.Fragments.CardsFragment
 import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity() {
@@ -30,7 +35,7 @@ class MainActivity : AppCompatActivity() {
             navHostFragment.navController.graph = graph
         }
 
-        val TIEMPO:Long = 5000
+        val TIEMPO:Long = 1000
         val handler = Handler()
         handler.postDelayed(object : Runnable {
             override fun run() {
@@ -40,6 +45,6 @@ class MainActivity : AppCompatActivity() {
         }, TIEMPO)
     }
     fun cada_5_seg() {
-        //Toast.makeText(applicationContext, "5 SEGUNDOS", Toast.LENGTH_SHORT).show()
+    //Toast.makeText(applicationContext, "5 SEGUNDOS", Toast.LENGTH_SHORT).show()
     }
 }

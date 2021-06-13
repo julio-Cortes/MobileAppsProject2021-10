@@ -17,5 +17,5 @@ interface LobbyDao {
     fun insert(lobby: Lobby)
 
     @Query("DELETE FROM Lobby where id = :id")
-    fun delete(id: String)
+    fun delete(id: Long)
 }

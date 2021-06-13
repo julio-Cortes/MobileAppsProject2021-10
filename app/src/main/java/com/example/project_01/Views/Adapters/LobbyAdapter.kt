@@ -15,7 +15,7 @@ import com.example.project_01.R
 class LobbyAdapter(override val onClickListener: OnClickListener ):
         RecyclerView.Adapter<LobbyAdapter.ViewHolder>(), IAdapterView {
 
-    var data = mutableListOf<LobbyCredentials>()
+    var data = mutableListOf<Lobby>()
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -35,7 +35,7 @@ class LobbyAdapter(override val onClickListener: OnClickListener ):
     }
 
 
-    fun set(lobbys: MutableList<LobbyCredentials>){
+    fun set(lobbys: MutableList<Lobby>){
         this.data = lobbys
         this.notifyDataSetChanged()
     }
@@ -43,7 +43,7 @@ class LobbyAdapter(override val onClickListener: OnClickListener ):
 
     inner class ViewHolder(private val view: View): RecyclerView.ViewHolder(view){
 
-        fun bindView(item: LobbyCredentials){
+        fun bindView(item: Lobby){
             val  nameTextView = view.findViewById<TextView>(R.id.room_textView)
             nameTextView.text = item.name
             nameTextView.setPaintFlags(nameTextView.getPaintFlags() or Paint.UNDERLINE_TEXT_FLAG)

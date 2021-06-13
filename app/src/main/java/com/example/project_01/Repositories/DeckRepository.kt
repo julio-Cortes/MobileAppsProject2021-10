@@ -52,7 +52,7 @@ class DeckRepository(application: Application, database: Database ) {
                 list.addAll(it.cards)
                 list.add("?")
                 list.add("☕")
-                deckDao.insert(Deck(it.name, list.toString()))
+                deckDao.insert(Deck(0,it.name, list.toString()))
             }
         }
         return Decks
@@ -62,7 +62,7 @@ class DeckRepository(application: Application, database: Database ) {
         val deckk = mutableListOf<DecksCredentials>()
         deck_credentials.clear()
         decks.forEach {
-            it.cards.forEach {
+            it.cards?.forEach {
                 valores.add(it.toString())
             }
             valores.remove("[")
@@ -78,7 +78,7 @@ class DeckRepository(application: Application, database: Database ) {
     fun fillDecks(){
         val valores = mutableListOf<String>()
         decks.forEach {
-            it.cards.forEach {
+            it.cards?.forEach {
                 valores.add(it.toString())
             }
             valores.remove("[")
