@@ -13,7 +13,7 @@ interface LobbyDao {
     @Query("SELECT * from Lobby")
     fun getAll(): LiveData<MutableList<Lobby>>
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(lobby: Lobby)
 
     @Query("DELETE FROM Lobby where id = :id")

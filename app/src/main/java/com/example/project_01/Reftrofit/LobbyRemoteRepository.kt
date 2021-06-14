@@ -9,7 +9,7 @@ import retrofit2.Response
 import retrofit2.http.*
 
 interface LobbyRemoteRepository {
-    @POST("room")
+    @POST("rooms")
     fun createRoom(@Header("token") token: String, @Body requestBody: RequestBody): Call<LobbyCredentials>
 
     @POST("joinRoom")
@@ -18,8 +18,8 @@ interface LobbyRemoteRepository {
     @GET("rooms")
     fun getRooms(@Header("token") token: String): Call<LobbyListCredentials>
 
-    @GET("room?roomName={roomName}")
-    fun getRoom(@Path("roomName") roomName : String?, @Header("token") token : String) : Call<LobbyCredentials>
+    @GET("room")
+    fun getRoom(@Query("roomName") roomName : String?, @Header("token") token : String) : Call<LobbyCredentials>
 
     @DELETE("room")
     fun deleteRoom(@Header("token") token : String, @Body requestBody: RequestBody) : Response<ResponseBody>
