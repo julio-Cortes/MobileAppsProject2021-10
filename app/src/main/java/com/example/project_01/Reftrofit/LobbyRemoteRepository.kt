@@ -10,7 +10,7 @@ import retrofit2.http.*
 
 interface LobbyRemoteRepository {
     @POST("rooms")
-    fun createRoom(@Header("token") token: String, @Body requestBody: RequestBody): Call<LobbyCredentials>
+    fun createRoom(@Header("token") token: String, @Body requestBody: RequestBody): Response<ResponseBody>
 
     @POST("joinRoom")
     fun joinRoom(@Header("token") token: String, @Body requestBody: RequestBody): Call<LobbyCredentials>

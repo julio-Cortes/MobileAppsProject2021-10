@@ -56,25 +56,12 @@ class RoomRepository(application: Application, room:Database, lobbyDao:LobbyDao)
             jsonObject.put("password", password)
             jsonObject.put("deck", gson.toJson(deck))
             val body = jsonObject.toString().toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
-            val call = service.createRoom(token, body)
-            call.enqueue(object : Callback<LobbyCredentials> {
-                override fun onResponse(call: Call<LobbyCredentials>, response: Response<LobbyCredentials>) {
-                    if (response.code()==200){
-                        val body = response.body()
-                        if (body != null) {
-                            lobby = body
-                            val deck_deck = Deck(0,deck.name, deck.cards.toString())
-                            lobbyDao.insert(Lobby(0,lobby.roomId,name, password, deck_deck))
-
-                        }
-                    }
-
-                }
-                override fun onFailure(call: Call<LobbyCredentials>, t: Throwable) {
-                }
+            response = service.createRoom(token, body)
+            if (response.code() == 200){
+                val respuesta = response.body()?.string()
             }
-
-            )
+            else{
+            }
 
         }
         else {
