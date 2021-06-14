@@ -44,9 +44,9 @@ class LobbyViewModel(application: Application, roomRepository: RoomRepository, n
             }
         }
     }
-    fun createLobby(name: String, password: String, deck: DecksCredentials) {
+    fun createLobby(name: String, password: String, name_deck : String, cards_deck : List<String>) {
         viewModelScope.launch {
-            repository.createRoom(user_Token, name,password, deck)
+            repository.createRoom(user_Token, name,password, name_deck, cards_deck)
         }
 
     }

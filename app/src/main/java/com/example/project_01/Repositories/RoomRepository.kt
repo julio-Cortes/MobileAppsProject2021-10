@@ -3,10 +3,8 @@ package com.example.project_01.Repositories
 import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
-import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.LiveData
-import com.example.miniproject03.Retrofit.ServiceBuilder
 import com.example.project_01.Database.Database
 import com.example.project_01.Database.LobbyDao
 import com.example.project_01.Deserializers.DecksCredentials
@@ -16,14 +14,12 @@ import com.example.project_01.Models.Deck
 import com.example.project_01.Models.Lobby
 import com.example.project_01.Reftrofit.LobbyRemoteRepository
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.ResponseBody
 import org.json.JSONObject
-import retrofit2.Call
-import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.http.Body
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
@@ -42,15 +38,20 @@ class RoomRepository(application: Application, room:Database, lobbyDao:LobbyDao,
 
 
 
-    suspend fun createRoom(token: String, name:String, password:String, deck: DecksCredentials) {
+    suspend fun createRoom(token: String, name:String, password:String, name_deck: String, cards_deck : List<String>) {
         val networkInfo = cm!!.activeNetworkInfo
 
         if (networkInfo != null && networkInfo.isConnected) {
-            var gson = Gson()
             val jsonObject = JSONObject()
+            val jsonObject_aux = JSONObject()
+
             jsonObject.put("roomName", name)
             jsonObject.put("password", password)
-            jsonObject.put("deck", gson.toJson(deck))
+            jsonObject_aux.put("name", name_deck)
+            jsonObject_aux.put("cards", cards_deck)
+            val aux = DecksCredentials(name_deck,cards_deck as MutableList<String>)
+            jsonObject.put("deck", aux)
+            Toast.makeText(app.applicationContext,jsonObject.toString(), Toast.LENGTH_SHORT).show()
             val body = jsonObject.toString().toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
             response = service.createRoom(token, body)
             if (response.code() == 200){
@@ -58,7 +59,7 @@ class RoomRepository(application: Application, room:Database, lobbyDao:LobbyDao,
                 if(respuesta!=""){
                     val gson = Gson()
                     val lobby = gson.fromJson(respuesta, LobbyCredentials::class.java)
-                    val deck_deck = Deck(0,deck.name, deck.cards.toString())
+                    val deck_deck = Deck(0,name_deck, cards_deck.toString())
                     executor.execute{
                         lobbyDao.insert(Lobby(0,lobby.roomId,name, password, deck_deck))
                     }
@@ -70,7 +71,7 @@ class RoomRepository(application: Application, room:Database, lobbyDao:LobbyDao,
         }
         else {
             executor.execute{
-                val deck_deck = Deck(0,deck.name, deck.cards.toString())
+                val deck_deck = Deck(0,name_deck, cards_deck.toString())
                 lobbyDao.insert(Lobby(0,null,name, password, deck_deck))
             }
             roomId = null
@@ -103,15 +104,14 @@ class RoomRepository(application: Application, room:Database, lobbyDao:LobbyDao,
         val response = service.getRooms(token)
         val body = response.body()?.string()
         val gson = Gson()
-        val deck = gson.fromJson(it.deck, LobbyCredentials::class.java)
-        if (body?.rooms != null) {
-            body?.rooms.forEach {
+        val deck = gson.fromJson(body, LobbyListCredentials::class.java)
+        if (deck != null) {
+            deck.rooms?.forEach {
                 executor.execute{
                     val gson = Gson()
-                    val deck = gson.fromJson(it.deck, LobbyCredentials::class.java)
-                    lobbyDao.insert(Lobby(0,it.roomId,it.roomName, it.password, deck))
+                    //val deck = gson.fromJson(it.deck, Deck::class.java)
+                    //lobbyDao.insert(Lobby(0,it.roomId,it.roomName, it.password, Deck(0,deck.name, deck.cards.toString())))
                 }
-
             }
         }
 
