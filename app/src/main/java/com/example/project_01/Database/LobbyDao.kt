@@ -16,6 +16,10 @@ interface LobbyDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(lobby: Lobby)
 
+    @Query("SELECT * FROM Lobby where room_id= :roomId")
+    fun check(roomId: String?): Lobby
+
+
     @Query("DELETE FROM Lobby where id = :id")
     fun delete(id: Long)
 }

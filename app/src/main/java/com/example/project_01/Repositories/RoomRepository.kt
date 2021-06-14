@@ -111,9 +111,12 @@ class RoomRepository(application: Application, room:Database, lobbyDao:LobbyDao,
         if (deck != null) {
             deck.rooms?.forEach {
                 executor.execute{
-                    val gson = Gson()
-                    //val deck = gson.fromJson(it.deck, Deck::class.java)
-                    //lobbyDao.insert(Lobby(0,it.roomId,it.roomName, it.password, Deck(0,deck.name, deck.cards.toString())))
+                    val lob = lobbyDao.check(it.roomId)
+                    if (lob==null){
+                        lobbyDao.insert(Lobby(0,it.roomId,it.roomName, it.password, Deck(0,it.deck!!.name, it.deck.cards.toString())))
+                    }
+
+
                 }
             }
         }
@@ -127,7 +130,7 @@ class RoomRepository(application: Application, room:Database, lobbyDao:LobbyDao,
         return rooms
     }
 
-    fun deleteRoom(token: String, id:Long, name: String?){
+    suspend fun deleteRoom(token: String, id:Long, name: String?){
         val cm = app.applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val networkInfo = cm!!.activeNetworkInfo
         if (networkInfo != null && networkInfo.isConnected) {

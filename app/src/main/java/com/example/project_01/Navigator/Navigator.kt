@@ -31,6 +31,9 @@ class Navigator(val activity: MainActivity) {
         val action = LobbysFragmentDirections.actionRoomsFragmentToJoinLobbyFragment()
         view?.let { Navigation.findNavController(it).navigate(action) }
     }
+    fun goToMainFragmentSignUp(view:View){
+        view?.let { Navigation.findNavController(it).navigate(R.id.action_signUpFragment_to_mainFragment) }
+    }
 
 
 }

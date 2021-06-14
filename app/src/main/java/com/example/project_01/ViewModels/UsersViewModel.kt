@@ -31,7 +31,7 @@ class UsersViewModel(application: Application, userRepository: UserRepository): 
             jsonObject.put("name", name)
             jsonObject.put("password", password)
             val body = jsonObject.toString().toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
-            val reponse = userRepository.SignUp(body)
+            val reponse = userRepository.SignUp(body,name,password,view)
             if(reponse!=""){
                 val gson = Gson()
 

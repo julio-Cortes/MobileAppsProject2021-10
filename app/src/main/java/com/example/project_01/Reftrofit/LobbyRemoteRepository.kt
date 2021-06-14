@@ -20,9 +20,15 @@ interface LobbyRemoteRepository {
     @GET("rooms")
     suspend fun getRooms(@Header("token") token: String): Response<ResponseBody>
 
+    @HTTP(method = "DELETE", path = "room", hasBody = true)
+    suspend fun deleteRoom(@Header("token") token : String, @Body requestBody: RequestBody) : Response<ResponseBody>
+
+    @GET("getResult")
+    suspend fun getResult(@Query("roomName") roomName: String?, @Body requestBody: RequestBody):Response<ResponseBody>
+
+    @POST("vote")
+    suspend fun vote(@Header("token") token:String, @Body requestBody: RequestBody) :Response<ResponseBody>
+
     @GET("room")
     fun getRoom(@Query("roomName") roomName : String?, @Header("token") token : String) : Call<LobbyCredentials>
-
-    @DELETE("room")
-    fun deleteRoom(@Header("token") token : String, @Body requestBody: RequestBody) : Response<ResponseBody>
 }

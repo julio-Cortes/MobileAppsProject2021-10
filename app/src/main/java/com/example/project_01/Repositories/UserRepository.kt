@@ -5,7 +5,6 @@ import android.content.Context
 import android.view.View
 import android.widget.Toast
 import com.example.miniproject03.Retrofit.ServiceBuilder
-import com.example.project_01.MainActivity
 import com.example.project_01.Navigator.Navigator
 import com.example.project_01.Reftrofit.UserRemoteRepository
 import okhttp3.RequestBody
@@ -22,10 +21,15 @@ class UserRepository(application: Application, navigator: Navigator) {
         service = ServiceBuilder.getRetrofit().create(UserRemoteRepository::class.java)
     }
 
-    suspend fun SignUp(body: RequestBody):String? {
+    suspend fun SignUp(body: RequestBody, name: String, password: String, view: View):String? {
         response = service.signUp(body)
         if (response.code() == 200){
-            navigator.activity.onBackPressed()
+            navigator.goToMainFragmentSignUp(view)
+            val sharedPreferences = app?.getSharedPreferences("logged_user", Context.MODE_PRIVATE)
+            sharedPreferences?.edit()?.apply{
+                putString("Username",name)
+                putString("Password",password)
+            }?.apply()
             return response.body()?.string()
         }
         else{
