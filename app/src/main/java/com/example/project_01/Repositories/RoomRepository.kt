@@ -15,6 +15,8 @@ import com.example.project_01.Models.Lobby
 import com.example.project_01.Reftrofit.LobbyRemoteRepository
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.encodeToJsonElement
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.ResponseBody
@@ -43,15 +45,15 @@ class RoomRepository(application: Application, room:Database, lobbyDao:LobbyDao,
 
         if (networkInfo != null && networkInfo.isConnected) {
             val jsonObject = JSONObject()
-            val jsonObject_aux = JSONObject()
-
             jsonObject.put("roomName", name)
             jsonObject.put("password", password)
-            jsonObject_aux.put("name", name_deck)
-            jsonObject_aux.put("cards", cards_deck)
+            val gson = Gson()
             val aux = DecksCredentials(name_deck,cards_deck as MutableList<String>)
-            jsonObject.put("deck", aux)
+            val format = Json { encodeDefaults = true }
+            jsonObject.put("deck", format.encodeToJsonElement(aux))
             Toast.makeText(app.applicationContext,jsonObject.toString(), Toast.LENGTH_SHORT).show()
+
+
             val body = jsonObject.toString().toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
             response = service.createRoom(token, body)
             if (response.code() == 200){
