@@ -13,10 +13,10 @@ interface LobbyRemoteRepository {
     suspend fun createRoom(@Header("token") token: String, @Body requestBody: RequestBody): Response<ResponseBody>
 
     @POST("joinRoom")
-    fun joinRoom(@Header("token") token: String, @Body requestBody: RequestBody): Call<LobbyCredentials>
+    suspend fun joinRoom(@Header("token") token: String, @Body requestBody: RequestBody): Response<ResponseBody>
 
     @GET("rooms")
-    fun getRooms(@Header("token") token: String): Call<LobbyListCredentials>
+    suspend fun getRooms(@Header("token") token: String): Response<ResponseBody>
 
     @GET("room")
     fun getRoom(@Query("roomName") roomName : String?, @Header("token") token : String) : Call<LobbyCredentials>

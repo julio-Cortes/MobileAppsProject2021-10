@@ -37,12 +37,12 @@ class RoomRepository(application: Application, room:Database, lobbyDao:LobbyDao,
     private val service = lobbyRemoteRepository
     lateinit var response: Response<ResponseBody>
     private val executor: ExecutorService = Executors.newSingleThreadExecutor()
+    val cm = app.applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
 
 
 
     suspend fun createRoom(token: String, name:String, password:String, deck: DecksCredentials) {
-        val cm = app.applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val networkInfo = cm!!.activeNetworkInfo
 
         if (networkInfo != null && networkInfo.isConnected) {
@@ -80,57 +80,45 @@ class RoomRepository(application: Application, room:Database, lobbyDao:LobbyDao,
 
     }
 
-    fun joinRoom(token: String, name:String, password:String) : LobbyCredentials? {
-        var lobby = LobbyCredentials("","","",null,null, null)
-        val cm = app.applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    suspend fun joinRoom(token: String, name:String, password:String)  {
         val networkInfo = cm!!.activeNetworkInfo
         if (networkInfo != null && networkInfo.isConnected) {
             val jsonObject = JSONObject()
             jsonObject.put("name", name)
             jsonObject.put("password", password)
             val body = jsonObject.toString().toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
-            val call = service.joinRoom(token, body)
-            call.enqueue(object : Callback<LobbyCredentials> {
-                override fun onResponse(call: Call<LobbyCredentials>, response: Response<LobbyCredentials>) {
-                    val body = response.body()
-                    if (body != null) {
-                        lobby = body
-                    }
-                }
-                override fun onFailure(call: Call<LobbyCredentials>, t: Throwable) {
-                }
+            val response = service.joinRoom(token, body)
+            if (response.code() == 200){
+                Toast.makeText(app.applicationContext,"Room joined", Toast.LENGTH_SHORT).show()
             }
-            )
-            return lobby
         }
         else {
-            Toast.makeText(app.applicationContext,"You don´t have internet to joina room", Toast.LENGTH_SHORT).show()
-            return null
+            Toast.makeText(app.applicationContext,"You don´t have internet to join a room", Toast.LENGTH_SHORT).show()
         }
 
     }
-    fun getLobbyCredentials(token: String) {
 
-        val call = service.getRooms(token)
-        call.enqueue(object : Callback<LobbyListCredentials> {
-                override fun onResponse(call: Call<LobbyListCredentials>, response: Response<LobbyListCredentials>) {
-                    val body = response.body()
-                    if (body?.rooms != null) {
-                        body?.rooms.forEach {
-                            //it me entrega un room_id y name y con esos datos debo hacer getRoom e insertarlo a la
-                            //base de datos de lobbydao con lo que me entregue
-                            //executor.execute{
-                                //lobbyDao.insert(Lobby())
-                            //}
+    suspend fun getLobbyCredentials(token: String) {
 
-                        }
-                    }
+        val response = service.getRooms(token)
+        val body = response.body()?.string()
+        val gson = Gson()
+        val deck = gson.fromJson(it.deck, LobbyCredentials::class.java)
+        if (body?.rooms != null) {
+            body?.rooms.forEach {
+                executor.execute{
+                    val gson = Gson()
+                    val deck = gson.fromJson(it.deck, LobbyCredentials::class.java)
+                    lobbyDao.insert(Lobby(0,it.roomId,it.roomName, it.password, deck))
                 }
-                override fun onFailure(call: Call<LobbyListCredentials>, t: Throwable) {
-                }
+
             }
-        )
+        }
+
+
     }
+
+
 
     fun getRooms():LiveData<MutableList<Lobby>> {
         return rooms

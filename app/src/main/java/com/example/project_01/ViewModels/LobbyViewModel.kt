@@ -52,10 +52,7 @@ class LobbyViewModel(application: Application, roomRepository: RoomRepository, n
     }
     fun joinLobby(name: String, password: String) {
         viewModelScope.launch {
-            val response = repository.joinRoom(user_Token, name,password)
-            if(response!=null){
-                val members = response.members
-            }
+           repository.joinRoom(user_Token, name,password)
         }
 
     }
