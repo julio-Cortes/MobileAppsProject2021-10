@@ -32,6 +32,7 @@ class RoomRepository(application: Application, room:Database, lobbyDao:LobbyDao,
     val app = application
     private var rooms = lobbyDao.getAll()
     private val database = room
+    var roomId : String? = null
     private val lobbyDao = lobbyDao
     private val service = lobbyRemoteRepository
     lateinit var response: Response<ResponseBody>
@@ -40,8 +41,7 @@ class RoomRepository(application: Application, room:Database, lobbyDao:LobbyDao,
 
 
 
-    suspend fun createRoom(token: String, name:String, password:String, deck: DecksCredentials) : LobbyCredentials? {
-        var lobby = LobbyCredentials("","", "", "",listOf(), null)
+    suspend fun createRoom(token: String, name:String, password:String, deck: DecksCredentials) {
         val cm = app.applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val networkInfo = cm!!.activeNetworkInfo
 
@@ -59,28 +59,29 @@ class RoomRepository(application: Application, room:Database, lobbyDao:LobbyDao,
                     val gson = Gson()
                     val lobby = gson.fromJson(respuesta, LobbyCredentials::class.java)
                     val deck_deck = Deck(0,deck.name, deck.cards.toString())
-                    //lobbyDao.insert(Lobby(0,lobby.roomId,name, password, deck_deck))
+                    executor.execute{
+                        lobbyDao.insert(Lobby(0,lobby.roomId,name, password, deck_deck))
+                    }
+                    roomId = lobby.roomId
 
                 }
             }
-
-
-
-
+            roomId = null
         }
         else {
             executor.execute{
                 val deck_deck = Deck(0,deck.name, deck.cards.toString())
-                lobbyDao.insert(Lobby(0,lobby.roomId,name, password, deck_deck))
+                lobbyDao.insert(Lobby(0,null,name, password, deck_deck))
             }
+            roomId = null
 
         }
-        return null
+
 
     }
 
     fun joinRoom(token: String, name:String, password:String) : LobbyCredentials? {
-        var lobby = LobbyCredentials("","","","",listOf(), null)
+        var lobby = LobbyCredentials("","","",null,null, null)
         val cm = app.applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val networkInfo = cm!!.activeNetworkInfo
         if (networkInfo != null && networkInfo.isConnected) {

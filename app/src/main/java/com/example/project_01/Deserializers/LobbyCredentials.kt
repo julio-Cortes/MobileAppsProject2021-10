@@ -8,7 +8,8 @@ data class LobbyCredentials(
     val roomId:String?,
     val roomName: String?,
     val password:String?,
-    val deck : DecksCredentials?,
+    val deck_list : DecksCredentials?,
+    val deck : String?,
     val members: List<String>?,
 ) {
 }

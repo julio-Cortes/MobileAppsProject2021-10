@@ -46,10 +46,7 @@ class LobbyViewModel(application: Application, roomRepository: RoomRepository, n
     }
     fun createLobby(name: String, password: String, deck: DecksCredentials) {
         viewModelScope.launch {
-            val response = repository.createRoom(user_Token, name,password, deck)
-            if(response!=null){
-                room_id = response.roomId
-            }
+            repository.createRoom(user_Token, name,password, deck)
         }
 
     }
