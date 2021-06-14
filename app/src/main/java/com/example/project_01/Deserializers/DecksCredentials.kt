@@ -11,5 +11,8 @@ data class DecksCredentials(
     val name : String,
     val cards : MutableList<String>
 ):Parcelable {
+    override fun toString(): String {
+        return this.name
+    }
 }
 

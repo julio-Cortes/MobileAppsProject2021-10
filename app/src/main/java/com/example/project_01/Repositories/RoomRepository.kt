@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.lifecycle.LiveData
 import com.example.project_01.Database.Database
 import com.example.project_01.Database.LobbyDao
+import com.example.project_01.Deserializers.CreateLobbyCredentials
 import com.example.project_01.Deserializers.DecksCredentials
 import com.example.project_01.Deserializers.LobbyCredentials
 import com.example.project_01.Deserializers.LobbyListCredentials
@@ -49,12 +50,12 @@ class RoomRepository(application: Application, room:Database, lobbyDao:LobbyDao,
             jsonObject.put("password", password)
             val gson = Gson()
             val aux = DecksCredentials(name_deck,cards_deck as MutableList<String>)
-            val format = Json { encodeDefaults = true }
-            jsonObject.put("deck", format.encodeToJsonElement(aux))
-            Toast.makeText(app.applicationContext,jsonObject.toString(), Toast.LENGTH_SHORT).show()
+            //val format = Json { encodeDefaults = true }
+            //jsonObject.put("deck", format.encodeToJsonElement(aux))
+            //Toast.makeText(app.applicationContext,jsonObject.toString(), Toast.LENGTH_SHORT).show()
+            val body = CreateLobbyCredentials(name, password, DecksCredentials(name_deck, cards_deck))
 
-
-            val body = jsonObject.toString().toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+            //val body = jsonObject.toString().toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
             response = service.createRoom(token, body)
             if (response.code() == 200){
                 val respuesta = response.body()?.string()
