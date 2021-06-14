@@ -28,23 +28,19 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 
-class RoomRepository(application: Application, room:Database, lobbyDao:LobbyDao) {
+class RoomRepository(application: Application, room:Database, lobbyDao:LobbyDao, lobbyRemoteRepository: LobbyRemoteRepository) {
     val app = application
-    private var rooms : LiveData<MutableList<Lobby>>
-    private val database: Database
+    private var rooms = lobbyDao.getAll()
+    private val database = room
     private val lobbyDao = lobbyDao
-    private val service: LobbyRemoteRepository
+    private val service = lobbyRemoteRepository
     lateinit var response: Response<ResponseBody>
     private val executor: ExecutorService = Executors.newSingleThreadExecutor()
 
-    init {
-        service = ServiceBuilder.getRetrofit().create(LobbyRemoteRepository::class.java)
-        database = room
-        rooms = lobbyDao.getAll()
-    }
 
 
-    fun createRoom(token: String, name:String, password:String, deck: DecksCredentials) : LobbyCredentials? {
+
+    suspend fun createRoom(token: String, name:String, password:String, deck: DecksCredentials) : LobbyCredentials? {
         var lobby = LobbyCredentials("","", "", "",listOf(), null)
         val cm = app.applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val networkInfo = cm!!.activeNetworkInfo
@@ -59,9 +55,17 @@ class RoomRepository(application: Application, room:Database, lobbyDao:LobbyDao)
             response = service.createRoom(token, body)
             if (response.code() == 200){
                 val respuesta = response.body()?.string()
+                if(respuesta!=""){
+                    val gson = Gson()
+                    val lobby = gson.fromJson(respuesta, LobbyCredentials::class.java)
+                    val deck_deck = Deck(0,deck.name, deck.cards.toString())
+                    //lobbyDao.insert(Lobby(0,lobby.roomId,name, password, deck_deck))
+
+                }
             }
-            else{
-            }
+
+
+
 
         }
         else {

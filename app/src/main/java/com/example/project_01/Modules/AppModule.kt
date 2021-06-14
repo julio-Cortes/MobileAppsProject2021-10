@@ -25,7 +25,7 @@ val appModule = module {
     single { Navigator(get()) }
     single { DeckRepository(get(),get()) }
     single { GeneralRepository(get()) }
-    single { RoomRepository(get(),get(),get()) }
+    single { RoomRepository(get(),get(),get(),get()) }
     single { UserRepository(get(),get()) }
     single {MainActivity()}
     viewModel { CardsViewModel(get(),get(),get()) }

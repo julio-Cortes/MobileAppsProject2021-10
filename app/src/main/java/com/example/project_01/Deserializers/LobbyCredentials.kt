@@ -5,11 +5,10 @@ import androidx.room.PrimaryKey
 
 data class LobbyCredentials(
     //val id: String,
-    val roomName: String?,
-    val message:String?,
-    val password:String?,
     val roomId:String?,
-    val members: List<String>?,
+    val roomName: String?,
+    val password:String?,
     val deck : DecksCredentials?,
+    val members: List<String>?,
 ) {
 }
