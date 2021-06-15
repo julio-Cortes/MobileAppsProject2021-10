@@ -6,7 +6,6 @@ import kotlinx.serialization.Serializable
 
 
 @Parcelize
-@Serializable
 data class DecksCredentials(
     val name : String,
     val cards : MutableList<String>

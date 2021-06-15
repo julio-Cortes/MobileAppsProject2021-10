@@ -11,7 +11,7 @@ import com.example.project_01.R
 
 class CardAdapter(override val onClickListener:OnClickListener): RecyclerView.Adapter<CardAdapter.ViewHolder>(), IAdapterView {
 
-    var data = listOf<String>()
+    var data = mutableListOf<String>()
 
     inner class ViewHolder(view: View): RecyclerView.ViewHolder(view){
         val textView = view.findViewById<TextView>(R.id.numberTextView)
@@ -35,7 +35,12 @@ class CardAdapter(override val onClickListener:OnClickListener): RecyclerView.Ad
         return data.size
     }
     fun update(deck: List<String>){
-        data = deck
+        data = deck as MutableList<String>
+        if ("?" !in data){
+            data.add("?")
+            data.add("☕")
+        }
+
         notifyDataSetChanged()
     }
 

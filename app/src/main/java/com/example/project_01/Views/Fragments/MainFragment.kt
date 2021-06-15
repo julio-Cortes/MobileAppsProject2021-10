@@ -10,12 +10,16 @@ import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import androidx.room.Database
 import com.example.project_01.R
+import com.example.project_01.ViewModels.LobbyViewModel
+import com.example.project_01.ViewModels.UsersViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import org.koin.android.ext.android.inject
 
 
 class MainFragment : Fragment() {
-
+    private val viewModel: UsersViewModel by inject()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -24,6 +28,8 @@ class MainFragment : Fragment() {
         val navHost = childFragmentManager.findFragmentById(R.id.swapping_fragment) as? NavHostFragment
         val navController = navHost?.navController
         val bottonNav = view.findViewById<BottomNavigationView>(R.id.swap_fragment_button)
+
+
 
         setHasOptionsMenu(true)
         if (navController != null) {
@@ -59,6 +65,7 @@ class MainFragment : Fragment() {
         }?.apply()
 
         val quitter = NavOptions.Builder().setPopUpTo(R.id.logInFragment,true).build()
+        viewModel.clearDatabase()
         view?.let { Navigation.findNavController(it).navigate(R.id.action_mainFragment_to_logInFragment,null,quitter) }
 
         return true

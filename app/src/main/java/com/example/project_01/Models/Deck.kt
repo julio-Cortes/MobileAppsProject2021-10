@@ -9,10 +9,9 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 @Entity
 data class Deck(
-    @PrimaryKey(autoGenerate = true)
-    val idDeck : Long = 0,
+    @PrimaryKey(autoGenerate = false)
+    var cards : String,
     val name_deck:String,
-    var cards : String?
 ): Parcelable{
     override fun toString(): String {
         return this.name_deck

@@ -32,6 +32,12 @@ class VoteFragment : Fragment(), OnClickListener {
         adapter = CardAdapter(this)
         recyclerView.adapter = adapter
         adapter.data = args.deck.cards
+        if ("?" !in adapter.data){
+            adapter.data.add("?")
+            adapter.data.add("☕")
+        }
+
+
         val layoutManager = GridLayoutManager(context, 6)
 
         layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {

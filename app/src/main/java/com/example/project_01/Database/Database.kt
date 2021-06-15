@@ -10,6 +10,6 @@ import com.example.project_01.Models.User
 @Database(entities = [Lobby::class, User::class, Deck::class],version = 3,exportSchema = false)
 
 abstract class Database: RoomDatabase() {
-    abstract fun RoomDao(): LobbyDao
+    abstract fun LobbyDao(): LobbyDao
     abstract fun DeckDao() : DeckDao
 }

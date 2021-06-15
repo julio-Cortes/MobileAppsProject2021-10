@@ -68,7 +68,7 @@
     </fragment>
     <fragment
         android:id="@+id/votingFragment"
-        android:name="com.example.project_01.VotingFragment"
+        android:name="com.example.project_01.Views.Fragments.VotingFragment"
         android:label="fragment_voting"
         tools:layout="@layout/fragment_voting" />
 </navigation>

@@ -14,7 +14,9 @@ import com.example.project_01.Deserializers.DecksCredentials
 import com.example.project_01.Models.Deck
 import com.example.project_01.Navigator.Navigator
 import com.example.project_01.Repositories.DeckRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class CardsViewModel(application: Application, deckRepository: DeckRepository, navigator: Navigator):  AndroidViewModel(application){
     val app = application
@@ -40,15 +42,18 @@ class CardsViewModel(application: Application, deckRepository: DeckRepository, n
         val networkInfo = cm!!.activeNetworkInfo
 
         if (networkInfo != null && networkInfo.isConnected) {
-            viewModelScope.launch {
+            viewModelScope.launch(Dispatchers.Main) {
+                withContext(Dispatchers.IO){
+                    Decks.postValue(deckRepository.GetDecksFromApi()!!.toMutableList())
+                }
                 //Decks.postValue(deckRepository.GetDecksFromDatabase()!!.toMutableList())
-                Decks.postValue(deckRepository.GetDecksFromApi()!!.toMutableList())
             }
         }
         else{
-            viewModelScope.launch {
-                //Decks = deckRepository.GetDecksFromDatabase()
-                //currentDeck.postValue(Decks[sharedPreferences.getInt("deck", 0)])
+            viewModelScope.launch(Dispatchers.Main) {
+                withContext(Dispatchers.IO) {
+                    Decks.postValue(deckRepository.GetDecksFromDatabase())
+                }
             }
         }
 

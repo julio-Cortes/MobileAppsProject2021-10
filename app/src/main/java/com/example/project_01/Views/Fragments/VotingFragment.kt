@@ -1,19 +1,17 @@
-package com.example.project_01
+package com.example.project_01.Views.Fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.project_01.Interfaces.IAdapterView
 import com.example.project_01.Interfaces.OnClickListener
 import com.example.project_01.R
 import com.example.project_01.ViewModels.LobbyViewModel
-import com.example.project_01.Views.Adapters.LobbyAdapter
 import com.example.project_01.Views.Adapters.VotingAdapter
 import org.koin.android.ext.android.inject
 
@@ -39,9 +37,23 @@ class VotingFragment : Fragment(), OnClickListener {
             adapter.notifyDataSetChanged()
         })
 
+        requireActivity()
+            .onBackPressedDispatcher
+            .addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+
+                }
+            }
+            )
+
 
 
         return view
+    }
+    override fun onDestroyView() {
+        viewModel.nullRoom()
+        super.onDestroyView()
+
     }
 
     override fun onClickItem(item: Any) {

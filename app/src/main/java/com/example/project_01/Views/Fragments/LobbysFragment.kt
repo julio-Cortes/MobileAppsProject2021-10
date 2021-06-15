@@ -10,16 +10,10 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.project_01.Deserializers.DecksCredentials
 import com.example.project_01.Interfaces.OnClickListener
-import com.example.project_01.MainActivity
-import com.example.project_01.Models.Deck
 import com.example.project_01.Models.Lobby
 import com.example.project_01.R
-import com.example.project_01.Repositories.GeneralRepository
-import com.example.project_01.Repositories.UserRepository
 import com.example.project_01.ViewModels.LobbyViewModel
-import com.example.project_01.ViewModels.UsersViewModel
 import com.example.project_01.Views.Adapters.LobbyAdapter
 import org.koin.android.ext.android.inject
 
@@ -35,7 +29,6 @@ class LobbysFragment : Fragment(), OnClickListener{
             savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_rooms, container, false)
-
         //RecylclerView Setup
         adapter = LobbyAdapter(this)
         recyclerView = view.findViewById<RecyclerView>(R.id.room_recycler_view)
@@ -48,6 +41,7 @@ class LobbysFragment : Fragment(), OnClickListener{
 
         viewModel.MyRooms.observe(viewLifecycleOwner, Observer {
             adapter.set(it)
+            adapter.notifyDataSetChanged()
         })
 
         val button = view.findViewById<Button>(R.id.button_create)
@@ -73,8 +67,9 @@ class LobbysFragment : Fragment(), OnClickListener{
                 if (requestKey == "REQUEST_ROOM_JOIN") {
                     val name = bundle.get("name")
                     val pass = bundle.get("pass")
-                    viewModel.joinLobby(name as String,pass as String)
+                    viewModel.joinLobby(name as String,pass as String,adapter)
                     adapter.notifyDataSetChanged()
+
                 }
             }
             viewModel.LobbyFragmentToJoinLobbyFragment(view)

@@ -11,15 +11,13 @@ import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Response
 
-class UserRepository(application: Application, navigator: Navigator) {
+class UserRepository(userRemoteRepository: UserRemoteRepository,application: Application, navigator: Navigator) {
     val app = application
     lateinit var response: Response<ResponseBody>
-    private val service: UserRemoteRepository
+    private val service= userRemoteRepository
     val navigator= navigator
 
-    init{
-        service = ServiceBuilder.getRetrofit().create(UserRemoteRepository::class.java)
-    }
+
 
     suspend fun SignUp(body: RequestBody, name: String, password: String, view: View):String? {
         response = service.signUp(body)

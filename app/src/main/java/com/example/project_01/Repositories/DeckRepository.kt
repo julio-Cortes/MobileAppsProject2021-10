@@ -22,18 +22,15 @@ import retrofit2.Response
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-class DeckRepository(application: Application, database: Database ) {
+class DeckRepository(application: Application,decksRemoteRepository: DecksRemoteRepository, deckDao: DeckDao ) {
     val app = application
-    private val service: DecksRemoteRepository
-    private val database = database
+    private val service = decksRemoteRepository
+    private val executor: ExecutorService = Executors.newSingleThreadExecutor()
+    private val deckDao = deckDao
     lateinit var decks : List<Deck>
     var deck_credentials = mutableListOf<DecksCredentials>()
-    private val executor: ExecutorService = Executors.newSingleThreadExecutor()
-    private val deckDao: DeckDao
 
     init{
-        service = ServiceBuilder.getRetrofit().create(DecksRemoteRepository::class.java)
-        deckDao = database.DeckDao()
         executor.execute{
             decks = deckDao.getAll()
         }
@@ -44,16 +41,8 @@ class DeckRepository(application: Application, database: Database ) {
         val gson = Gson()
         val Decks = gson.fromJson(response, Array<DecksCredentials>::class.java)
 
-        executor.execute{
-            Decks.forEach {
-                it.cards.add("?")
-                it.cards.add("☕")
-                val list= mutableListOf<String>()
-                list.addAll(it.cards)
-                list.add("?")
-                list.add("☕")
-                deckDao.insert(Deck(0,it.name, list.toString()))
-            }
+        Decks.forEach {
+            deckDao.insert(Deck(it.cards.toString(),it.name ))
         }
         return Decks
     }
@@ -68,25 +57,13 @@ class DeckRepository(application: Application, database: Database ) {
             valores.remove("[")
             valores.remove("]")
             valores.remove('"')
-            deckk.add(DecksCredentials(it.name_deck,valores))
+            deckk.add(DecksCredentials(it.name_deck,it.toDeckCredentials().cards))
 
-            deck_credentials.add(DecksCredentials(it.name_deck,valores))
+            deck_credentials.add(DecksCredentials(it.name_deck,it.toDeckCredentials().cards))
             valores.clear()
         }
         return deckk as ArrayList<DecksCredentials>
     }
-    fun fillDecks(){
-        val valores = mutableListOf<String>()
-        decks.forEach {
-            it.cards?.forEach {
-                valores.add(it.toString())
-            }
-            valores.remove("[")
-            valores.remove("]")
-            valores.remove('"')
-            deck_credentials.add(DecksCredentials(it.name_deck,valores))
-            valores.clear()
-        }
-    }
+
 
 }

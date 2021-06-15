@@ -31,6 +31,7 @@ class CardsFragment : Fragment(), OnClickListener {
         recyclerView.adapter = adapter
         viewModel.currentDeck.observe(viewLifecycleOwner, androidx.lifecycle.Observer{
             adapter.update(it.cards)
+
         })
         val layoutManager = GridLayoutManager(context, 6)
         viewModel.Decks.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
