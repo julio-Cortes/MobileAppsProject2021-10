@@ -57,7 +57,10 @@ class VoteFragment : Fragment(), OnClickListener {
     }
 
     override fun onClickItem(num: Any) {
+        if (num is String){
+            view?.let { viewModel.vote(num, it) }
 
+        }
     }
 
 

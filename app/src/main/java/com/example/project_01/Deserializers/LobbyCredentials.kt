@@ -10,5 +10,6 @@ data class LobbyCredentials(
     val deck : DecksCredentials?,
     val deck_string : String?,
     val members: List<String>?,
+    val result:List<Members>?
 ) {
 }

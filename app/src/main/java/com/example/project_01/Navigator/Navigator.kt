@@ -44,4 +44,8 @@ class Navigator(val activity: MainActivity) {
         }
     }
 
+    fun goToVotingRoom(view: View) {
+        view?.let { Navigation.findNavController(it).navigate(R.id.action_voteFragment_to_votingFragment) }
+    }
+
 }

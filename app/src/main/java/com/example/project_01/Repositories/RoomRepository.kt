@@ -7,10 +7,7 @@ import android.widget.Toast
 import androidx.lifecycle.LiveData
 import com.example.project_01.Database.Database
 import com.example.project_01.Database.LobbyDao
-import com.example.project_01.Deserializers.CreateLobbyCredentials
-import com.example.project_01.Deserializers.DecksCredentials
-import com.example.project_01.Deserializers.LobbyCredentials
-import com.example.project_01.Deserializers.LobbyListCredentials
+import com.example.project_01.Deserializers.*
 import com.example.project_01.Models.Deck
 import com.example.project_01.Models.Lobby
 import com.example.project_01.Reftrofit.LobbyRemoteRepository
@@ -28,6 +25,7 @@ import java.util.concurrent.Executors
 
 
 class RoomRepository(application: Application, room:Database, lobbyDao:LobbyDao, lobbyRemoteRepository: LobbyRemoteRepository) {
+    var roomName: String? = null
     val app = application
     private var rooms = lobbyDao.getAll()
     private val database = room
@@ -37,6 +35,8 @@ class RoomRepository(application: Application, room:Database, lobbyDao:LobbyDao,
     lateinit var response: Response<ResponseBody>
     private val executor: ExecutorService = Executors.newSingleThreadExecutor()
     val cm = app.applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    val networkInfo = cm!!.activeNetworkInfo
+    var members =  mutableListOf<Members>()
 
 
 
@@ -131,8 +131,6 @@ class RoomRepository(application: Application, room:Database, lobbyDao:LobbyDao,
     }
 
     suspend fun deleteRoom(token: String, id:Long, name: String?){
-        val cm = app.applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val networkInfo = cm!!.activeNetworkInfo
         if (networkInfo != null && networkInfo.isConnected) {
             val jsonObject = JSONObject()
             jsonObject.put("roomId", id)
@@ -149,5 +147,35 @@ class RoomRepository(application: Application, room:Database, lobbyDao:LobbyDao,
                 lobbyDao.delete(id)
             }
         }
+    }
+
+    suspend fun vote(num: String, token:String) {
+        val networkInfo = cm!!.activeNetworkInfo
+        if (networkInfo != null && networkInfo.isConnected) {
+            val jsonObject = JSONObject()
+            jsonObject.put("roomName", roomName)
+            jsonObject.put("vote", num)
+            val body = jsonObject.toString()
+                .toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+            service.vote(token,body )
+        }
+    }
+    suspend fun getResult(token:String): MutableList<Members>{
+        val networkInfo = cm!!.activeNetworkInfo
+        var members = mutableListOf<Members>()
+        if (networkInfo != null && networkInfo.isConnected) {
+            val response = service.getResult(token, roomName)
+            if (response.code()==200){
+                val gson = Gson()
+                val aux= gson.fromJson(response.body()?.string(), LobbyCredentials::class.java)
+                if (aux.result!=null){
+                    members = aux.result as MutableList<Members>
+                }
+
+
+            }
+
+        }
+        return members
     }
 }

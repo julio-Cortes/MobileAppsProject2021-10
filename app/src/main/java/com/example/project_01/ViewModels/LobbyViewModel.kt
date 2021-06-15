@@ -6,6 +6,7 @@ import android.net.ConnectivityManager
 import android.view.View
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.project_01.Deserializers.*
 import com.example.project_01.MainActivity
@@ -25,7 +26,10 @@ class LobbyViewModel(application: Application, roomRepository: RoomRepository, n
     val navigator = navigator
     var room_id : String? = null
     var user_Token : String
+    var roomName: String? = null
     var MyRooms: LiveData<MutableList<Lobby>>
+    var members= MutableLiveData<MutableList<Members>>().apply { postValue(mutableListOf<Members>()) }
+
 
     init {
         MyRooms = repository.getRooms()
@@ -69,6 +73,21 @@ class LobbyViewModel(application: Application, roomRepository: RoomRepository, n
         navigator.goToJoinLobbyFragment(view)
     }
     fun LobbyFragmentToVoteFragment(view:View, lobby: Lobby){
+        repository.roomName = lobby.name
         navigator.goToVote(view, lobby)
+    }
+
+    fun vote(num: String, view: View) {
+        viewModelScope.launch {
+            repository.vote(num, user_Token)
+            navigator.goToVotingRoom(view)
+        }
+    }
+
+    fun getResults() {
+        viewModelScope.launch {
+            members.postValue(repository.getResult(user_Token))
+
+        }
     }
 }
