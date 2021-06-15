@@ -5,9 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.project_01.Interfaces.OnClickListener
+import com.example.project_01.Models.Lobby
 import com.example.project_01.R
 import com.example.project_01.ViewModels.CardsViewModel
 import com.example.project_01.ViewModels.LobbyViewModel
@@ -19,6 +21,7 @@ class VoteFragment : Fragment(), OnClickListener {
     lateinit var recyclerView: RecyclerView
     lateinit var adapter: CardAdapter
     private val viewModel: LobbyViewModel by inject()
+    val args : VoteFragmentArgs by navArgs()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -28,7 +31,7 @@ class VoteFragment : Fragment(), OnClickListener {
         recyclerView = view.findViewById<RecyclerView>(R.id.card_recycler_view)
         adapter = CardAdapter(this)
         recyclerView.adapter = adapter
-
+        adapter.data = args.deck.cards
         val layoutManager = GridLayoutManager(context, 6)
 
         layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
@@ -54,7 +57,6 @@ class VoteFragment : Fragment(), OnClickListener {
     }
 
     override fun onClickItem(num: Any) {
-        //todo
 
     }
 

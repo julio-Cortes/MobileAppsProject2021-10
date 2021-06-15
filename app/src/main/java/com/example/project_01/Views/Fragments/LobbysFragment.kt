@@ -14,6 +14,7 @@ import com.example.project_01.Deserializers.DecksCredentials
 import com.example.project_01.Interfaces.OnClickListener
 import com.example.project_01.MainActivity
 import com.example.project_01.Models.Deck
+import com.example.project_01.Models.Lobby
 import com.example.project_01.R
 import com.example.project_01.Repositories.GeneralRepository
 import com.example.project_01.Repositories.UserRepository
@@ -93,7 +94,9 @@ class LobbysFragment : Fragment(), OnClickListener{
     }
 
     override fun onClickItem(item: Any) {
-        //viewModel.deleteCase()
+        if (item is Lobby){
+            view?.let { viewModel.LobbyFragmentToVoteFragment(it, item) }
+        }
     }
 
 

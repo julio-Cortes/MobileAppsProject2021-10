@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_roomsFragment_to_joinLobbyFragment"
             app:destination="@id/joinLobbyFragment" />
+        <action
+            android:id="@+id/action_roomsFragment_to_voteFragment"
+            app:destination="@id/voteFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"

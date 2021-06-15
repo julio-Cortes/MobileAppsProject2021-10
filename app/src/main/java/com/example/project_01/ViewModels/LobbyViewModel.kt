@@ -68,4 +68,7 @@ class LobbyViewModel(application: Application, roomRepository: RoomRepository, n
     fun LobbyFragmentToJoinLobbyFragment(view: View) {
         navigator.goToJoinLobbyFragment(view)
     }
+    fun LobbyFragmentToVoteFragment(view:View, lobby: Lobby){
+        navigator.goToVote(view, lobby)
+    }
 }
