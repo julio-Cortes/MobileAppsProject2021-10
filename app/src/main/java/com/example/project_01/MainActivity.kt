@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
             navHostFragment.navController.graph = graph
         }
 
-        val TIEMPO:Long = 1000
+        val TIEMPO:Long = 5000
         val handler = Handler()
         handler.postDelayed(object : Runnable {
             override fun run() {

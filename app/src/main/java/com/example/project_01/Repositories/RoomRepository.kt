@@ -48,14 +48,7 @@ class RoomRepository(application: Application, room:Database, lobbyDao:LobbyDao,
             val jsonObject = JSONObject()
             jsonObject.put("roomName", name)
             jsonObject.put("password", password)
-            val gson = Gson()
-            val aux = DecksCredentials(name_deck,cards_deck as MutableList<String>)
-            //val format = Json { encodeDefaults = true }
-            //jsonObject.put("deck", format.encodeToJsonElement(aux))
-            //Toast.makeText(app.applicationContext,jsonObject.toString(), Toast.LENGTH_SHORT).show()
-            val body = CreateLobbyCredentials(name, password, DecksCredentials(name_deck, cards_deck))
-
-            //val body = jsonObject.toString().toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+            val body = CreateLobbyCredentials(name, password, DecksCredentials(name_deck, cards_deck as MutableList<String>))
             response = service.createRoom(token, body)
             if (response.code() == 200){
                 val respuesta = response.body()?.string()
@@ -155,9 +148,8 @@ class RoomRepository(application: Application, room:Database, lobbyDao:LobbyDao,
             val jsonObject = JSONObject()
             jsonObject.put("roomName", roomName)
             jsonObject.put("vote", num)
-            val body = jsonObject.toString()
-                .toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
-            service.vote(token,body )
+            val body = jsonObject.toString().toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+            response = service.vote(token,body)
         }
     }
     suspend fun getResult(token:String): MutableList<Members>{
@@ -171,10 +163,7 @@ class RoomRepository(application: Application, room:Database, lobbyDao:LobbyDao,
                 if (aux.result!=null){
                     members = aux.result as MutableList<Members>
                 }
-
-
             }
-
         }
         return members
     }

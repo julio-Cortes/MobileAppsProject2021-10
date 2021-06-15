@@ -3,7 +3,9 @@ package com.example.project_01.ViewModels
 import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
+import android.os.Handler
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -85,9 +87,17 @@ class LobbyViewModel(application: Application, roomRepository: RoomRepository, n
     }
 
     fun getResults() {
-        viewModelScope.launch {
-            members.postValue(repository.getResult(user_Token))
+        val TIEMPO:Long = 5000
+        val handler = Handler()
+        handler.postDelayed(object : Runnable {
+            override fun run() {
+                viewModelScope.launch {
+                    members.postValue(repository.getResult(user_Token))
+                    Toast.makeText(app.applicationContext,"POST", Toast.LENGTH_SHORT).show()
+                }
+                handler.postDelayed(this, TIEMPO)
+            }
+        }, TIEMPO)
 
-        }
     }
 }
