@@ -43,10 +43,8 @@ class LobbyViewModel(application: Application, lobbyRepository: LobbyRepository,
         cm?.let {
             it.registerDefaultNetworkCallback(object : ConnectivityManager.NetworkCallback() {
                 override fun onAvailable(network: Network) {
-                    viewModelScope.launch(Dispatchers.Main) {
-                        withContext(Dispatchers.IO){
-                            repository.getCreateOffline(token)
-                        }
+                    viewModelScope.launch(Dispatchers.IO) {
+                        repository.getCreateOffline(token)
 
                     }
                 }
