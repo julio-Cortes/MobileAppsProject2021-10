@@ -42,7 +42,7 @@ class DeckRepository(application: Application,decksRemoteRepository: DecksRemote
         val Decks = gson.fromJson(response, Array<DecksCredentials>::class.java)
 
         Decks.forEach {
-            deckDao.insert(Deck(it.cards.toString(),it.name ))
+            deckDao.insert(Deck(it.name, it.cards.toString()))
         }
         return Decks
     }

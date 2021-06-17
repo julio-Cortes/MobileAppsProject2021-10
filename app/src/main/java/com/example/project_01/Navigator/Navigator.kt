@@ -1,10 +1,9 @@
 package com.example.project_01.Navigator
 
 import android.view.View
-import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
+import com.example.project_01.Deserializers.LobbyCredentials
 import com.example.project_01.MainActivity
-import com.example.project_01.Models.Lobby
 import com.example.project_01.R
 import com.example.project_01.Views.Fragments.CardsFragmentDirections
 import com.example.project_01.Views.Fragments.LobbysFragmentDirections
@@ -35,13 +34,11 @@ class Navigator(val activity: MainActivity) {
     fun goToMainFragmentSignUp(view:View){
         view?.let { Navigation.findNavController(it).navigate(R.id.action_signUpFragment_to_mainFragment) }
     }
-    fun goToVote(view:View, lobby: Lobby){
-        val action = lobby.deck?.let { LobbysFragmentDirections.actionRoomsFragmentToVoteFragment(it.toDeckCredentials()) }
+    fun goToVote(view: View){
         view?.let {
-            if (action != null) {
-                Navigation.findNavController(it).navigate(action)
+                Navigation.findNavController(it).navigate(R.id.action_roomsFragment_to_voteFragment)
             }
-        }
+
     }
 
     fun goToVotingRoom(view: View) {

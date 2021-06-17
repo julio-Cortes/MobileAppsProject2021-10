@@ -1,10 +1,12 @@
 package com.example.project_01.Views.Fragments
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.*
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -24,6 +26,7 @@ class LobbysFragment : Fragment(), OnClickListener{
     lateinit var adapter: LobbyAdapter
     private val viewModel: LobbyViewModel by inject()
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
@@ -82,12 +85,14 @@ class LobbysFragment : Fragment(), OnClickListener{
             return false
         }
 
+        @RequiresApi(Build.VERSION_CODES.N)
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
             viewModel.deleteLobby(adapter.data[viewHolder.adapterPosition].id, adapter.data[viewHolder.absoluteAdapterPosition].name)
             adapter.notifyDataSetChanged()
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onClickItem(item: Any) {
         if (item is Lobby){
             view?.let { viewModel.LobbyFragmentToVoteFragment(it, item) }

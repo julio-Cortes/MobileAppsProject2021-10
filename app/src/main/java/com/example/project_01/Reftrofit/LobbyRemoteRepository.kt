@@ -30,6 +30,7 @@ interface LobbyRemoteRepository {
     @POST("vote")
     suspend fun vote(@Header("token") token:String, @Body requestBody: RequestBody) :Response<ResponseBody>
 
-    @GET("room")
-    fun getRoom(@Query("roomName") roomName : String?, @Header("token") token : String) : Call<LobbyCredentials>
+    @GET("rooms/{roomName}")
+    suspend fun getRoom(@Path("roomName") roomName : String?, @Header("token") token : String) : Response<ResponseBody>
+
 }

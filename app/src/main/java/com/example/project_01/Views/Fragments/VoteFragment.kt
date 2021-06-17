@@ -1,13 +1,16 @@
 package com.example.project_01.Views.Fragments
 
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.project_01.Deserializers.LobbyCredentials
 import com.example.project_01.Interfaces.OnClickListener
 import com.example.project_01.Models.Lobby
 import com.example.project_01.R
@@ -21,7 +24,7 @@ class VoteFragment : Fragment(), OnClickListener {
     lateinit var recyclerView: RecyclerView
     lateinit var adapter: CardAdapter
     private val viewModel: LobbyViewModel by inject()
-    val args : VoteFragmentArgs by navArgs()
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -31,7 +34,8 @@ class VoteFragment : Fragment(), OnClickListener {
         recyclerView = view.findViewById<RecyclerView>(R.id.card_recycler_view)
         adapter = CardAdapter(this)
         recyclerView.adapter = adapter
-        adapter.data = args.deck.cards
+        adapter.data = viewModel.getRoom()!!
+
         if ("?" !in adapter.data){
             adapter.data.add("?")
             adapter.data.add("☕")
@@ -62,6 +66,7 @@ class VoteFragment : Fragment(), OnClickListener {
         return view
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onClickItem(num: Any) {
         if (num is String){
             val aux = num.replace(" ","")

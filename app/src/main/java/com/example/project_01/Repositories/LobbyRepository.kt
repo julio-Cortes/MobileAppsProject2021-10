@@ -28,9 +28,8 @@ class LobbyRepository(application: Application, lobbyDao:LobbyDao, lobbyRemoteRe
     lateinit var response: Response<ResponseBody>
 
     val cm = app.applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-    var roomName: String? = null
+    var room: LobbyCredentials? = null
     var roomId : String? = null
-    val networkInfo = cm!!.activeNetworkInfo
     var members =  mutableListOf<Members>()
 
 
@@ -51,7 +50,7 @@ class LobbyRepository(application: Application, lobbyDao:LobbyDao, lobbyRemoteRe
                 if(respuesta!=""){
                     val gson = Gson()
                     val lobby = gson.fromJson(respuesta, LobbyCredentials::class.java)
-                    val deck_deck = Deck( cards_deck.toString().replace(" ",""),name_deck,)
+                    val deck_deck = Deck( name_deck, cards_deck.toString().replace(" ",""),)
                     lobbyDao.insert(Lobby(0,lobby.roomId,name, password, deck_deck))
                     roomId = lobby.roomId
 
@@ -61,7 +60,7 @@ class LobbyRepository(application: Application, lobbyDao:LobbyDao, lobbyRemoteRe
             roomId = null
         }
         else {
-            val deck_deck = Deck(cards_deck.toString().replace(" ",""),name_deck )
+            val deck_deck = Deck(name_deck,cards_deck.toString().replace(" ","") )
             lobbyDao.insert(Lobby(0,null,name, password, deck_deck))
             roomId = null
 
@@ -93,7 +92,7 @@ class LobbyRepository(application: Application, lobbyDao:LobbyDao, lobbyRemoteRe
 
     }
 
-    suspend fun getLobbyCredentials(token: String) {
+    suspend fun getLobbyCredentials(token: String){
         val networkInfo = cm!!.activeNetworkInfo
         if (networkInfo != null && networkInfo.isConnected) {
             val response = service.getRooms(token)
@@ -104,13 +103,19 @@ class LobbyRepository(application: Application, lobbyDao:LobbyDao, lobbyRemoteRe
                 deck.rooms?.forEach {
                         val lob = lobbyDao.check(it.roomId)
                         if (lob==null){
-                            lobbyDao.insert(Lobby(0,it.roomId,it.roomName, it.password, Deck(it.deck?.cards.toString(), it.deck!!.name )))
+                            val sub_response = service.getRoom(it.roomName, token)
+                            val lobby = gson.fromJson(sub_response.body()?.string(), LobbyCredentials::class.java)
+                            var insert =Lobby(0,it.roomId,it.roomName,null,Deck(lobby.deck!!.name, lobby.deck?.cards.toString()))
+                            lobbyDao.insert(insert)
+
                         }
+
 
 
 
                 }
             }
+
         }
 
 
@@ -142,8 +147,13 @@ class LobbyRepository(application: Application, lobbyDao:LobbyDao, lobbyRemoteRe
         val networkInfo = cm!!.activeNetworkInfo
         if (networkInfo != null && networkInfo.isConnected) {
             val jsonObject = JSONObject()
-            jsonObject.put("roomName", roomName)
-            jsonObject.put("vote", num)
+            jsonObject.put("roomName", room?.roomName)
+            var vote = num
+            if (vote=="☕"){
+                vote ="☕️"
+            }
+
+            jsonObject.put("vote", vote)
             val body = jsonObject.toString().toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
             response = service.vote(token,body)
         }
@@ -152,7 +162,7 @@ class LobbyRepository(application: Application, lobbyDao:LobbyDao, lobbyRemoteRe
         val networkInfo = cm!!.activeNetworkInfo
         var members = mutableListOf<Members>()
         if (networkInfo != null && networkInfo.isConnected) {
-            val response = service.getResult(token, roomName)
+            val response = service.getResult(token, room?.roomName)
             if (response.code()==200){
                 val gson = Gson()
                 val aux= gson.fromJson(response.body()?.string(), LobbyCredentials::class.java)
@@ -173,5 +183,10 @@ class LobbyRepository(application: Application, lobbyDao:LobbyDao, lobbyRemoteRe
         LobbyToDelete.forEach{
             this.deleteRoom(token,it.id,it.name)
         }
+    }
+
+    suspend fun getRoom(name: String?, token: String):LobbyCredentials {
+        val gson = Gson()
+        return gson.fromJson(service.getRoom(name,token).body()?.string(),LobbyCredentials::class.java)
     }
 }

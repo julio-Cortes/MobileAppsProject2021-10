@@ -2,6 +2,7 @@ package com.example.project_01.Repositories
 
 import android.app.Application
 import android.content.Context
+import android.net.ConnectivityManager
 import android.view.View
 import android.widget.Toast
 import com.example.miniproject03.Retrofit.ServiceBuilder
@@ -16,41 +17,55 @@ class UserRepository(userRemoteRepository: UserRemoteRepository,application: App
     lateinit var response: Response<ResponseBody>
     private val service= userRemoteRepository
     val navigator= navigator
-
+    val cm = app.applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
 
     suspend fun SignUp(body: RequestBody, name: String, password: String, view: View):String? {
-        response = service.signUp(body)
-        if (response.code() == 200){
-            navigator.goToMainFragmentSignUp(view)
-            val sharedPreferences = app?.getSharedPreferences("logged_user", Context.MODE_PRIVATE)
-            sharedPreferences?.edit()?.apply{
-                putString("Username",name)
-                putString("Password",password)
-            }?.apply()
-            return response.body()?.string()
+        val networkInfo = cm!!.activeNetworkInfo
+
+        if (networkInfo != null && networkInfo.isConnected) {
+            response = service.signUp(body)
+            if (response.code() == 200) {
+                navigator.goToMainFragmentSignUp(view)
+                val sharedPreferences =
+                    app?.getSharedPreferences("logged_user", Context.MODE_PRIVATE)
+                sharedPreferences?.edit()?.apply {
+                    putString("Username", name)
+                    putString("Password", password)
+                }?.apply()
+                return response.body()?.string()
+            } else {
+                Toast.makeText(app.applicationContext, "Username alredy taken", Toast.LENGTH_SHORT)
+                    .show()
+            }
         }
-        else{
-            Toast.makeText(app.applicationContext,"Username alredy taken", Toast.LENGTH_SHORT).show()
-        }
-        return ""
+            return ""
+
     }
 
     suspend fun LogIn(body: RequestBody, view: View, username: String, password: String) :String?{
-        response = service.logIn(body)
-        if (response.code() == 200){
-            navigator.goToMainFragment(view)
-            val sharedPreferences = app?.getSharedPreferences("logged_user", Context.MODE_PRIVATE)
-            sharedPreferences?.edit()?.apply{
-                putString("Username",username)
-                putString("Password",password)
-            }?.apply()
-            return response.body()?.string()
+        val networkInfo = cm!!.activeNetworkInfo
+
+        if (networkInfo != null && networkInfo.isConnected) {
+            response = service.logIn(body)
+            if (response.code() == 200) {
+                navigator.goToMainFragment(view)
+                val sharedPreferences =
+                    app?.getSharedPreferences("logged_user", Context.MODE_PRIVATE)
+                sharedPreferences?.edit()?.apply {
+                    putString("Username", username)
+                    putString("Password", password)
+                }?.apply()
+                return response.body()?.string()
 
 
-        }
-        else{
-            Toast.makeText(app.applicationContext,"Username or password incorrect ", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(
+                    app.applicationContext,
+                    "Username or password incorrect ",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
         return ""
     }

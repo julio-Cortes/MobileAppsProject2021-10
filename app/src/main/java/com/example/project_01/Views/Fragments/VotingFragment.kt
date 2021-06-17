@@ -1,10 +1,12 @@
 package com.example.project_01.Views.Fragments
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,6 +24,7 @@ class VotingFragment : Fragment(), OnClickListener {
     lateinit var adapter: VotingAdapter
     private val viewModel: LobbyViewModel by inject()
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -32,6 +35,7 @@ class VotingFragment : Fragment(), OnClickListener {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(activity)
         viewModel.getResults()
+
         viewModel.members.observe(viewLifecycleOwner, Observer {
             adapter.data = it
             adapter.notifyDataSetChanged()
@@ -50,6 +54,7 @@ class VotingFragment : Fragment(), OnClickListener {
 
         return view
     }
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onDestroyView() {
         viewModel.nullRoom()
         super.onDestroyView()

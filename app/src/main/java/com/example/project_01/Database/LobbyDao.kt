@@ -10,7 +10,7 @@ Salas creadas por nosotros
  */
 @Dao
 interface LobbyDao {
-    @Query("SELECT * from Lobby where password is not null")
+    @Query("SELECT * from Lobby where cards is not null")
     fun getAll(): LiveData<MutableList<Lobby>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -26,13 +26,13 @@ interface LobbyDao {
     @Query("SELECT * FROM Lobby where room_id is null")
     fun getCreatedOffline(): MutableList<Lobby>
 
-    @Query("DELETE FROM LOBBY where room_id is null")
+    @Query("DELETE FROM Lobby where room_id is null")
     fun clear()
 
-    @Query("UPDATE Lobby SET password = null where id = :id ")
+    @Query("UPDATE Lobby SET cards = null where id = :id ")
     fun deleteOffline(id: Long)
 
-    @Query("SELECT * FROM Lobby where password is null")
+    @Query("SELECT * FROM Lobby where cards is null")
     fun getDeleteOffline(): MutableList<Lobby>
 
 

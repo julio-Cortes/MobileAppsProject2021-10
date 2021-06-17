@@ -33,7 +33,11 @@ class LobbyViewModel(application: Application, lobbyRepository: LobbyRepository,
     var members= MutableLiveData<MutableList<Members>>().apply { postValue(mutableListOf<Members>()) }
     val sharedPreferences = app?.getSharedPreferences("user_Token", Context.MODE_PRIVATE)
     val cm = app.applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+
+
     init {
+
         token = sharedPreferences.getString("user_Token", "").toString()
         MyRooms = repository.getRooms()
         cm?.let {
@@ -63,18 +67,20 @@ class LobbyViewModel(application: Application, lobbyRepository: LobbyRepository,
 
             }
         }
-        else{
-            viewModelScope.launch(Dispatchers.Main) {
-                withContext(Dispatchers.IO){
-                    MyRooms = repository.getRooms()
-                }
+        viewModelScope.launch(Dispatchers.Main) {
+            withContext(Dispatchers.IO){
+                MyRooms = repository.getRooms()
             }
         }
+
     }
+
+
     fun createLobby(name: String, password: String, name_deck : String, cards_deck : List<String>) {
         viewModelScope.launch(Dispatchers.Main) {
             withContext(Dispatchers.IO){
                 repository.createRoom(token, name,password, name_deck, cards_deck)
+                MyRooms = repository.getRooms()
             }
 
         }
@@ -84,7 +90,7 @@ class LobbyViewModel(application: Application, lobbyRepository: LobbyRepository,
             withContext(Dispatchers.IO  ){
                 repository.joinRoom(token, name,password)
                 repository.getLobbyCredentials(token)
-
+                MyRooms = repository.getRooms()
             }
 
         }
@@ -94,6 +100,7 @@ class LobbyViewModel(application: Application, lobbyRepository: LobbyRepository,
         viewModelScope.launch(Dispatchers.Main) {
             withContext(Dispatchers.IO){
                 repository.deleteRoom(token, id, name)
+                MyRooms = repository.getRooms()
             }
 
         }
@@ -107,21 +114,32 @@ class LobbyViewModel(application: Application, lobbyRepository: LobbyRepository,
     fun LobbyFragmentToVoteFragment(view:View, lobby: Lobby){
         val networkInfo = cm!!.activeNetworkInfo
         if (networkInfo != null && networkInfo.isConnected) {
-            repository.roomName = lobby.name
-            navigator.goToVote(view, lobby)
-        }
-    }
+            viewModelScope.launch(Dispatchers.Main) {
+                withContext(Dispatchers.IO) {
+                    val room = repository.getRoom(lobby.name, token)
+                    repository.room = room
 
-    fun vote(num: String, view: View) {
-        viewModelScope.launch(Dispatchers.Main) {
-            withContext(Dispatchers.IO){
-                repository.vote(num, token)
-                members.postValue(repository.getResult(token))
+                }
+                navigator.goToVote( view)
 
             }
 
         }
-        navigator.goToVotingRoom(view)
+    }
+
+    fun vote(num: String, view: View) {
+        val networkInfo = cm!!.activeNetworkInfo
+        if (networkInfo != null && networkInfo.isConnected) {
+            viewModelScope.launch(Dispatchers.Main) {
+                withContext(Dispatchers.IO) {
+                    repository.vote(num, token)
+                    members.postValue(repository.getResult(token))
+
+                }
+
+            }
+            navigator.goToVotingRoom(view)
+        }
     }
 
     fun getResults() {
@@ -129,23 +147,51 @@ class LobbyViewModel(application: Application, lobbyRepository: LobbyRepository,
         val handler = Handler()
         handler.postDelayed(object : Runnable {
             override fun run() {
-                if (repository.roomName!=null){
-                    viewModelScope.launch(Dispatchers.Main) {
-                        withContext(Dispatchers.IO){
-                            members.postValue(repository.getResult(token))
+                val networkInfo = cm!!.activeNetworkInfo
+                if (networkInfo != null && networkInfo.isConnected) {
+                    if (repository.room != null) {
+                        viewModelScope.launch(Dispatchers.Main) {
+                            withContext(Dispatchers.IO) {
+                                repository.room =
+                                    repository.getRoom(repository.room!!.roomName, token)
+                                val voting_members = repository.getResult(token)
+                                val aux = mutableListOf<Members>()
+
+                                repository.room!!.members?.forEach {
+                                    var flag = true
+                                    for (j in voting_members){
+                                        if (it == j.name){
+                                            aux.add(j)
+                                            flag = false
+                                            break
+                                        }
+                                    }
+                                    if (flag){
+                                        aux.add(Members(it,null,null))
+                                    }
+                                }
+                                members.postValue(aux)
+                            }
+
+                            //Toast.makeText(app.applicationContext,"POST", Toast.LENGTH_SHORT).show()
                         }
-
-                        //Toast.makeText(app.applicationContext,"POST", Toast.LENGTH_SHORT).show()
                     }
-                }
 
-                handler.postDelayed(this, TIEMPO)
+                    handler.postDelayed(this, TIEMPO)
+                }
             }
         }, TIEMPO)
 
     }
 
     fun nullRoom() {
-        repository.roomName = null
+        repository.room = null
+    }
+
+    fun getRoom(): MutableList<String>? {
+        return repository.room?.deck?.cards
+    }
+    fun getMembers(): List<String>? {
+        return repository.room?.members
     }
 }

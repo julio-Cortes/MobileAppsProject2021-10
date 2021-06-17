@@ -60,8 +60,8 @@
         android:label="fragment_vote"
         tools:layout="@layout/fragment_vote" >
         <argument
-            android:name="deck"
-            app:argType="com.example.project_01.Deserializers.DecksCredentials" />
+            android:name="lobby"
+            app:argType="com.example.project_01.Deserializers.LobbyCredentials" />
         <action
             android:id="@+id/action_voteFragment_to_votingFragment"
             app:destination="@id/votingFragment" />
