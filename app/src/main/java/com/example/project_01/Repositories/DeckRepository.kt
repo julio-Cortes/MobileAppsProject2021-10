@@ -19,6 +19,7 @@ import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.lang.reflect.Type
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
@@ -36,15 +37,22 @@ class DeckRepository(application: Application,decksRemoteRepository: DecksRemote
         }
     }
     suspend fun GetDecksFromApi(): Array<DecksCredentials> {
-        val call = service.getDecks()
-        val response = call.body()?.string()
-        val gson = Gson()
-        val Decks = gson.fromJson(response, Array<DecksCredentials>::class.java)
 
-        Decks.forEach {
-            deckDao.insert(Deck(it.name, it.cards.toString()))
+        val call = service.getDecks()
+        if (call.code()==200){
+            val response = call.body()?.string()
+
+            val gson = Gson()
+            val Decks = gson.fromJson(response, Array<DecksCredentials>::class.java)
+
+            Decks.forEach {
+                deckDao.insert(Deck(it.name, it.cards.toString()))
+            }
+            return Decks
         }
-        return Decks
+        return arrayOf<DecksCredentials>()
+
+
     }
     fun GetDecksFromDatabase():ArrayList<DecksCredentials> {
         val valores = mutableListOf<String>()

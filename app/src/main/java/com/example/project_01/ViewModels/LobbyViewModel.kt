@@ -118,7 +118,7 @@ class LobbyViewModel(application: Application, lobbyRepository: LobbyRepository,
                     repository.room = room
 
                 }
-                navigator.goToVote( view)
+                navigator.goToVote(view)
 
             }
 
