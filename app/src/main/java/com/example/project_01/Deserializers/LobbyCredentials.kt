@@ -12,7 +12,7 @@ data class LobbyCredentials(
     val password:String?,
     val deck : DecksCredentials?,
     val deck_string : String?,
-    val members: List<String>?,
+    val members: List<Members>?,
     val result:List<Members>?
 ): Parcelable {
 }

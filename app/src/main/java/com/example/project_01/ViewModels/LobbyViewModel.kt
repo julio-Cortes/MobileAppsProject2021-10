@@ -158,16 +158,21 @@ class LobbyViewModel(application: Application, lobbyRepository: LobbyRepository,
                                 repository.room!!.members?.forEach {
                                     var flag = true
                                     for (j in voting_members){
-                                        if (it == j.name){
-                                            aux.add(j)
+                                        if (it.username == j.name){
+                                            aux.add(Members(it.username,j.vote,j.user_Id, it.username, Location(
+                                                it.location?.long,it.location?.lat,it.location?.timestamp)
+                                            ))
                                             flag = false
                                             break
                                         }
                                     }
                                     if (flag){
-                                        aux.add(Members(it,null,null))
+                                        aux.add(Members(it.username,null,null, it.username, Location(
+                                            it.location?.long,it.location?.lat,it.location?.timestamp)
+                                        ))
                                     }
                                 }
+                                members.postValue(repository.room!!.members as MutableList<Members>)
                                 members.postValue(aux)
                             }
 
@@ -189,7 +194,7 @@ class LobbyViewModel(application: Application, lobbyRepository: LobbyRepository,
     fun getRoom(): MutableList<String>? {
         return repository.room?.deck?.cards
     }
-    fun getMembers(): List<String>? {
-        return repository.room?.members
-    }
+    //fun getMembers(): List<String>? {
+      //  return repository.room?.members
+    //}
 }

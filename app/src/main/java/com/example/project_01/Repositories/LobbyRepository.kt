@@ -108,20 +108,11 @@ class LobbyRepository(application: Application, lobbyDao:LobbyDao, lobbyRemoteRe
                             val lobby = gson.fromJson(sub_response.body()?.string(), LobbyCredentials::class.java)
                             var insert =Lobby(0,it.roomId,it.roomName,null,Deck(lobby.deck!!.name, lobby.deck?.cards.toString()))
                             lobbyDao.insert(insert)
-
                         }
-
-
-
-
                     }
                 }
             }
-
-
         }
-
-
     }
 
 

@@ -7,6 +7,8 @@ import kotlinx.parcelize.Parcelize
 data class Members(
     val name:String?,
     val vote:String?,
-    val user_Id:String?
+    val user_Id:String?,
+    val username : String?,
+    val location : Location?
 ): Parcelable {
 }
