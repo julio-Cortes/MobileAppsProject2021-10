@@ -60,17 +60,22 @@ class VotingAdapter ():RecyclerView.Adapter<VotingAdapter.ViewHolder>(){
                         nameTextView.setTextColor(Color.parseColor("#846B8A"))
                         voteNumberTextView.setTextColor(Color.parseColor("#846B8A"))
                         location_offline.setTextColor(Color.parseColor("#846B8A"))
-                        //Aqui hay que poner la direccion
+                        //Aqui hay que poner la direccion (no funciona si esta en medio del mar)
                         val geocoder: Geocoder
                         val direccion: List<Address>
                         geocoder = Geocoder(view.context, Locale.getDefault())
-                        direccion = geocoder.getFromLocation(
-                            item.location.lat!!.toDouble(),
-                            item.location.long!!.toDouble(),
-                            1
-                        )
-                        val address: String = direccion[0].getAddressLine(0)
-                        location_offline.text = address
+                        try{
+                            direccion = geocoder.getFromLocation(
+                                item.location.lat!!.toDouble(),
+                                item.location.long!!.toDouble(),
+                                1
+                            )
+                            val address: String = direccion[0].getAddressLine(0)
+                            location_offline.text = address
+                        } catch (e:Exception){
+                            location_offline.text = "In the middle of the sea"
+                        }
+
                     }
                     else{
                         linear_principal.setBackgroundColor(Color.LTGRAY)
