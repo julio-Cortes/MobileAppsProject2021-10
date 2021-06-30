@@ -60,7 +60,6 @@ class VotingAdapter ():RecyclerView.Adapter<VotingAdapter.ViewHolder>(){
                         nameTextView.setTextColor(Color.parseColor("#846B8A"))
                         voteNumberTextView.setTextColor(Color.parseColor("#846B8A"))
                         location_offline.setTextColor(Color.parseColor("#846B8A"))
-                        //Aqui hay que poner la direccion (no funciona si esta en medio del mar)
                         val geocoder: Geocoder
                         val direccion: List<Address>
                         geocoder = Geocoder(view.context, Locale.getDefault())
@@ -75,7 +74,6 @@ class VotingAdapter ():RecyclerView.Adapter<VotingAdapter.ViewHolder>(){
                         } catch (e:Exception){
                             location_offline.text = "In the middle of the sea"
                         }
-
                     }
                     else{
                         linear_principal.setBackgroundColor(Color.LTGRAY)
@@ -89,11 +87,8 @@ class VotingAdapter ():RecyclerView.Adapter<VotingAdapter.ViewHolder>(){
                 }
             }
             else{
-                //aqui nada ya que no deberia entrar nunca aqui
+                location_offline.text = "Don't have location"
             }
-
-
-
         }
     }
 

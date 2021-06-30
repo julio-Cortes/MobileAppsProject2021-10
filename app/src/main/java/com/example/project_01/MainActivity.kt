@@ -1,15 +1,19 @@
 package com.example.project_01
 
+import android.Manifest
 import android.content.Context
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.fragment.NavHostFragment
+import com.example.myapplication.service.LocationService
 import com.example.project_01.ViewModels.CardsViewModel
 import com.example.project_01.Views.Fragments.CardsFragment
 import org.koin.android.ext.android.inject
@@ -34,17 +38,17 @@ class MainActivity : AppCompatActivity() {
             graph.startDestination = R.id.mainFragment
             navHostFragment.navController.graph = graph
         }
-
-        val TIEMPO:Long = 5000
-        val handler = Handler()
-        handler.postDelayed(object : Runnable {
-            override fun run() {
-                cada_5_seg()
-                handler.postDelayed(this, TIEMPO)
-            }
-        }, TIEMPO)
+        askPermissions()
+        LocationService.startLocationService(this)
     }
-    fun cada_5_seg() {
-    //Toast.makeText(applicationContext, "5 SEGUNDOS", Toast.LENGTH_SHORT).show()
+    private fun askPermissions(){
+        if(ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+            ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this, arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ),200)
+        }
     }
 }

@@ -2,11 +2,13 @@ package com.example.project_01.Repositories
 
 import android.app.Application
 import android.content.Context
+import android.location.Geocoder
 import android.net.ConnectivityManager
 import android.os.Handler
 import android.os.Looper
 import android.widget.Toast
 import androidx.lifecycle.LiveData
+import com.example.myapplication.service.LocationService
 import com.example.project_01.Database.LobbyDao
 import com.example.project_01.Deserializers.*
 import com.example.project_01.Models.Deck
@@ -18,6 +20,7 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.Response
+import java.util.*
 
 
 class LobbyRepository(application: Application, lobbyDao:LobbyDao, lobbyRemoteRepository: LobbyRemoteRepository) {
@@ -152,6 +155,20 @@ class LobbyRepository(application: Application, lobbyDao:LobbyDao, lobbyRemoteRe
             val response = service.vote(token,body)
         }
     }
+
+
+    suspend fun reportLocation(lat : String, long : String, roomName : String?, token:String) {
+        val networkInfo = cm!!.activeNetworkInfo
+        if (networkInfo != null && networkInfo.isConnected) {
+            val jsonObject = JSONObject()
+            jsonObject.put("lat", lat)
+            jsonObject.put("long", long)
+            jsonObject.put("roomName", roomName)
+            val body = jsonObject.toString().toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+            val response = service.reportLocation(token,body)
+        }
+    }
+
     suspend fun getResult(token:String): MutableList<Members>{
         val networkInfo = cm!!.activeNetworkInfo
         var members = mutableListOf<Members>()
