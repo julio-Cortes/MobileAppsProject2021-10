@@ -1,17 +1,14 @@
 package com.example.project_01.Views.Adapters
 
-import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.Paint
-import android.util.Log
+import android.location.Address
+import android.location.Geocoder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
-import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.project_01.Deserializers.Members
 import com.example.project_01.R
@@ -19,6 +16,7 @@ import java.text.DateFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 class VotingAdapter ():RecyclerView.Adapter<VotingAdapter.ViewHolder>(){
     var data = mutableListOf<Members>()
@@ -63,7 +61,16 @@ class VotingAdapter ():RecyclerView.Adapter<VotingAdapter.ViewHolder>(){
                         voteNumberTextView.setTextColor(Color.parseColor("#846B8A"))
                         location_offline.setTextColor(Color.parseColor("#846B8A"))
                         //Aqui hay que poner la direccion
-                        location_offline.text = date.toString()
+                        val geocoder: Geocoder
+                        val direccion: List<Address>
+                        geocoder = Geocoder(view.context, Locale.getDefault())
+                        direccion = geocoder.getFromLocation(
+                            item.location.lat!!.toDouble(),
+                            item.location.long!!.toDouble(),
+                            1
+                        )
+                        val address: String = direccion[0].getAddressLine(0)
+                        location_offline.text = address
                     }
                     else{
                         linear_principal.setBackgroundColor(Color.LTGRAY)
