@@ -146,61 +146,56 @@ class LobbyViewModel(application: Application, lobbyRepository: LobbyRepository,
     }
 
     fun getResults(latitude : String?, longitude : String?) {
-        val TIEMPO:Long = 5000
-        val handler = Handler()
-        handler.postDelayed(object : Runnable {
-            override fun run() {
-                val networkInfo = cm!!.activeNetworkInfo
-                if (networkInfo != null && networkInfo.isConnected) {
-                    if (repository.room != null) {
-                        viewModelScope.launch(Dispatchers.Main) {
-                            withContext(Dispatchers.IO) {
-                                if(repository.room != null){
-                                    if(repository.room!!.roomName != null){
-                                        if(latitude!= null && longitude!= null){
-                                            repository.reportLocation(
-                                                latitude,
-                                                longitude,
-                                                repository.room!!.roomName,
-                                                token
-                                            )
+        val networkInfo = cm!!.activeNetworkInfo
+        if (networkInfo != null && networkInfo.isConnected) {
+            if (repository.room != null) {
+                viewModelScope.launch(Dispatchers.Main) {
+                    withContext(Dispatchers.IO) {
+                        if(repository.room != null){
+                            if(repository.room!!.roomName != null){
+                                if(latitude!= null && longitude!= null){
+                                    repository.reportLocation(
+                                        latitude,
+                                        longitude,
+                                        repository.room!!.roomName,
+                                        token
+                                    )
+                                }
+                                repository.room =
+                                    repository.getRoom(repository.room!!.roomName, token)
+                            }
+                        }
+                        val voting_members = repository.getResult(token)
+                        val aux = mutableListOf<Members>()
+                        if(repository.room != null){
+                            if(repository.room!!.members != null){
+                                repository.room!!.members?.forEach {
+                                    var flag = true
+                                    for (j in voting_members){
+                                        if (it.username == j.name){
+                                            aux.add(Members(it.username,j.vote,j.user_Id, it.username, Location(
+                                                it.location?.long,it.location?.lat,it.location?.timestamp)
+                                            ))
+                                            flag = false
+                                            break
                                         }
-                                        repository.room =
-                                            repository.getRoom(repository.room!!.roomName, token)
+                                    }
+                                    if (flag){
+                                        aux.add(Members(it.username,null,null, it.username, Location(
+                                            it.location?.long,it.location?.lat,it.location?.timestamp)
+                                        ))
                                     }
                                 }
-                                val voting_members = repository.getResult(token)
-                                val aux = mutableListOf<Members>()
-                                if(repository.room != null){
-                                    if(repository.room!!.members != null){
-                                        repository.room!!.members?.forEach {
-                                            var flag = true
-                                            for (j in voting_members){
-                                                if (it.username == j.name){
-                                                    aux.add(Members(it.username,j.vote,j.user_Id, it.username, Location(
-                                                        it.location?.long,it.location?.lat,it.location?.timestamp)
-                                                    ))
-                                                    flag = false
-                                                    break
-                                                }
-                                            }
-                                            if (flag){
-                                                aux.add(Members(it.username,null,null, it.username, Location(
-                                                    it.location?.long,it.location?.lat,it.location?.timestamp)
-                                                ))
-                                            }
-                                        }
-                                        members.postValue(repository.room!!.members as MutableList<Members>)
-                                        members.postValue(aux)
-                                    }
-                                }
+                                members.postValue(repository.room!!.members as MutableList<Members>)
+                                members.postValue(aux)
                             }
                         }
                     }
-                    handler.postDelayed(this, TIEMPO)
                 }
             }
-        }, TIEMPO)
+        }
+
+
 
     }
 

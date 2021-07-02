@@ -42,6 +42,7 @@ class VotingFragment : Fragment(), OnClickListener {
 
         val TIEMPO:Long = 5000
         val handler = Handler()
+        reportLocation()
         handler.postDelayed(object : Runnable {
             override fun run() {
                 reportLocation()
@@ -80,7 +81,7 @@ class VotingFragment : Fragment(), OnClickListener {
     }
     @RequiresApi(Build.VERSION_CODES.N)
     fun reportLocation(){
-        LocationService.getLocation().observe(viewLifecycleOwner, {
+        LocationService.getLocation().observe(this, {
             val geoCoder = Geocoder(context, Locale.getDefault())
             val address = geoCoder.getFromLocation(it.latitude, it.longitude, 1)
             val latitude = address.first().latitude

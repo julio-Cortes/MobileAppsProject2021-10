@@ -173,14 +173,17 @@ class LobbyRepository(application: Application, lobbyDao:LobbyDao, lobbyRemoteRe
         val networkInfo = cm!!.activeNetworkInfo
         var members = mutableListOf<Members>()
         if (networkInfo != null && networkInfo.isConnected) {
-            val response = service.getResult(token, room?.roomName)
-            if (response.code()==200){
-                val gson = Gson()
-                val aux= gson.fromJson(response.body()?.string(), LobbyCredentials::class.java)
-                if (aux.result!=null){
-                    members = aux.result as MutableList<Members>
+            if (room?.roomName != null){
+                val response = service.getResult(token, room?.roomName)
+                if (response.code()==200){
+                    val gson = Gson()
+                    val aux= gson.fromJson(response.body()?.string(), LobbyCredentials::class.java)
+                    if (aux.result!=null){
+                        members = aux.result as MutableList<Members>
+                    }
                 }
             }
+
         }
         return members
     }
