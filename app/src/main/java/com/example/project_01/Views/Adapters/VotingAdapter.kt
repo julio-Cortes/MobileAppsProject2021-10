@@ -87,7 +87,11 @@ class VotingAdapter ():RecyclerView.Adapter<VotingAdapter.ViewHolder>(){
                 }
             }
             else{
-                location_offline.text = "Don't have location"
+                linear_principal.setBackgroundColor(Color.LTGRAY)
+                nameTextView.setTextColor(Color.GRAY)
+                voteNumberTextView.setTextColor(Color.GRAY)
+                location_offline.setTextColor(Color.GRAY)
+                location_offline.text = "Offline"
             }
         }
     }
