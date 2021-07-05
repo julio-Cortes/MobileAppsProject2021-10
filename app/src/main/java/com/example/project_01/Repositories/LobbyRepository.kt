@@ -137,6 +137,7 @@ class LobbyRepository(application: Application, lobbyDao:LobbyDao, lobbyRemoteRe
         }
         else{
             lobbyDao.deleteOffline(id)
+            lobbyDao.updateDeletions()
         }
     }
 

@@ -48,7 +48,7 @@ class UsersViewModel(database: Database, application: Application,userRepository
                 }?.apply()
             }
             else{
-                Toast.makeText(app.applicationContext,"Creacion de usuario fallida", Toast.LENGTH_LONG).show()
+                Toast.makeText(app.applicationContext,"Sign up failed", Toast.LENGTH_LONG).show()
             }
 
         }
@@ -74,7 +74,7 @@ class UsersViewModel(database: Database, application: Application,userRepository
                 } else {
                     Toast.makeText(
                         app.applicationContext,
-                        "Inicio de sesion fallida",
+                        "Sign in failed",
                         Toast.LENGTH_LONG
                     ).show()
                 }

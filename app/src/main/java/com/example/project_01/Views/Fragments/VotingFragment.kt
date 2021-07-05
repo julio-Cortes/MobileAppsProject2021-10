@@ -58,7 +58,7 @@ class VotingFragment : Fragment(), OnClickListener {
 
         requireActivity()
             .onBackPressedDispatcher
-            .addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            .addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) { //ATENTO
                 override fun handleOnBackPressed() {
 
                 }

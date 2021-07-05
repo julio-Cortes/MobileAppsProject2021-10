@@ -35,5 +35,7 @@ interface LobbyDao {
     @Query("SELECT * FROM Lobby where cards is null")
     fun getDeleteOffline(): MutableList<Lobby>
 
+    @Query("DELETE FROM Lobby where room_id is null and cards is null")
+    fun updateDeletions()
 
 }

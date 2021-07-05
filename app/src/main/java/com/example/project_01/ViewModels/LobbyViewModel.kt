@@ -22,6 +22,7 @@ import com.example.project_01.Repositories.LobbyRepository
 import com.example.project_01.Views.Adapters.LobbyAdapter
 import com.example.project_01.Views.Fragments.VotingFragment
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.*
@@ -49,6 +50,7 @@ class LobbyViewModel(application: Application, lobbyRepository: LobbyRepository,
             it.registerDefaultNetworkCallback(object : ConnectivityManager.NetworkCallback() {
                 override fun onAvailable(network: Network) {
                     viewModelScope.launch(Dispatchers.IO) {
+                        delay(1000)
                         repository.getCreateOffline(token)
 
                     }
@@ -161,8 +163,14 @@ class LobbyViewModel(application: Application, lobbyRepository: LobbyRepository,
                                         token
                                     )
                                 }
-                                repository.room =
-                                    repository.getRoom(repository.room!!.roomName, token)
+                                try{
+                                    repository.room =
+                                        repository.getRoom(repository.room!!.roomName, token)
+                                }
+                                catch(e: java.lang.NullPointerException){
+
+                                }
+
                             }
                         }
                         val voting_members = repository.getResult(token)

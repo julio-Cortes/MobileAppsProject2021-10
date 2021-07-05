@@ -62,10 +62,7 @@ class CardsViewModel(application: Application, deckRepository: DeckRepository, n
             currentDeck.postValue(deckRepository.deck_credentials[pos])
         }
     }
-    fun load(){
 
-        print("hello")
-    }
         //listOf<Deck>(
         //    Deck("Standard", mutableListOf("0","1/2","1","2","3","5","8","13","20","40","100","∞")),
         //    Deck("T-Shirt", mutableListOf("XS","S","M","L","XL","XXL")),
